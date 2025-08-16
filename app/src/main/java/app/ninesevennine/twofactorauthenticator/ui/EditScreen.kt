@@ -1,0 +1,291 @@
+package app.ninesevennine.twofactorauthenticator.ui
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsTopHeight
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Icon
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import app.ninesevennine.twofactorauthenticator.LocalNavController
+import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
+import app.ninesevennine.twofactorauthenticator.LocalVaultViewModel
+import app.ninesevennine.twofactorauthenticator.R
+import app.ninesevennine.twofactorauthenticator.features.locale.localizedString
+import app.ninesevennine.twofactorauthenticator.features.otp.OtpHashFunctions
+import app.ninesevennine.twofactorauthenticator.features.otp.OtpTypes
+import app.ninesevennine.twofactorauthenticator.features.qrscanner.QRScannerView
+import app.ninesevennine.twofactorauthenticator.features.vault.VaultItem
+import app.ninesevennine.twofactorauthenticator.ui.elements.WideTitle
+import app.ninesevennine.twofactorauthenticator.ui.elements.bottomappbar.EditAppBar
+import app.ninesevennine.twofactorauthenticator.ui.elements.dropdown.DropDownSingleChoice
+import app.ninesevennine.twofactorauthenticator.ui.elements.otpcard.OtpCard
+import app.ninesevennine.twofactorauthenticator.ui.elements.textfields.ConfidentialSingleLineTextField
+import app.ninesevennine.twofactorauthenticator.ui.elements.textfields.NumbersOnlyTextField
+import app.ninesevennine.twofactorauthenticator.ui.elements.textfields.SingleLineTextField
+import app.ninesevennine.twofactorauthenticator.ui.elements.widebutton.WideButtonError
+import app.ninesevennine.twofactorauthenticator.utils.Base32
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class EditScreenRoute(
+    val id: Int
+)
+
+@Composable
+fun EditScreen(id: Int) {
+    val vaultViewModel = LocalVaultViewModel.current
+
+    var item by remember {
+        mutableStateOf(
+            if (id == 0) {
+                VaultItem()
+            } else {
+                vaultViewModel.getItemById(id) ?: VaultItem()
+            }
+        )
+    }
+
+    if (item.id == 0) {
+        QRScannerView { newItem ->
+            item = newItem
+        }
+        return
+    }
+
+    val navController = LocalNavController.current
+    val colors = LocalThemeViewModel.current.colors
+
+    var secretInput by remember { mutableStateOf(Base32.encode(item.secret)) }
+    var secretError by remember { mutableStateOf(false) }
+
+    var periodInput by remember { mutableStateOf(item.period.toString()) }
+    var periodError by remember { mutableStateOf(false) }
+
+    var digitsInput by remember { mutableStateOf(item.digits.toString()) }
+    var digitsError by remember { mutableStateOf(false) }
+
+    var counterInput by remember { mutableStateOf(item.counter.toString()) }
+    var counterError by remember { mutableStateOf(false) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.Start
+    ) {
+        Spacer(modifier = Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
+
+        OtpCard(
+            item = item,
+            dragging = false,
+            enableEditing = false
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+        WideTitle(text = localizedString(R.string.edit_basic_information))
+
+        SingleLineTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = item.name,
+            onValueChange = { item = item.copy(name = it) },
+            placeholder = localizedString(R.string.edit_name)
+        )
+
+        SingleLineTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = item.issuer,
+            onValueChange = { item = item.copy(issuer = it) },
+            placeholder = localizedString(R.string.edit_issuer)
+        )
+
+        SingleLineTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = item.note,
+            onValueChange = { item = item.copy(note = it) },
+            placeholder = localizedString(R.string.edit_note)
+        )
+
+        // Yes/No popup?
+        WideButtonError(
+            modifier = Modifier.fillMaxWidth(),
+            iconContent = {
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = null,
+                    tint = colors.onErrorContainer
+                )
+            },
+            label = localizedString(R.string.edit_delete),
+            onClick = {
+                navController.popBackStack()
+                vaultViewModel.removeItemById(item.id)
+            }
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+        WideTitle(text = localizedString(R.string.edit_advanced_settings))
+
+        ConfidentialSingleLineTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = secretInput,
+            onValueChange = {
+                secretInput = it
+                val decoded = Base32.decode(it)
+                if (decoded != null) {
+                    secretError = false
+                    item = item.copy(secret = decoded)
+                } else {
+                    secretError = true
+                }
+            },
+            placeholder = localizedString(R.string.edit_secret),
+            isError = secretError
+        )
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            DropDownSingleChoice(
+                modifier = Modifier.weight(1f),
+                options = OtpTypes.entries.toTypedArray(),
+                selectedOption = item.otpType,
+                onSelectionChange = { item = item.copy(otpType = it) },
+                getDisplayText = { it.value }
+            )
+
+            Spacer(Modifier.width(8.dp))
+
+            DropDownSingleChoice(
+                modifier = Modifier.weight(1f),
+                options = OtpHashFunctions.entries.toTypedArray(),
+                selectedOption = item.otpHashFunction,
+                onSelectionChange = { item = item.copy(otpHashFunction = it) },
+                getDisplayText = { it.value }
+            )
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            NumbersOnlyTextField(
+                modifier = Modifier.weight(1f),
+                value = periodInput,
+                onValueChange = {
+                    periodInput = it
+                    val period = it.toIntOrNull()
+                    if (period != null) {
+                        if (period < 10) {
+                            periodError = true
+                        } else {
+                            periodError = false
+                            item = item.copy(period = period)
+                        }
+                    } else {
+                        periodError = true
+                    }
+                },
+                placeholder = localizedString(R.string.edit_period),
+                trailingText = localizedString(R.string.edit_seconds),
+                isError = periodError
+            )
+
+            Spacer(Modifier.width(8.dp))
+
+            NumbersOnlyTextField(
+                modifier = Modifier.weight(1f),
+                value = digitsInput,
+                onValueChange = {
+                    digitsInput = it
+                    val digits = it.toIntOrNull()
+                    if (digits != null) {
+                        if (digits < 4 || digits > 10) {
+                            digitsError = true
+                        } else {
+                            digitsError = false
+                            item = item.copy(digits = digits)
+                        }
+                    } else {
+                        digitsError = true
+                    }
+                },
+                placeholder = localizedString(R.string.edit_digits),
+                trailingText = localizedString(R.string.edit_digits_trailing),
+                isError = digitsError
+            )
+        }
+
+        if (item.otpType == OtpTypes.HOTP) {
+            NumbersOnlyTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                value = counterInput,
+                onValueChange = {
+                    counterInput = it
+                    val counter = it.toLongOrNull()
+                    if (counter != null) {
+                        if (counter < 0) {
+                            counterError = true
+                        } else {
+                            counterError = false
+                            item = item.copy(counter = counter)
+                        }
+                    } else {
+                        counterError = true
+                    }
+                },
+                placeholder = localizedString(R.string.edit_counter),
+                trailingText = localizedString(R.string.edit_counter_trailing),
+                isError = counterError
+            )
+        }
+
+        Spacer(modifier = Modifier.height(192.dp))
+    }
+
+    EditAppBar(
+        onCancel = {
+            navController.popBackStack()
+        },
+        onDone = {
+            if (secretError || periodError || digitsError) {
+                return@EditAppBar
+            }
+
+            if (item.otpType == OtpTypes.HOTP && counterError) {
+                return@EditAppBar
+            }
+
+            vaultViewModel.updateItem(item)
+            navController.popBackStack()
+        }
+    )
+}

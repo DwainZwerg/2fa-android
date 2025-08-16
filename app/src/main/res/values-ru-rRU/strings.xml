@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_search">Поиск</string>
+
+    <string name="edit_basic_information">Основная информация</string>
+    <string name="edit_name">Имя</string>
+    <string name="edit_issuer">Поставщик</string>
+    <string name="edit_note">Заметка</string>
+    <string name="edit_delete">Удалить</string>
+    <string name="edit_advanced_settings">Расширенные настройки</string>
+    <string name="edit_secret">Секрет</string>
+    <string name="edit_period">Период</string>
+    <string name="edit_seconds">секунд</string>
+    <string name="edit_digits">Цифры</string>
+    <string name="edit_digits_trailing">цифр</string>
+    <string name="edit_counter">Счетчик</string>
+    <string name="edit_counter_trailing">счетчик</string>
+
+    <string name="qr_scanner_view_camera_permission_required">Требуется доступ к камере для сканирования QR-кодов</string>
+    <string name="qr_scanner_view_cancel">Отменить</string>
+
+    <string name="settings">Настройки</string>
+    <string name="settings_language">Язык</string>
+    <string name="settings_appearance">Оформление</string>
+    <string name="settings_appearance_light">Светлое</string>
+    <string name="settings_appearance_dark">Темное</string>
+    <string name="settings_appearance_dynamic">Динамика</string>
+    <string name="settings_about">О приложении</string>
+    <string name="settings_about_join_community">Присоединиться к сообществу</string>
+    <string name="settings_about_view_source_code">Посмотреть исходный код</string>
+    <string name="settings_about_debug_log">Журнал заметок</string>
+    <string name="settings_use_system_default">Использовать по умолчанию</string>
+
+    <string name="debug_log">Журнал заметок</string>
+</resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_search">Buscar</string>
+
+    <string name="edit_basic_information">Información básica</string>
+    <string name="edit_name">Nombre</string>
+    <string name="edit_issuer">Emisor</string>
+    <string name="edit_note">Nota</string>
+    <string name="edit_delete">Eliminar</string>
+    <string name="edit_advanced_settings">Ajustes avanzados</string>
+    <string name="edit_secret">Secreto</string>
+    <string name="edit_period">Período</string>
+    <string name="edit_seconds">segundos</string>
+    <string name="edit_digits">Dígitos</string>
+    <string name="edit_digits_trailing">dígitos</string>
+    <string name="edit_counter">Contador</string>
+    <string name="edit_counter_trailing">contador</string>
+
+    <string name="qr_scanner_view_camera_permission_required">Se requiere permiso de la cámara para escanear códigos QR</string>
+    <string name="qr_scanner_view_cancel">Cancelar</string>
+
+    <string name="settings">Configuración</string>
+    <string name="settings_language">Idioma</string>
+    <string name="settings_appearance">Aspecto</string>
+    <string name="settings_appearance_light">Claro</string>
+    <string name="settings_appearance_dark">Oscuro</string>
+    <string name="settings_appearance_dynamic">Dinámico</string>
+    <string name="settings_about">Acerca de la aplicación</string>
+    <string name="settings_about_join_community">Únete a nuestra comunidad</string>
+    <string name="settings_about_view_source_code">Ver código fuente</string>
+    <string name="settings_about_debug_log">Registro de diagnóstico</string>
+    <string name="settings_use_system_default">Usar predeterminados</string>
+
+    <string name="debug_log">Registro de diagnóstico</string>
+</resources>

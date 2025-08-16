@@ -1,0 +1,4 @@
+-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
+-optimizationpasses 10
+-overloadaggressively
+-assumenosideeffects class android.util.Log { *; }

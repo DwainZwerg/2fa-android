@@ -1,0 +1,78 @@
+### Build Outputs ###
+**/build/
+/**/intermediates/
+/**/ndkBuild/
+/**/obj/
+/outputs/
+/app/play/
+/app/standard/
+*.apk
+*.ap_
+*.aab
+*.apks
+*.dex
+*.class
+
+### Gradle ###
+.gradle/
+gradle-app.setting
+!gradle/wrapper/gradle-wrapper.jar  # Required for builds
+gradlew
+gradlew.bat
+output.json
+
+### Security & Credentials ###
+**/*.jks
+**/*.keystore*
+*.pem
+*.key
+keystore.properties
+fabric.properties
+crashlytics.properties
+.env
+.env.*
+# google-services.json  # Uncomment if not using Firebase
+# GoogleService-Info.plist
+
+### IDE Configuration ###
+.idea/*
+!/.idea/codeStyles/
+!/.idea/inspectionProfiles
+!/.idea/encodings.xml
+.idea/libraries/
+.idea/caches/
+.idea/modules.xml
+.idea/*.iml
+*.iml
+*.ipr
+*.iws
+local.properties
+
+### Native & Profiling ###
+.externalNativeBuild/
+.cxx/
+*.hprof
+*.trace
+captures/
+
+### Generated Files ###
+/gen/
+/generated/
+/bin/
+/out/
+
+### Kotlin ###
+.kotlin/
+.kotlincache/
+*.kotlin_module
+
+### System Artifacts ###
+.DS_Store
+Thumbs.db
+desktop.ini
+*~
+*.swp
+*.swo
+*.orig
+*.rej
+*.bak
