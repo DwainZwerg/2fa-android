@@ -49,7 +49,7 @@ android {
     }
 
     defaultConfig {
-        minSdk = 36
+        minSdk = 35
         targetSdk = 36
         versionCode = 1
         versionName = "alpha-1"
