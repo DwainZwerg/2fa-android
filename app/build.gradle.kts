@@ -60,9 +60,9 @@ android {
     signingConfigs {
         create("release") {
             enableV1Signing = false
-            enableV2Signing = false
-            enableV3Signing = true
-            enableV4Signing = true
+            enableV2Signing = true // Required for Obtainium
+            enableV3Signing = false // Temporarily disable V3 signing
+            enableV4Signing = false // Temporarily disable V4 signing
         }
     }
 
@@ -105,7 +105,7 @@ android {
             variant.outputs.all {
                 val output = this as com.android.build.gradle.internal.api.ApkVariantOutputImpl
                 val flavorName = variant.productFlavors.firstOrNull()?.name ?: ""
-                output.outputFileName = "twofactorauthenticator-arm64-v8a-${flavorName}.apk"
+                output.outputFileName = "twofactorauthenticator-${flavorName}-vc-${variant.versionCode}.apk"
             }
         }
     }
