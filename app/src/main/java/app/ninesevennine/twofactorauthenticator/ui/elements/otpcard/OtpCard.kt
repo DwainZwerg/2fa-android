@@ -16,11 +16,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
 import app.ninesevennine.twofactorauthenticator.LocalVaultViewModel
 import app.ninesevennine.twofactorauthenticator.features.vault.VaultItem
-import app.ninesevennine.twofactorauthenticator.utils.Base32
 
 @Composable
 fun OtpCard(
@@ -58,6 +58,15 @@ fun OtpCard(
             .padding(vertical = 8.dp, horizontal = 16.dp)
             .fillMaxWidth()
             .height(208.dp)
+            .then(
+                if (dragging)
+                    Modifier.shadow(
+                        elevation = 8.dp,
+                        shape = RoundedCornerShape(32.dp),
+                        clip = false
+                    )
+                else Modifier
+            )
             .background(
                 color = colors.firstColor,
                 shape = RoundedCornerShape(32.dp)
