@@ -41,7 +41,7 @@ class VaultViewModel(
         Logger.i("VaultViewModel", "Removing item")
 
         _items.removeAll { it.id == id }
-        VaultModel.saveVault(context, _items.toList())
+        saveVault()
     }
 
     fun getItemById(id: Int): VaultItem? {
@@ -58,6 +58,10 @@ class VaultViewModel(
             _items.add(updatedItem)
         }
 
+        saveVault()
+    }
+
+    fun saveVault() {
         VaultModel.saveVault(context, _items.toList())
     }
 

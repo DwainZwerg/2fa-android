@@ -34,6 +34,7 @@ val LocalVaultViewModel =
 
 class MainActivity : ComponentActivity() {
     private var init = false
+    private lateinit var vaultViewModel: VaultViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +69,8 @@ class MainActivity : ComponentActivity() {
             themeViewModel.updateTheme(ThemeModel.readTheme(context))
             localeViewModel.updateLocale(LocaleModel.readLocale(context))
 
+            this@MainActivity.vaultViewModel = vaultViewModel
+
             CompositionLocalProvider(
                 LocalNavController provides navController,
                 LocalThemeViewModel provides themeViewModel,
@@ -77,5 +80,11 @@ class MainActivity : ComponentActivity() {
                 AppNavigation()
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        vaultViewModel.saveVault()
     }
 }
