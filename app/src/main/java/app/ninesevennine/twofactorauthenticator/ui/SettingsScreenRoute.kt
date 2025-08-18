@@ -106,6 +106,7 @@ private fun LanguageSettingsSection() {
 
 @Composable
 private fun ThemeSettingsSection() {
+    val context = LocalContext.current
     val themeViewModel = LocalThemeViewModel.current
 
     Spacer(modifier = Modifier.height(16.dp))
@@ -115,27 +116,27 @@ private fun ThemeSettingsSection() {
         icon = Icons.Filled.LightMode,
         label = localizedString(R.string.settings_appearance_light),
         enabled = themeViewModel.theme == ThemeOption.LIGHT.value,
-        onClick = { themeViewModel.updateTheme(ThemeOption.LIGHT) }
+        onClick = { themeViewModel.updateTheme(context, ThemeOption.LIGHT) }
     )
 
     WideRadioButtonWithIcon(
         icon = Icons.Filled.DarkMode,
         label = localizedString(R.string.settings_appearance_dark),
         enabled = themeViewModel.theme == ThemeOption.DARK.value,
-        onClick = { themeViewModel.updateTheme(ThemeOption.DARK) }
+        onClick = { themeViewModel.updateTheme(context, ThemeOption.DARK) }
     )
 
     WideRadioButtonWithIcon(
         icon = Icons.Filled.Contrast,
         label = localizedString(R.string.settings_appearance_dynamic),
         enabled = themeViewModel.theme == ThemeOption.DYNAMIC.value,
-        onClick = { themeViewModel.updateTheme(ThemeOption.DYNAMIC) }
+        onClick = { themeViewModel.updateTheme(context, ThemeOption.DYNAMIC) }
     )
 
     WideButtonWithIcon(
         icon = Icons.Default.Refresh,
         label = localizedString(R.string.settings_use_system_default),
-        onClick = { themeViewModel.updateTheme(ThemeOption.SYSTEM_DEFAULT) }
+        onClick = { themeViewModel.updateTheme(context, ThemeOption.SYSTEM_DEFAULT) }
     )
 }
 

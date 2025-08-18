@@ -66,7 +66,7 @@ class MainActivity : ComponentActivity() {
                 viewModel(factory = LocaleViewModelFactory(context))
             val vaultViewModel: VaultViewModel = viewModel(factory = VaultViewModelFactory(context))
 
-            themeViewModel.updateTheme(ThemeModel.readTheme(context))
+            themeViewModel.updateTheme(LocalContext.current, ThemeModel.readTheme(context))
             localeViewModel.updateLocale(LocaleModel.readLocale(context))
 
             this@MainActivity.vaultViewModel = vaultViewModel

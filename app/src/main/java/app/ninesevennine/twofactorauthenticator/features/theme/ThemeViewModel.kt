@@ -62,7 +62,7 @@ class ThemeViewModel(
         }
     }
 
-    fun updateTheme(themeOption: ThemeOption) {
+    fun updateTheme(activityContext: Context, themeOption: ThemeOption) {
         Logger.i("ThemeViewModel", "Updating theme to $themeOption")
         ThemeModel.saveTheme(context, themeOption)
 
@@ -77,9 +77,9 @@ class ThemeViewModel(
             ThemeOption.LIGHT -> lightColorScheme() to ThemeOption.LIGHT.value
             ThemeOption.DARK -> darkColorScheme() to ThemeOption.DARK.value
             ThemeOption.DYNAMIC -> if (isSystemDark)
-                dynamicDarkColorScheme(context) to ThemeOption.DYNAMIC.value
+                dynamicDarkColorScheme(activityContext) to ThemeOption.DYNAMIC.value
             else
-                dynamicLightColorScheme(context) to ThemeOption.DYNAMIC.value
+                dynamicLightColorScheme(activityContext) to ThemeOption.DYNAMIC.value
         }
 
         colors = colorScheme
