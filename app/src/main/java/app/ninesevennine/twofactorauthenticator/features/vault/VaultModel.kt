@@ -11,6 +11,8 @@ import org.json.JSONObject
 import java.io.File
 import kotlin.io.encoding.Base64
 import kotlin.random.Random
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 object VaultModel {
     private const val FILE_NAME = "vault.json"
@@ -19,6 +21,7 @@ object VaultModel {
         val byteArray = JSONArray().apply {
             vault.forEach { item ->
                 put(JSONObject().apply {
+                    put("lastUpdated", item.lastUpdated)
                     if (item.name.isNotEmpty()) put("name", item.name)
                     if (item.issuer.isNotEmpty()) put("issuer", item.issuer)
                     if (item.note.isNotEmpty()) put("note", item.note)
@@ -90,8 +93,13 @@ object VaultModel {
                 val otpCardColor =
                     obj.getString("otpCardColor").let { OtpCardColors.fromString(it) }
 
+                @OptIn(ExperimentalTime::class)
                 val item = VaultItem(
                     id = Random.nextInt(),
+                    lastUpdated = obj.optLong(
+                        "lastUpdated",
+                        Clock.System.now().epochSeconds // Temporarily use current time as fallback
+                    ),
                     name = obj.optString("name", ""),
                     issuer = obj.optString("issuer", ""),
                     note = obj.optString("note", ""),

@@ -6,6 +6,7 @@ import app.ninesevennine.twofactorauthenticator.ui.elements.otpcard.OtpCardColor
 
 data class VaultItem(
     var id: Int = 0,
+    var lastUpdated: Long = 0,
     var name: String = "",
     var issuer: String = "",
     var note: String = "",

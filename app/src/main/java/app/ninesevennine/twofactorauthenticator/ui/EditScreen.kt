@@ -44,6 +44,8 @@ import app.ninesevennine.twofactorauthenticator.ui.elements.textfields.SingleLin
 import app.ninesevennine.twofactorauthenticator.ui.elements.widebutton.WideButtonError
 import app.ninesevennine.twofactorauthenticator.utils.Base32
 import kotlinx.serialization.Serializable
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @Serializable
 data class EditScreenRoute(
@@ -283,6 +285,9 @@ fun EditScreen(id: Int) {
             if (item.otpType == OtpTypes.HOTP && counterError) {
                 return@EditAppBar
             }
+
+            @OptIn(ExperimentalTime::class)
+            item.lastUpdated = Clock.System.now().epochSeconds
 
             vaultViewModel.updateItem(item)
             navController.popBackStack()
