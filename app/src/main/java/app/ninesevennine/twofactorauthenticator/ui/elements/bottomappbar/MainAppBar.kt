@@ -5,10 +5,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -48,7 +52,10 @@ fun MainAppBar(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 32.dp),
+            .padding(
+                WindowInsets.navigationBars.asPaddingValues().let { insets ->
+                    PaddingValues(bottom = insets.calculateBottomPadding() + 8.dp)
+                }),
         contentAlignment = Alignment.BottomCenter
     ) {
         Row(
@@ -67,10 +74,12 @@ fun MainAppBar(
                 modifier = Modifier
                     .height(64.dp)
                     .weight(1f)
-                    .clip(RoundedCornerShape(
-                        topStart = 32.dp, bottomStart = 32.dp,
-                        topEnd = 8.dp, bottomEnd = 8.dp
-                    ))
+                    .clip(
+                        RoundedCornerShape(
+                            topStart = 32.dp, bottomStart = 32.dp,
+                            topEnd = 8.dp, bottomEnd = 8.dp
+                        )
+                    )
                     .background(colors.primaryContainer),
                 contentAlignment = Alignment.CenterStart
             ) {
@@ -81,7 +90,9 @@ fun MainAppBar(
                     Icon(
                         imageVector = Icons.Filled.Search,
                         contentDescription = null,
-                        modifier = Modifier.padding(start = 16.dp).size(32.dp),
+                        modifier = Modifier
+                            .padding(start = 16.dp)
+                            .size(32.dp),
                         tint = colors.onPrimaryContainer
                     )
 
@@ -125,10 +136,12 @@ fun MainAppBar(
             Box(
                 modifier = Modifier
                     .height(64.dp)
-                    .clip(RoundedCornerShape(
-                        topStart = 8.dp, bottomStart = 8.dp,
-                        topEnd = 32.dp, bottomEnd = 32.dp
-                    ))
+                    .clip(
+                        RoundedCornerShape(
+                            topStart = 8.dp, bottomStart = 8.dp,
+                            topEnd = 32.dp, bottomEnd = 32.dp
+                        )
+                    )
                     .background(colors.primaryContainer)
                     .clickable {
                         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
@@ -141,7 +154,9 @@ fun MainAppBar(
                 Icon(
                     imageVector = Icons.Filled.Add,
                     contentDescription = null,
-                    modifier = Modifier.padding(start = 12.dp, end = 16.dp).size(40.dp),
+                    modifier = Modifier
+                        .padding(start = 12.dp, end = 16.dp)
+                        .size(40.dp),
                     tint = colors.onPrimaryContainer
                 )
             }
