@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_search">Suche</string>
+
+    <string name="edit_basic_information">Übersicht</string>
+    <string name="edit_name">Name</string>
+    <string name="edit_issuer">Herausgeber</string>
+    <string name="edit_note">Notiz</string>
+    <string name="edit_delete">Löschen</string>
+    <string name="edit_advanced_settings">Erweitere Einstellungen</string>
+    <string name="edit_secret">Secret</string>
+    <string name="edit_period">Zyklus</string>
+    <string name="edit_seconds">Sekunden</string>
+    <string name="edit_digits">Ziffern</string>
+    <string name="edit_digits_trailing">Ziffern</string>
+    <string name="edit_counter">Counter</string>
+    <string name="edit_counter_trailing">counter</string>
+
+    <string name="qr_scanner_view_camera_permission_required">Zum Scannen von QR-Codes ist eine Berechtigung für die Kamera erforderlich.</string>
+    <string name="qr_scanner_view_cancel">Abrechen</string>
+
+    <string name="settings">Einstellungen</string>
+    <string name="settings_language">Sprache</string>
+    <string name="settings_appearance">Aussehen</string>
+    <string name="settings_appearance_light">Light</string>
+    <string name="settings_appearance_dark">Dark</string>
+    <string name="settings_appearance_dynamic">Dynamisch</string>
+    <string name="settings_about">About</string>
+    <string name="settings_about_join_community">Discord</string>
+    <string name="settings_about_view_source_code">Source Code</string>
+    <string name="settings_about_debug_log">Debug Log</string>
+    <string name="settings_use_system_default">App Standard</string>
+
+    <string name="debug_log">Debug Log</string>
+</resources>
