@@ -11,7 +11,6 @@ object Password {
 
     fun hasDigit(password: String): Boolean {
         return password.any { it.isDigit() }
-
     }
 
     fun hasSpecial(password: String): Boolean {

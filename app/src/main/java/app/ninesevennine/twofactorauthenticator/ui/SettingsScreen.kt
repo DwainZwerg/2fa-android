@@ -158,7 +158,7 @@ private fun BackupSettingsSection() {
     WideButtonWithIcon(
         icon = Icons.Filled.Download,
         label = "Restore Vault",
-        onClick = {}
+        onClick = { navController.navigate(RestoreVaultScreenRoute) }
     )
 //    WideButtonWithTintedIcon(
 //        icon = painterResource(R.drawable.issuer_google),
