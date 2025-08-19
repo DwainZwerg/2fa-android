@@ -15,9 +15,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.Contrast
 import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Upload
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,21 +27,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import app.ninesevennine.twofactorauthenticator.LocalLocaleViewModel
+import app.ninesevennine.twofactorauthenticator.LocalNavController
 import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
 import app.ninesevennine.twofactorauthenticator.R
 import app.ninesevennine.twofactorauthenticator.features.locale.LocaleOption
+import app.ninesevennine.twofactorauthenticator.features.locale.localizedString
 import app.ninesevennine.twofactorauthenticator.features.theme.ThemeOption
 import app.ninesevennine.twofactorauthenticator.ui.elements.WideTitle
-import app.ninesevennine.twofactorauthenticator.features.locale.localizedString
-import kotlinx.serialization.Serializable
-import androidx.core.net.toUri
-import app.ninesevennine.twofactorauthenticator.LocalNavController
 import app.ninesevennine.twofactorauthenticator.ui.elements.bottomappbar.SettingsAppBar
 import app.ninesevennine.twofactorauthenticator.ui.elements.widebutton.WideButtonWithIcon
 import app.ninesevennine.twofactorauthenticator.ui.elements.wideradiobutton.WideRadioButtonWithIcon
 import app.ninesevennine.twofactorauthenticator.ui.elements.wideradiobutton.WideRadioButtonWithTintedIcon
 import app.ninesevennine.twofactorauthenticator.utils.Logger
+import kotlinx.serialization.Serializable
 
 @Serializable
 object SettingsScreenRoute
@@ -47,7 +49,9 @@ object SettingsScreenRoute
 @Composable
 fun SettingsScreen() {
     Column(
-        modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start
     ) {
@@ -57,7 +61,7 @@ fun SettingsScreen() {
 
         ThemeSettingsSection()
 
-//        BackupSettingsSection()
+        BackupSettingsSection()
 
         AboutSettingsSection()
 
@@ -139,17 +143,28 @@ private fun ThemeSettingsSection() {
     )
 }
 
-//@Composable
-//private fun BackupSettingsSection() {
-//    Spacer(modifier = Modifier.height(16.dp))
-//    WideTitle(text = localizedString(R.string.settings_backup))
-//
-//    WideButtonWithIcon(
-//        icon = Icons.Filled.ImportExport,
-//        label = localizedString(R.string.settings_backup_import_export),
+@Composable
+private fun BackupSettingsSection() {
+    Spacer(modifier = Modifier.height(16.dp))
+    WideTitle(text = "Manage Vault")
+
+    WideButtonWithIcon(
+        icon = Icons.Filled.Upload,
+        label = "Backup Vault",
+        onClick = {}
+    )
+    WideButtonWithIcon(
+        icon = Icons.Filled.Download,
+        label = "Restore Vault",
+        onClick = {}
+    )
+//    WideButtonWithTintedIcon(
+//        icon = painterResource(R.drawable.issuer_google),
+//        tint = Color.Unspecified,
+//        label = "Export to Google Authenticator",
 //        onClick = {}
 //    )
-//}
+}
 
 @Composable
 private fun AboutSettingsSection() {
