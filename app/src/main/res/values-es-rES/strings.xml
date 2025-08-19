@@ -9,11 +9,8 @@
     <string name="edit_delete">Eliminar</string>
     <string name="edit_advanced_settings">Ajustes avanzados</string>
     <string name="edit_secret">Secreto</string>
-    <string name="edit_period">Período</string>
     <string name="edit_seconds">segundos</string>
-    <string name="edit_digits">Dígitos</string>
     <string name="edit_digits_trailing">dígitos</string>
-    <string name="edit_counter">Contador</string>
     <string name="edit_counter_trailing">contador</string>
 
     <string name="qr_scanner_view_camera_permission_required">Se requiere permiso de la cámara para escanear códigos QR</string>

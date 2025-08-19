@@ -9,11 +9,8 @@
     <string name="edit_delete">Удалить</string>
     <string name="edit_advanced_settings">Расширенные настройки</string>
     <string name="edit_secret">Секрет</string>
-    <string name="edit_period">Период</string>
     <string name="edit_seconds">секунд</string>
-    <string name="edit_digits">Цифры</string>
     <string name="edit_digits_trailing">цифр</string>
-    <string name="edit_counter">Счетчик</string>
     <string name="edit_counter_trailing">счетчик</string>
 
     <string name="qr_scanner_view_camera_permission_required">Требуется доступ к камере для сканирования QR-кодов</string>

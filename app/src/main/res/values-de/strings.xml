@@ -9,11 +9,8 @@
     <string name="edit_delete">Löschen</string>
     <string name="edit_advanced_settings">Erweitere Einstellungen</string>
     <string name="edit_secret">Secret</string>
-    <string name="edit_period">Zyklus</string>
     <string name="edit_seconds">Sekunden</string>
-    <string name="edit_digits">Ziffern</string>
     <string name="edit_digits_trailing">Ziffern</string>
-    <string name="edit_counter">Counter</string>
     <string name="edit_counter_trailing">counter</string>
 
     <string name="qr_scanner_view_camera_permission_required">Zum Scannen von QR-Codes ist eine Berechtigung für die Kamera erforderlich.</string>

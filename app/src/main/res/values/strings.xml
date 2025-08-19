@@ -8,11 +8,8 @@
     <string name="edit_delete">Delete</string>
     <string name="edit_advanced_settings">Advanced Settings</string>
     <string name="edit_secret">Secret</string>
-    <string name="edit_period">Period</string>
     <string name="edit_seconds">seconds</string>
-    <string name="edit_digits">Digits</string>
     <string name="edit_digits_trailing">digits</string>
-    <string name="edit_counter">Counter</string>
     <string name="edit_counter_trailing">counter</string>
 
     <string name="qr_scanner_view_camera_permission_required">Camera permission is required to scan QR codes</string>

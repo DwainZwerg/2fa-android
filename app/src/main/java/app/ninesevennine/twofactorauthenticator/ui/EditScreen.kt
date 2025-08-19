@@ -197,27 +197,51 @@ fun EditScreen(id: Int) {
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            NumbersOnlyTextField(
-                modifier = Modifier.weight(1f),
-                value = periodInput,
-                onValueChange = {
-                    periodInput = it
-                    val period = it.toIntOrNull()
-                    if (period != null) {
-                        if (period < 10) {
-                            periodError = true
+            if (item.otpType == OtpTypes.HOTP) {
+                NumbersOnlyTextField(
+                    modifier = Modifier.weight(1f),
+                    value = counterInput,
+                    onValueChange = {
+                        counterInput = it
+                        val counter = it.toLongOrNull()
+                        if (counter != null) {
+                            if (counter < 0) {
+                                counterError = true
+                            } else {
+                                counterError = false
+                                item = item.copy(counter = counter)
+                            }
                         } else {
-                            periodError = false
-                            item = item.copy(period = period)
+                            counterError = true
                         }
-                    } else {
-                        periodError = true
-                    }
-                },
-                placeholder = localizedString(R.string.edit_period),
-                trailingText = localizedString(R.string.edit_seconds),
-                isError = periodError
-            )
+                    },
+                    placeholder = "0+",
+                    trailingText = localizedString(R.string.edit_counter_trailing),
+                    isError = counterError
+                )
+            } else {
+                NumbersOnlyTextField(
+                    modifier = Modifier.weight(1f),
+                    value = periodInput,
+                    onValueChange = {
+                        periodInput = it
+                        val period = it.toIntOrNull()
+                        if (period != null) {
+                            if (period < 10) {
+                                periodError = true
+                            } else {
+                                periodError = false
+                                item = item.copy(period = period)
+                            }
+                        } else {
+                            periodError = true
+                        }
+                    },
+                    placeholder = "10+",
+                    trailingText = localizedString(R.string.edit_seconds),
+                    isError = periodError
+                )
+            }
 
             Spacer(Modifier.width(8.dp))
 
@@ -238,35 +262,9 @@ fun EditScreen(id: Int) {
                         digitsError = true
                     }
                 },
-                placeholder = localizedString(R.string.edit_digits),
+                placeholder = "4-10",
                 trailingText = localizedString(R.string.edit_digits_trailing),
                 isError = digitsError
-            )
-        }
-
-        if (item.otpType == OtpTypes.HOTP) {
-            NumbersOnlyTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                value = counterInput,
-                onValueChange = {
-                    counterInput = it
-                    val counter = it.toLongOrNull()
-                    if (counter != null) {
-                        if (counter < 0) {
-                            counterError = true
-                        } else {
-                            counterError = false
-                            item = item.copy(counter = counter)
-                        }
-                    } else {
-                        counterError = true
-                    }
-                },
-                placeholder = localizedString(R.string.edit_counter),
-                trailingText = localizedString(R.string.edit_counter_trailing),
-                isError = counterError
             )
         }
 
