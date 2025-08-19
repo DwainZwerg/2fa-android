@@ -145,13 +145,15 @@ private fun ThemeSettingsSection() {
 
 @Composable
 private fun BackupSettingsSection() {
+    val navController = LocalNavController.current
+
     Spacer(modifier = Modifier.height(16.dp))
     WideTitle(text = "Manage Vault")
 
     WideButtonWithIcon(
         icon = Icons.Filled.Upload,
         label = "Backup Vault",
-        onClick = {}
+        onClick = { navController.navigate(BackupVaultScreenRoute) }
     )
     WideButtonWithIcon(
         icon = Icons.Filled.Download,

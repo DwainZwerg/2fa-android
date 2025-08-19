@@ -41,6 +41,7 @@ import app.ninesevennine.twofactorauthenticator.ui.elements.otpcard.OtpCard
 import app.ninesevennine.twofactorauthenticator.ui.elements.textfields.ConfidentialSingleLineTextField
 import app.ninesevennine.twofactorauthenticator.ui.elements.textfields.NumbersOnlyTextField
 import app.ninesevennine.twofactorauthenticator.ui.elements.textfields.SingleLineTextField
+import app.ninesevennine.twofactorauthenticator.ui.elements.textfields.TextField2fa
 import app.ninesevennine.twofactorauthenticator.ui.elements.widebutton.WideButtonError
 import app.ninesevennine.twofactorauthenticator.utils.Base32
 import kotlinx.serialization.Serializable
@@ -147,7 +148,7 @@ fun EditScreen(id: Int) {
         Spacer(modifier = Modifier.height(16.dp))
         WideTitle(text = localizedString(R.string.edit_advanced_settings))
 
-        ConfidentialSingleLineTextField(
+        TextField2fa(
             modifier = Modifier.fillMaxWidth(),
             value = secretInput,
             onValueChange = {

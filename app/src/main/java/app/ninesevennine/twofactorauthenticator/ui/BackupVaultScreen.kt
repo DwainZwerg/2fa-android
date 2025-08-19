@@ -1,0 +1,138 @@
+package app.ninesevennine.twofactorauthenticator.ui
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Upload
+import androidx.compose.material3.Icon
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import app.ninesevennine.twofactorauthenticator.LocalNavController
+import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
+import app.ninesevennine.twofactorauthenticator.ui.elements.WideText
+import app.ninesevennine.twofactorauthenticator.ui.elements.WideTitle
+import app.ninesevennine.twofactorauthenticator.ui.elements.textfields.ConfidentialSingleLineTextField
+import app.ninesevennine.twofactorauthenticator.ui.elements.widebutton.WideButton
+import app.ninesevennine.twofactorauthenticator.utils.Password
+import kotlinx.serialization.Serializable
+
+@Serializable
+object BackupVaultScreenRoute
+
+@Composable
+fun BackupVaultScreen() {
+    val colors = LocalThemeViewModel.current.colors
+    val navController = LocalNavController.current
+
+    var password by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
+
+    var isPasswordLong by remember { mutableStateOf(false) }
+    var hasPasswordUppercase by remember { mutableStateOf(false) }
+    var hasPasswordDigit by remember { mutableStateOf(false) }
+    var hasPasswordSpecial by remember { mutableStateOf(false) }
+
+    isPasswordLong = Password.isLong(password)
+    hasPasswordUppercase = Password.hasUppercase(password)
+    hasPasswordDigit = Password.hasDigit(password)
+    hasPasswordSpecial = Password.hasSpecial(password)
+
+    val isPasswordStrong =
+        isPasswordLong && hasPasswordUppercase && hasPasswordDigit && hasPasswordSpecial
+
+    var passwordsMatch by remember { mutableStateOf(true) }
+    passwordsMatch = password == confirmPassword
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                top = WindowInsets.statusBars.asPaddingValues().calculateTopPadding(),
+                bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+            ),
+        verticalArrangement = Arrangement.SpaceBetween,
+        horizontalAlignment = Alignment.Start,
+    ) {
+        Column {
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Upload,
+                    contentDescription = null,
+                    modifier = Modifier.size(192.dp)
+                )
+            }
+
+            WideTitle(text = "Credentials")
+
+            ConfidentialSingleLineTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = password,
+                onValueChange = { password = it },
+                placeholder = "Password",
+                isError = !isPasswordStrong
+            )
+
+            if (!isPasswordLong) WideText(
+                text = "• Must be at least 8 characters",
+                color = colors.error
+            )
+
+            if (!hasPasswordUppercase) WideText(
+                text = "• Include uppercase",
+                color = colors.error
+            )
+
+            if (!hasPasswordDigit) WideText(
+                text = "• Include number",
+                color = colors.error
+            )
+
+            if (!hasPasswordSpecial) WideText(
+                text = "• Include special character",
+                color = colors.error
+            )
+
+            ConfidentialSingleLineTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = confirmPassword,
+                onValueChange = { confirmPassword = it },
+                placeholder = "Confirm Password",
+                isError = !passwordsMatch
+            )
+
+            WideButton(
+                label = "Backup",
+                color = colors.primary,
+                textColor = colors.onPrimary,
+                onClick = {
+                    if (!isPasswordStrong || !passwordsMatch) {
+                        return@WideButton
+                    }
+                }
+            )
+        }
+
+        WideButton(
+            label = "Cancel",
+            onClick = { navController.popBackStack() }
+        )
+    }
+}

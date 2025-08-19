@@ -25,7 +25,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.OffsetMapping
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -34,7 +33,7 @@ import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
 import app.ninesevennine.twofactorauthenticator.features.theme.InterVariable
 
 @Composable
-fun ConfidentialSingleLineTextField(
+fun TextField2fa(
     modifier: Modifier = Modifier,
     value: String = "",
     onValueChange: (String) -> Unit = {},
@@ -76,7 +75,7 @@ fun ConfidentialSingleLineTextField(
             }
         },
         isError = isError,
-        visualTransformation = if (revealed) VisualTransformation.None else PasswordVisualTransformation(),
+        visualTransformation = if (revealed) VisualTransformation.None else HiddenTextTransformation(),
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.None,
             autoCorrectEnabled = false,
@@ -92,4 +91,23 @@ fun ConfidentialSingleLineTextField(
             unfocusedTextColor = colors.onBackground
         )
     )
+}
+
+private class HiddenTextTransformation : VisualTransformation {
+    override fun filter(text: AnnotatedString): TransformedText {
+        val offsetMapping = object : OffsetMapping {
+            override fun originalToTransformed(offset: Int): Int {
+                return minOf(offset, 16)
+            }
+
+            override fun transformedToOriginal(offset: Int): Int {
+                return minOf(offset, text.length)
+            }
+        }
+
+        return TransformedText(
+            text = AnnotatedString("•".repeat(16)),
+            offsetMapping = offsetMapping
+        )
+    }
 }

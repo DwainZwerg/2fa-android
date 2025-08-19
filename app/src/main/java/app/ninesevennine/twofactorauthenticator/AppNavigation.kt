@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import app.ninesevennine.twofactorauthenticator.ui.BackupVaultScreen
+import app.ninesevennine.twofactorauthenticator.ui.BackupVaultScreenRoute
 import app.ninesevennine.twofactorauthenticator.ui.EditScreenRoute
 import app.ninesevennine.twofactorauthenticator.ui.EditScreen
 import app.ninesevennine.twofactorauthenticator.ui.LogScreen
@@ -60,6 +62,7 @@ fun AppNavigation() {
             val args = it.toRoute<EditScreenRoute>()
             EditScreen(args.id)
         }
+        composable<BackupVaultScreenRoute> { BackupVaultScreen() }
         composable<LogScreenRoute> { LogScreen() }
     }
 }
