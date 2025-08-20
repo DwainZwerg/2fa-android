@@ -22,11 +22,32 @@
     <string name="settings_appearance_light">Светлое</string>
     <string name="settings_appearance_dark">Темное</string>
     <string name="settings_appearance_dynamic">Динамика</string>
+    <string name="settings_manage_vault">Управлять хранилищем</string>
+    <string name="settings_manage_vault_backup_vault">Резервное копирование хранилища</string>
+    <string name="settings_manage_vault_restore_vault">Восстановить хранилище</string>
     <string name="settings_about">О приложении</string>
     <string name="settings_about_join_community">Присоединиться к сообществу</string>
     <string name="settings_about_view_source_code">Посмотреть исходный код</string>
     <string name="settings_about_debug_log">Журнал заметок</string>
     <string name="settings_use_system_default">Использовать по умолчанию</string>
+
+    <string name="backup_vault_credentials">Учётные данные</string>
+    <string name="backup_vault_password">Пароль</string>
+    <string name="backup_vault_error_password_not_long">Должен быть не менее 8 букв</string>
+    <string name="backup_vault_error_password_no_uppercase">Добавьте заглавную букву</string>
+    <string name="backup_vault_error_password_no_digit">Добавьте цифру</string>
+    <string name="backup_vault_error_password_no_special">Добавьте специальный символ</string>
+    <string name="backup_vault_confirm_password">Подтвердите пароль</string>
+    <string name="backup_vault_backing_up">Создание резервной копии</string>
+    <string name="backup_vault_backup">Резервная копия</string>
+    <string name="backup_vault_cancel">Отмена</string>
+
+    <string name="restore_vault_enter_credentials">Введите учётные данные хранилища</string>
+    <string name="restore_vault_password">Пароль</string>
+    <string name="restore_vault_incorrect_password">Неверный пароль</string>
+    <string name="restore_vault_restoring">Восстановление</string>
+    <string name="restore_vault_restore">Восстановить</string>
+    <string name="restore_vault_cancel">Отмена</string>
 
     <string name="debug_log">Журнал заметок</string>
 </resources>

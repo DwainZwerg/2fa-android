@@ -32,6 +32,8 @@ import androidx.compose.ui.unit.dp
 import app.ninesevennine.twofactorauthenticator.LocalNavController
 import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
 import app.ninesevennine.twofactorauthenticator.LocalVaultViewModel
+import app.ninesevennine.twofactorauthenticator.R
+import app.ninesevennine.twofactorauthenticator.features.locale.localizedString
 import app.ninesevennine.twofactorauthenticator.ui.elements.WideText
 import app.ninesevennine.twofactorauthenticator.ui.elements.WideTitle
 import app.ninesevennine.twofactorauthenticator.ui.elements.textfields.ConfidentialSingleLineTextField
@@ -132,33 +134,33 @@ fun BackupVaultScreen() {
                 )
             }
 
-            WideTitle(text = "Credentials")
+            WideTitle(text = localizedString(R.string.backup_vault_credentials))
 
             ConfidentialSingleLineTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = password,
                 onValueChange = { password = it },
-                placeholder = "Password",
+                placeholder = localizedString(R.string.backup_vault_password),
                 isError = !isPasswordStrong
             )
 
             if (!isPasswordLong) WideText(
-                text = "• Must be at least 8 characters",
+                text = localizedString(R.string.backup_vault_error_password_not_long),
                 color = colors.error
             )
 
             if (!hasPasswordUppercase) WideText(
-                text = "• Include uppercase",
+                text = localizedString(R.string.backup_vault_error_password_no_uppercase),
                 color = colors.error
             )
 
             if (!hasPasswordDigit) WideText(
-                text = "• Include number",
+                text = localizedString(R.string.backup_vault_error_password_no_digit),
                 color = colors.error
             )
 
             if (!hasPasswordSpecial) WideText(
-                text = "• Include special character",
+                text = localizedString(R.string.backup_vault_error_password_no_special),
                 color = colors.error
             )
 
@@ -166,12 +168,15 @@ fun BackupVaultScreen() {
                 modifier = Modifier.fillMaxWidth(),
                 value = confirmPassword,
                 onValueChange = { confirmPassword = it },
-                placeholder = "Confirm Password",
+                placeholder = localizedString(R.string.backup_vault_confirm_password),
                 isError = !passwordsMatch
             )
 
             WideButton(
-                label = if (isBackingUp) "Backing up${dots[dotCount]}" else "Backup",
+                label = if (isBackingUp)
+                    "${localizedString(R.string.backup_vault_backing_up)}${dots[dotCount]}"
+                else
+                    localizedString(R.string.backup_vault_backup),
                 color = colors.primary,
                 textColor = colors.onPrimary,
                 onClick = {
@@ -199,7 +204,7 @@ fun BackupVaultScreen() {
         }
 
         WideButton(
-            label = "Cancel",
+            label = localizedString(R.string.backup_vault_cancel),
             onClick = { navController.popBackStack() }
         )
     }

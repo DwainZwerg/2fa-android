@@ -148,16 +148,16 @@ private fun BackupSettingsSection() {
     val navController = LocalNavController.current
 
     Spacer(modifier = Modifier.height(16.dp))
-    WideTitle(text = "Manage Vault")
+    WideTitle(text = localizedString(R.string.settings_manage_vault))
 
     WideButtonWithIcon(
         icon = Icons.Filled.Upload,
-        label = "Backup Vault",
+        label = localizedString(R.string.settings_manage_vault_backup_vault),
         onClick = { navController.navigate(BackupVaultScreenRoute) }
     )
     WideButtonWithIcon(
         icon = Icons.Filled.Download,
-        label = "Restore Vault",
+        label = localizedString(R.string.settings_manage_vault_restore_vault),
         onClick = { navController.navigate(RestoreVaultScreenRoute) }
     )
 //    WideButtonWithTintedIcon(

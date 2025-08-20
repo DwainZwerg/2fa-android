@@ -34,6 +34,8 @@ import androidx.compose.ui.unit.dp
 import app.ninesevennine.twofactorauthenticator.LocalNavController
 import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
 import app.ninesevennine.twofactorauthenticator.LocalVaultViewModel
+import app.ninesevennine.twofactorauthenticator.R
+import app.ninesevennine.twofactorauthenticator.features.locale.localizedString
 import app.ninesevennine.twofactorauthenticator.ui.elements.WideText
 import app.ninesevennine.twofactorauthenticator.ui.elements.WideTitle
 import app.ninesevennine.twofactorauthenticator.ui.elements.textfields.ConfidentialSingleLineTextField
@@ -121,23 +123,26 @@ fun RestoreVaultScreen() {
                 )
             }
 
-            WideTitle(text = "$restoreFilename credentials")
+            WideTitle(text = "${localizedString(R.string.restore_vault_enter_credentials)} ($restoreFilename)")
 
             ConfidentialSingleLineTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = password,
                 onValueChange = { password = it },
-                placeholder = "Password",
+                placeholder = localizedString(R.string.restore_vault_password),
                 isError = password.isEmpty()
             )
 
             if (restoreError) WideText(
-                text = "Incorrect password",
+                text = localizedString(R.string.restore_vault_incorrect_password),
                 color = colors.error
             )
 
             WideButton(
-                label = if (isRestoring) "Restoring${dots[dotCount]}" else "Restore",
+                label = if (isRestoring)
+                    "${localizedString(R.string.restore_vault_restoring)}${dots[dotCount]}"
+                else
+                    localizedString(R.string.restore_vault_restore),
                 color = colors.primary,
                 textColor = colors.onPrimary,
                 onClick = {
@@ -167,7 +172,7 @@ fun RestoreVaultScreen() {
         }
 
         WideButton(
-            label = "Cancel",
+            label = localizedString(R.string.restore_vault_cancel),
             onClick = { navController.popBackStack() }
         )
     }

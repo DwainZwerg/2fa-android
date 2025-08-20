@@ -22,11 +22,32 @@
     <string name="settings_appearance_light">Claro</string>
     <string name="settings_appearance_dark">Oscuro</string>
     <string name="settings_appearance_dynamic">Dinámico</string>
+    <string name="settings_manage_vault">Gestionar Cámara acorazada</string>
+    <string name="settings_manage_vault_backup_vault">Backup de Cámara acorazada</string>
+    <string name="settings_manage_vault_restore_vault">Restaurar Cámara acorazada</string>
     <string name="settings_about">Acerca de la aplicación</string>
     <string name="settings_about_join_community">Únete a nuestra comunidad</string>
     <string name="settings_about_view_source_code">Ver código fuente</string>
     <string name="settings_about_debug_log">Registro de diagnóstico</string>
     <string name="settings_use_system_default">Usar predeterminados</string>
+
+    <string name="backup_vault_credentials">Credenciales</string>
+    <string name="backup_vault_password">Contraseña</string>
+    <string name="backup_vault_error_password_not_long">Debe tener al menos 8 caracteres</string>
+    <string name="backup_vault_error_password_no_uppercase">Incluya una letra mayúscula</string>
+    <string name="backup_vault_error_password_no_digit">Incluya un número</string>
+    <string name="backup_vault_error_password_no_special">Incluya un carácter especial</string>
+    <string name="backup_vault_confirm_password">Confirmar contraseña</string>
+    <string name="backup_vault_backing_up">Haciendo backup</string>
+    <string name="backup_vault_backup">Backup</string>
+    <string name="backup_vault_cancel">Cancelar</string>
+
+    <string name="restore_vault_enter_credentials">Introduzca las credenciales para la cámara acorazada</string>
+    <string name="restore_vault_password">Contraseña</string>
+    <string name="restore_vault_incorrect_password">Contraseña incorrecta</string>
+    <string name="restore_vault_restoring">Restaurando</string>
+    <string name="restore_vault_restore">Restaurar</string>
+    <string name="restore_vault_cancel">Cancelar</string>
 
     <string name="debug_log">Registro de diagnóstico</string>
 </resources>

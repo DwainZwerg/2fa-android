@@ -22,11 +22,32 @@
     <string name="settings_appearance_light">Light</string>
     <string name="settings_appearance_dark">Dark</string>
     <string name="settings_appearance_dynamic">Dynamisch</string>
+    <string name="settings_manage_vault">Manage Vault</string>
+    <string name="settings_manage_vault_backup_vault">Backup Vault</string>
+    <string name="settings_manage_vault_restore_vault">Restore Vault</string>
     <string name="settings_about">About</string>
     <string name="settings_about_join_community">Discord</string>
     <string name="settings_about_view_source_code">Source Code</string>
     <string name="settings_about_debug_log">Debug Log</string>
     <string name="settings_use_system_default">App Standard</string>
+
+    <string name="backup_vault_credentials">Credentials</string>
+    <string name="backup_vault_password">Password</string>
+    <string name="backup_vault_error_password_not_long">Must be at least 8 characters</string>
+    <string name="backup_vault_error_password_no_uppercase">Include uppercase</string>
+    <string name="backup_vault_error_password_no_digit">Include number</string>
+    <string name="backup_vault_error_password_no_special">Include special character</string>
+    <string name="backup_vault_confirm_password">Confirm Password</string>
+    <string name="backup_vault_backing_up">Backing up</string>
+    <string name="backup_vault_backup">Backup</string>
+    <string name="backup_vault_cancel">Cancel</string>
+
+    <string name="restore_vault_enter_credentials">Enter credentials for the vault</string>
+    <string name="restore_vault_password">Password</string>
+    <string name="restore_vault_incorrect_password">Incorrect password</string>
+    <string name="restore_vault_restoring">Restoring</string>
+    <string name="restore_vault_restore">Restore</string>
+    <string name="restore_vault_cancel">Cancel</string>
 
     <string name="debug_log">Debug Log</string>
 </resources>
