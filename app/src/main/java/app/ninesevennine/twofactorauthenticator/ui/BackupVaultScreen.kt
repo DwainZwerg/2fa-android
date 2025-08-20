@@ -18,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Upload
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -73,6 +74,16 @@ fun BackupVaultScreen() {
     val backupScope = rememberCoroutineScope()
     var backupContent by remember { mutableStateOf("") }
     var isBackingUp by remember { mutableStateOf(false) }
+
+    val dots = arrayOf("", ".", "..", "...")
+    var dotCount by remember { mutableStateOf(0) }
+
+    LaunchedEffect(isBackingUp) {
+        while (isBackingUp) {
+            dotCount = (dotCount + 1) % 4
+            kotlinx.coroutines.delay(250L)
+        }
+    }
 
     val createDocumentLauncher = rememberLauncherForActivityResult(
         contract = CreateDocument("application/json"),
@@ -158,7 +169,7 @@ fun BackupVaultScreen() {
             )
 
             WideButton(
-                label = if (isBackingUp) "Backing up..." else "Backup",
+                label = if (isBackingUp) "Backing up${dots[dotCount]}" else "Backup",
                 color = colors.primary,
                 textColor = colors.onPrimary,
                 onClick = {
