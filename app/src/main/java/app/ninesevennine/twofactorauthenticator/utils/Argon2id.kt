@@ -6,10 +6,10 @@ import java.security.SecureRandom
 import kotlin.math.min
 
 object Argon2id {
-    private const val DEFAULT_MEMORY_KIB: Int = 64 * 1024 // 64 MiB
+    private const val DEFAULT_MEMORY_KIB: Int = 16 * 1024 // 16 MiB
     private const val DEFAULT_ITERATIONS: Int = 3
-    private val DEFAULT_PARALLELISM: Int = min(Runtime.getRuntime().availableProcessors(), 2)
-    private const val DEFAULT_SALT_LEN: Int = 16
+    private val DEFAULT_PARALLELISM: Int = min(Runtime.getRuntime().availableProcessors(), 4)
+    private const val DEFAULT_SALT_LEN: Int = 24
 
     private val secureRandom = SecureRandom()
 

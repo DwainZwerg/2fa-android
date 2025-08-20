@@ -57,7 +57,8 @@ fun RestoreVaultScreen() {
                 Icon(
                     imageVector = Icons.Filled.Download,
                     contentDescription = null,
-                    modifier = Modifier.size(192.dp)
+                    modifier = Modifier.size(192.dp),
+                    tint = colors.onBackground
                 )
             }
 

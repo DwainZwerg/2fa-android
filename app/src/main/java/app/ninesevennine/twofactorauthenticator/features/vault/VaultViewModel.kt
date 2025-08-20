@@ -66,7 +66,7 @@ class VaultViewModel(
     }
 
     fun backupVault(password: String): String {
-        return VaultModel.backupVault(_items.toList(), password)
+        return VaultModel.backupVault(_items.toList(), "979$password")
     }
 
     private val _currentTimeSeconds = MutableStateFlow(0L)

@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,6 +36,9 @@ import app.ninesevennine.twofactorauthenticator.ui.elements.textfields.Confident
 import app.ninesevennine.twofactorauthenticator.ui.elements.widebutton.WideButton
 import app.ninesevennine.twofactorauthenticator.utils.Logger
 import app.ninesevennine.twofactorauthenticator.utils.Password
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -66,16 +70,17 @@ fun BackupVaultScreen() {
     var passwordsMatch by remember { mutableStateOf(true) }
     passwordsMatch = password == confirmPassword
 
+    val backupScope = rememberCoroutineScope()
+    var backupContent by remember { mutableStateOf("") }
+    var isBackingUp by remember { mutableStateOf(false) }
+
     val createDocumentLauncher = rememberLauncherForActivityResult(
         contract = CreateDocument("application/json"),
     ) { uri: Uri? ->
         if (uri != null) {
             try {
-                val content = vaultViewModel.backupVault(password)
-                if (content.isEmpty()) throw Exception("Backup content is empty")
-
                 context.contentResolver.openOutputStream(uri)?.use { outputStream ->
-                    outputStream.write(content.toByteArray())
+                    outputStream.write(backupContent.toByteArray())
                 }
 
                 Logger.i("BackupVaultScreen", "Vault successfully backed up")
@@ -87,6 +92,8 @@ fun BackupVaultScreen() {
                 Logger.e("BackupVaultScreen", "Error saving vault: ${e.message}")
             }
         }
+
+        isBackingUp = false
     }
 
     Column(
@@ -107,7 +114,8 @@ fun BackupVaultScreen() {
                 Icon(
                     imageVector = Icons.Filled.Upload,
                     contentDescription = null,
-                    modifier = Modifier.size(192.dp)
+                    modifier = Modifier.size(192.dp),
+                    tint = colors.onBackground
                 )
             }
 
@@ -150,15 +158,29 @@ fun BackupVaultScreen() {
             )
 
             WideButton(
-                label = "Backup",
+                label = if (isBackingUp) "Backing up..." else "Backup",
                 color = colors.primary,
                 textColor = colors.onPrimary,
                 onClick = {
-                    if (!isPasswordStrong || !passwordsMatch) {
+                    if (!isPasswordStrong || !passwordsMatch || isBackingUp) {
                         return@WideButton
                     }
 
-                    createDocumentLauncher.launch("vault")
+                    backupScope.launch {
+                        isBackingUp = true
+
+                        backupContent = withContext(Dispatchers.Default) {
+                            vaultViewModel.backupVault(password)
+                        }
+
+                        if (backupContent.isEmpty()) {
+                            Logger.e("BackupVaultScreen", "Backup content is empty")
+                            isBackingUp = false
+                            return@launch
+                        }
+
+                        createDocumentLauncher.launch("vault")
+                    }
                 }
             )
         }
