@@ -96,7 +96,7 @@ fun BackupVaultScreen() {
                     outputStream.write(backupContent.toByteArray())
                 }
 
-                Logger.i("BackupVaultScreen", "Vault successfully backed up")
+                Logger.i("BackupVaultScreen", "Vault successfully saved")
                 navController.popBackStack(
                     navController.graph.startDestinationId,
                     inclusive = false
@@ -179,9 +179,9 @@ fun BackupVaultScreen() {
                         return@WideButton
                     }
 
-                    backupScope.launch {
-                        isBackingUp = true
+                    isBackingUp = true
 
+                    backupScope.launch {
                         backupContent = withContext(Dispatchers.Default) {
                             vaultViewModel.backupVault(password)
                         }

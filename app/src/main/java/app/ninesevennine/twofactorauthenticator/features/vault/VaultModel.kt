@@ -19,9 +19,9 @@ import kotlin.time.ExperimentalTime
 object VaultModel {
     private const val FILE_NAME = "vault.json"
 
-    private fun vaultAsJson(vault: List<VaultItem>): String {
+    private fun vaultItemsAsJson(vaultItems: List<VaultItem>): String {
         val json = JSONArray().apply {
-            vault.forEach { item ->
+            vaultItems.forEach { item ->
                 put(JSONObject().apply {
                     put("lastUpdated", item.lastUpdated)
                     if (item.name.isNotEmpty()) put("name", item.name)
@@ -41,20 +41,20 @@ object VaultModel {
         return json
     }
 
-    private fun encryptVault(vault: String): ByteArray {
-        SecureCrypto.getInstance().encrypt(vault.toByteArray(Charsets.UTF_8))?.let {
+    private fun encryptVault(vaultItemsJson: String): ByteArray {
+        SecureCrypto.getInstance().encrypt(vaultItemsJson.toByteArray(Charsets.UTF_8))?.let {
             return it
         }
         throw Exception("encrypt returned null")
     }
 
-    fun saveVault(context: Context, vault: List<VaultItem>) {
+    fun saveVault(context: Context, vaultItems: List<VaultItem>) {
         Logger.i("VaultModel", "saveVault")
 
         runCatching {
             JSONObject().apply {
                 put("version", 1)
-                put("data", Base64.encode(encryptVault(vaultAsJson(vault))))
+                put("data", Base64.encode(encryptVault(vaultItemsAsJson(vaultItems))))
             }.toString().let { jsonString ->
                 File(context.noBackupFilesDir, FILE_NAME).writeText(jsonString, Charsets.UTF_8)
             }
@@ -63,7 +63,7 @@ object VaultModel {
         }
     }
 
-    fun backupVault(vault: List<VaultItem>, password: String): String {
+    fun backupVault(vaultItems: List<VaultItem>, password: String): String {
         Logger.i("VaultModel", "BackupVault")
 
         return runCatching {
@@ -73,9 +73,9 @@ object VaultModel {
             )
             val nonce = ChaCha20Poly1305.randomNonce()
 
-            val vaultJsonAsByteArray = vaultAsJson(vault).toByteArray(Charsets.UTF_8)
+            val vaultsJsonAsByteArray = vaultItemsAsJson(vaultItems).toByteArray(Charsets.UTF_8)
 
-            val encryptedData = ChaCha20Poly1305.encrypt(vaultJsonAsByteArray, key, nonce)
+            val encryptedData = ChaCha20Poly1305.encrypt(vaultsJsonAsByteArray, key, nonce)
 
             JSONObject().apply {
                 put("version", 1)
@@ -88,20 +88,11 @@ object VaultModel {
         }.getOrElse { "" }
     }
 
-    private fun decryptVault(dataBase64: String): List<VaultItem> {
-        if (dataBase64.isBlank()) return emptyList()
-
+    @Suppress("UNUSED_PARAMETER")
+    private fun jsonAsVaultItems(version: Int, dataJson: String): List<VaultItem> {
         return runCatching {
-            val bytes = try {
-                SecureCrypto.getInstance().decrypt(Base64.decode(dataBase64))
-                    ?: throw Exception("decrypt returned null")
-            } catch (e: Exception) {
-                Logger.e("VaultModel", "Failed to decode items base64: ${e.stackTraceToString()}")
-                return@runCatching emptyList<VaultItem>()
-            }
-
             val jsonArray = try {
-                JSONArray(String(bytes, Charsets.UTF_8))
+                JSONArray(dataJson)
             } catch (e: Exception) {
                 Logger.e(
                     "VaultModel",
@@ -152,11 +143,10 @@ object VaultModel {
         }
     }
 
-    internal fun parseVault(jsonString: String): Pair<Int, String> {
-        val json = JSONObject(jsonString)
-        val version = json.getInt("version")
-        val data = json.getString("data")
-        return version to data
+    private fun decryptVault(data: ByteArray): String {
+        val rawData =
+            SecureCrypto.getInstance().decrypt(data) ?: throw Exception("decrypt returned null")
+        return String(rawData, Charsets.UTF_8)
     }
 
     fun readVault(context: Context): List<VaultItem> {
@@ -165,14 +155,47 @@ object VaultModel {
         val file = File(context.noBackupFilesDir, FILE_NAME)
         if (!file.exists()) return emptyList()
 
+        val json = file.readText(Charsets.UTF_8)
+        if (json.isBlank()) return emptyList()
+
         return runCatching {
-            val content = file.readText(Charsets.UTF_8)
-            if (content.isBlank()) return emptyList()
-            parseVault(content).let { (_, data) ->
-                decryptVault(data)
-            }
+            val obj = JSONObject(json)
+
+            val version = obj.getInt("version")
+            val rawData = obj.getString("data").let { Base64.decode(it) }
+
+            jsonAsVaultItems(version, decryptVault(rawData))
         }.getOrElse { e ->
             Logger.e("VaultModel", "Error reading vault: ${e.stackTraceToString()}")
+            emptyList()
+        }
+    }
+
+    fun restoreVault(password: String, json: String): List<VaultItem>? {
+        Logger.i("VaultModel", "restoreVault")
+
+        if (json.isBlank()) return emptyList()
+
+        return runCatching {
+            val obj = JSONObject(json)
+
+            val version = obj.getInt("version")
+            val rawData = obj.getString("data").let { Base64.decode(it) }
+            val salt = obj.getString("salt").let { Base64.decode(it) }
+            val nonce = obj.getString("nonce").let { Base64.decode(it) }
+
+            val key = Argon2id.hashWithSalt(
+                password.toByteArray(Charsets.UTF_8),
+                ChaCha20Poly1305.KEY_SIZE,
+                salt
+            )
+
+            val data = ChaCha20Poly1305.decrypt(rawData, key, nonce) ?: return@runCatching null
+
+            jsonAsVaultItems(version, String(data, Charsets.UTF_8))
+        }.onFailure { e ->
+            Logger.e("VaultModel", "Error restoring vault: ${e.stackTraceToString()}")
+        }.getOrElse {
             emptyList()
         }
     }

@@ -17,11 +17,29 @@ object ChaCha20Poly1305 {
     fun encrypt(input: ByteArray, key: ByteArray, nonce: ByteArray): ByteArray {
         val cipher = ChaCha20Poly1305()
         val params = AEADParameters(KeyParameter(key), MAC_SIZE * 8, nonce)
+
         cipher.init(true, params)
 
         val output = ByteArray(cipher.getOutputSize(input.size))
         val len = cipher.processBytes(input, 0, input.size, output, 0)
         cipher.doFinal(output, len)
         return output
+    }
+
+    fun decrypt(input: ByteArray, key: ByteArray, nonce: ByteArray): ByteArray? {
+        val cipher = ChaCha20Poly1305()
+        val params = AEADParameters(KeyParameter(key), MAC_SIZE * 8, nonce)
+
+        return try {
+            cipher.init(false, params)
+
+            val output = ByteArray(cipher.getOutputSize(input.size))
+            val len = cipher.processBytes(input, 0, input.size, output, 0)
+            val finalLen = cipher.doFinal(output, len)
+
+            output.copyOf(len + finalLen)
+        } catch (_: Exception) {
+            null
+        }
     }
 }

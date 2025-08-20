@@ -61,12 +61,50 @@ class VaultViewModel(
         saveVault()
     }
 
+    fun restoreVaultItems(vaultItems: List<VaultItem>) {
+        var addedCount = 0
+        var updatedCount = 0
+
+        vaultItems.forEach { newItem ->
+            val index = _items.indexOfFirst { it.secret.contentEquals(newItem.secret) }
+
+            if (index != -1) {
+                val existingItem = _items[index]
+
+                if (newItem.lastUpdated > existingItem.lastUpdated) {
+                    _items[index] = newItem.copy(id = existingItem.id)
+                    updatedCount++
+                }
+            } else {
+                _items.add(newItem.copy(id = Random.nextLong()))
+                addedCount++
+            }
+        }
+
+        if (addedCount > 0 || updatedCount > 0) {
+            Logger.i(
+                "VaultViewModel",
+                "restoreVaultItems: $updatedCount item(s) updated, $addedCount item(s) added"
+            )
+            saveVault()
+        }
+    }
+
     fun saveVault() {
         VaultModel.saveVault(context, _items.toList())
     }
 
     fun backupVault(password: String): String {
         return VaultModel.backupVault(_items.toList(), "979$password")
+    }
+
+    fun restoreVault(password: String, json: String): Boolean {
+        VaultModel.restoreVault("979$password", json)?.let {
+            restoreVaultItems(it)
+            return true
+        }
+
+        return false
     }
 
     private val _currentTimeSeconds = MutableStateFlow(0L)
@@ -88,6 +126,7 @@ class VaultViewModel(
                 digits = digits,
                 counter = currentTimeSeconds / period
             )
+
             OtpTypes.HOTP -> HOTP.generate(
                 otpHashFunction = otpHashFunction,
                 secret = secret,

@@ -1,5 +1,10 @@
 package app.ninesevennine.twofactorauthenticator.ui
 
+import android.content.Context
+import android.net.Uri
+import android.provider.OpenableColumns
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,18 +20,29 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import app.ninesevennine.twofactorauthenticator.LocalNavController
 import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
+import app.ninesevennine.twofactorauthenticator.LocalVaultViewModel
+import app.ninesevennine.twofactorauthenticator.ui.elements.WideText
 import app.ninesevennine.twofactorauthenticator.ui.elements.WideTitle
 import app.ninesevennine.twofactorauthenticator.ui.elements.textfields.ConfidentialSingleLineTextField
 import app.ninesevennine.twofactorauthenticator.ui.elements.widebutton.WideButton
+import app.ninesevennine.twofactorauthenticator.utils.Logger
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -34,11 +50,54 @@ object RestoreVaultScreenRoute
 
 @Composable
 fun RestoreVaultScreen() {
+    val context = LocalContext.current
     val colors = LocalThemeViewModel.current.colors
     val navController = LocalNavController.current
+    val vaultViewModel = LocalVaultViewModel.current
 
     var password by remember { mutableStateOf("") }
 
+    val restoreScope = rememberCoroutineScope()
+    var restoreContent by remember { mutableStateOf("") }
+    var restoreFilename by remember { mutableStateOf("") }
+    var isRestoring by remember { mutableStateOf(false) }
+    var restoreError by remember { mutableStateOf(false) }
+
+    val dots = arrayOf("", ".", "..", "...")
+    var dotCount by remember { mutableIntStateOf(0) }
+
+    LaunchedEffect(isRestoring) {
+        while (isRestoring) {
+            dotCount = (dotCount + 1) % 4
+            delay(250L)
+        }
+    }
+
+    val openDocumentLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument()
+    ) { uri: Uri? ->
+        if (uri != null) {
+            try {
+                restoreFilename = getDocumentName(context, uri) ?: "???"
+                context.contentResolver.openInputStream(uri)?.use { inputStream ->
+                    restoreContent =
+                        inputStream.bufferedReader(Charsets.UTF_8).use { it.readText() }
+
+                    Logger.i("BackupVaultScreen", "Vault successfully read")
+                }
+            } catch (e: Exception) {
+                Logger.e("BackupVaultScreen", "Error reading vault: ${e.message}")
+            }
+        } else {
+            navController.popBackStack()
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        openDocumentLauncher.launch(arrayOf("application/json"))
+    }
+
+    if (restoreContent.isEmpty()) return
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -62,7 +121,7 @@ fun RestoreVaultScreen() {
                 )
             }
 
-            WideTitle(text = "vault.json credentials")
+            WideTitle(text = "$restoreFilename credentials")
 
             ConfidentialSingleLineTextField(
                 modifier = Modifier.fillMaxWidth(),
@@ -72,11 +131,38 @@ fun RestoreVaultScreen() {
                 isError = password.isEmpty()
             )
 
+            if (restoreError) WideText(
+                text = "Incorrect password",
+                color = colors.error
+            )
+
             WideButton(
-                label = "Restore",
+                label = if (isRestoring) "Restoring${dots[dotCount]}" else "Restore",
                 color = colors.primary,
                 textColor = colors.onPrimary,
-                onClick = { }
+                onClick = {
+                    if (isRestoring || password.isEmpty()) {
+                        return@WideButton
+                    }
+
+                    isRestoring = true
+
+                    restoreScope.launch {
+                        val success = withContext(Dispatchers.Default) {
+                            vaultViewModel.restoreVault(password, restoreContent)
+                        }
+
+                        if (success) {
+                            navController.popBackStack(
+                                navController.graph.startDestinationId,
+                                inclusive = false
+                            )
+                        } else {
+                            restoreError = true
+                            isRestoring = false
+                        }
+                    }
+                }
             )
         }
 
@@ -85,4 +171,17 @@ fun RestoreVaultScreen() {
             onClick = { navController.popBackStack() }
         )
     }
+}
+
+private fun getDocumentName(context: Context, uri: Uri): String? {
+    val projection = arrayOf(OpenableColumns.DISPLAY_NAME)
+    context.contentResolver.query(uri, projection, null, null, null)?.use { cursor ->
+        if (cursor.moveToFirst()) {
+            val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+            if (nameIndex != -1) {
+                return cursor.getString(nameIndex)
+            }
+        }
+    }
+    return null
 }
