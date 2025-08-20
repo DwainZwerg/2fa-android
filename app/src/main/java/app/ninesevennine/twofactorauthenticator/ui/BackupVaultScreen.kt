@@ -20,6 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -38,6 +39,7 @@ import app.ninesevennine.twofactorauthenticator.ui.elements.widebutton.WideButto
 import app.ninesevennine.twofactorauthenticator.utils.Logger
 import app.ninesevennine.twofactorauthenticator.utils.Password
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
@@ -76,12 +78,12 @@ fun BackupVaultScreen() {
     var isBackingUp by remember { mutableStateOf(false) }
 
     val dots = arrayOf("", ".", "..", "...")
-    var dotCount by remember { mutableStateOf(0) }
+    var dotCount by remember { mutableIntStateOf(0) }
 
     LaunchedEffect(isBackingUp) {
         while (isBackingUp) {
             dotCount = (dotCount + 1) % 4
-            kotlinx.coroutines.delay(250L)
+            delay(250L)
         }
     }
 
