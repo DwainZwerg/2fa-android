@@ -91,6 +91,8 @@ android {
                     excludes += "/META-INF/{AL2.0,LGPL2.1}"
                     excludes += "DebugProbesKt.bin"
                     excludes += "kotlin-tooling-metadata.json"
+
+                    pickFirsts += "META-INF/versions/9/OSGI-INF/MANIFEST.MF"
                 }
                 jniLibs {
                     useLegacyPackaging = false
@@ -152,4 +154,5 @@ dependencies {
     implementation(libs.androidx.camerax.lifecycle)
     implementation(libs.androidx.camerax.view)
     implementation(libs.zxing)
+    implementation(libs.bouncycastle)
 }

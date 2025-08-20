@@ -5,7 +5,7 @@ import app.ninesevennine.twofactorauthenticator.features.otp.OtpTypes
 import app.ninesevennine.twofactorauthenticator.ui.elements.otpcard.OtpCardColors
 
 data class VaultItem(
-    var id: Int = 0,
+    var id: Long = 0,
     var lastUpdated: Long = 0,
     var name: String = "",
     var issuer: String = "",
@@ -40,7 +40,7 @@ data class VaultItem(
     }
 
     override fun hashCode(): Int {
-        var result = id
+        var result = id.hashCode()
         result = 31 * result + period
         result = 31 * result + digits
         result = 31 * result + counter.hashCode()

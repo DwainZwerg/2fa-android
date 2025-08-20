@@ -5,6 +5,8 @@ import app.ninesevennine.twofactorauthenticator.features.crypto.SecureCrypto
 import app.ninesevennine.twofactorauthenticator.features.otp.OtpHashFunctions
 import app.ninesevennine.twofactorauthenticator.features.otp.OtpTypes
 import app.ninesevennine.twofactorauthenticator.ui.elements.otpcard.OtpCardColors
+import app.ninesevennine.twofactorauthenticator.utils.Argon2id
+import app.ninesevennine.twofactorauthenticator.utils.ChaCha20Poly1305
 import app.ninesevennine.twofactorauthenticator.utils.Logger
 import org.json.JSONArray
 import org.json.JSONObject
@@ -17,8 +19,8 @@ import kotlin.time.ExperimentalTime
 object VaultModel {
     private const val FILE_NAME = "vault.json"
 
-    private fun encryptVault(vault: List<VaultItem>): String {
-        val byteArray = JSONArray().apply {
+    private fun vaultAsJson(vault: List<VaultItem>): String {
+        val json = JSONArray().apply {
             vault.forEach { item ->
                 put(JSONObject().apply {
                     put("lastUpdated", item.lastUpdated)
@@ -34,28 +36,56 @@ object VaultModel {
                     put("otpCardColor", item.otpCardColor.value)
                 })
             }
-        }.toString().toByteArray(Charsets.UTF_8)
+        }.toString()
 
-        SecureCrypto.getInstance().encrypt(byteArray)?.let {
-            return Base64.encode(it)
+        return json
+    }
+
+    private fun encryptVault(vault: String): ByteArray {
+        SecureCrypto.getInstance().encrypt(vault.toByteArray(Charsets.UTF_8))?.let {
+            return it
         }
-
         throw Exception("encrypt returned null")
     }
 
     fun saveVault(context: Context, vault: List<VaultItem>) {
-        Logger.i("VaultModel", "Saving vault")
+        Logger.i("VaultModel", "saveVault")
 
         runCatching {
             JSONObject().apply {
                 put("version", 1)
-                put("data", encryptVault(vault))
+                put("data", Base64.encode(encryptVault(vaultAsJson(vault))))
             }.toString().let { jsonString ->
                 File(context.noBackupFilesDir, FILE_NAME).writeText(jsonString, Charsets.UTF_8)
             }
         }.onFailure { e ->
             Logger.e("VaultModel", "Error saving vault: ${e.stackTraceToString()}")
         }
+    }
+
+    fun backupVault(vault: List<VaultItem>, password: String): String {
+        Logger.i("VaultModel", "BackupVault")
+
+        return runCatching {
+            val (salt, key) = Argon2id.hash(
+                password.toByteArray(Charsets.UTF_8),
+                ChaCha20Poly1305.KEY_SIZE
+            )
+            val nonce = ChaCha20Poly1305.randomNonce()
+
+            val vaultJsonAsByteArray = vaultAsJson(vault).toByteArray(Charsets.UTF_8)
+
+            val encryptedData = ChaCha20Poly1305.encrypt(vaultJsonAsByteArray, key, nonce)
+
+            JSONObject().apply {
+                put("version", 1)
+                put("data", Base64.encode(encryptedData))
+                put("salt", Base64.encode(salt))
+                put("nonce", Base64.encode(nonce))
+            }.toString()
+        }.onFailure { e ->
+            Logger.e("VaultModel", "Error backing up vault: ${e.stackTraceToString()}")
+        }.getOrElse { "" }
     }
 
     private fun decryptVault(dataBase64: String): List<VaultItem> {
@@ -95,7 +125,7 @@ object VaultModel {
 
                 @OptIn(ExperimentalTime::class)
                 val item = VaultItem(
-                    id = Random.nextInt(),
+                    id = Random.nextLong(),
                     lastUpdated = obj.optLong(
                         "lastUpdated",
                         Clock.System.now().epochSeconds // Temporarily use current time as fallback
@@ -130,7 +160,7 @@ object VaultModel {
     }
 
     fun readVault(context: Context): List<VaultItem> {
-        Logger.i("VaultModel", "Reading vault")
+        Logger.i("VaultModel", "readVault")
 
         val file = File(context.noBackupFilesDir, FILE_NAME)
         if (!file.exists()) return emptyList()

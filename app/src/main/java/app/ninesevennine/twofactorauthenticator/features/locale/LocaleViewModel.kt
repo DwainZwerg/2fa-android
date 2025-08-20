@@ -37,7 +37,7 @@ class LocaleViewModel(
     }
 
     fun updateLocale(newOption: LocaleOption) {
-        Logger.i("LocaleViewModel", "Updating locale to $newOption")
+        Logger.i("LocaleViewModel", "updateLocale $newOption")
         LocaleModel.saveLocale(context, newOption)
 
         if (localeOption == newOption) return

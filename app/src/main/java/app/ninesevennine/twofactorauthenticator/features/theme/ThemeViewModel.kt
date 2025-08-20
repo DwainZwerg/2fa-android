@@ -63,7 +63,7 @@ class ThemeViewModel(
     }
 
     fun updateTheme(themeOption: ThemeOption) {
-        Logger.i("ThemeViewModel", "Updating theme to $themeOption")
+        Logger.i("ThemeViewModel", "updateTheme $themeOption")
         ThemeModel.saveTheme(context, themeOption)
 
         this.themeOption = themeOption

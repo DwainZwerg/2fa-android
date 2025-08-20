@@ -41,7 +41,7 @@ import app.ninesevennine.twofactorauthenticator.ui.EditScreenRoute
 @Composable
 fun OtpCardUpper(
     enableEditing: Boolean,
-    id: Int,
+    id: Long,
     otpType: OtpTypes,
     name: String,
     issuer: String,

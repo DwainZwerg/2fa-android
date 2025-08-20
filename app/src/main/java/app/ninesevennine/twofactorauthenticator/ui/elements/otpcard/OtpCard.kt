@@ -88,7 +88,7 @@ fun OtpCard(
                 sweepAngle = 360f * progress,
                 colors = colors,
                 onRefreshButton = {
-                    vaultViewModel.updateItem(item.copy(counter = item.counter + 1))
+                    vaultViewModel.updateItemOrAdd(item.copy(counter = item.counter + 1))
                 }
             )
             Spacer(Modifier.height(16.dp))

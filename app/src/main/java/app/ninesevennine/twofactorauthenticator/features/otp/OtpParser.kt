@@ -60,7 +60,7 @@ fun otpParser(url: String): VaultItem? {
     }
 
     return VaultItem(
-        id = Random.nextInt(),
+        id = Random.nextLong(),
         name = accountName ?: "",
         issuer = issuer,
         note = "",

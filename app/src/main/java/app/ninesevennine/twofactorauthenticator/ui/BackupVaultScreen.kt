@@ -1,5 +1,8 @@
 package app.ninesevennine.twofactorauthenticator.ui
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,13 +24,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import app.ninesevennine.twofactorauthenticator.LocalNavController
 import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
+import app.ninesevennine.twofactorauthenticator.LocalVaultViewModel
 import app.ninesevennine.twofactorauthenticator.ui.elements.WideText
 import app.ninesevennine.twofactorauthenticator.ui.elements.WideTitle
 import app.ninesevennine.twofactorauthenticator.ui.elements.textfields.ConfidentialSingleLineTextField
 import app.ninesevennine.twofactorauthenticator.ui.elements.widebutton.WideButton
+import app.ninesevennine.twofactorauthenticator.utils.Logger
 import app.ninesevennine.twofactorauthenticator.utils.Password
 import kotlinx.serialization.Serializable
 
@@ -36,8 +42,10 @@ object BackupVaultScreenRoute
 
 @Composable
 fun BackupVaultScreen() {
+    val context = LocalContext.current
     val colors = LocalThemeViewModel.current.colors
     val navController = LocalNavController.current
+    val vaultViewModel = LocalVaultViewModel.current
 
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
@@ -57,6 +65,29 @@ fun BackupVaultScreen() {
 
     var passwordsMatch by remember { mutableStateOf(true) }
     passwordsMatch = password == confirmPassword
+
+    val createDocumentLauncher = rememberLauncherForActivityResult(
+        contract = CreateDocument("application/json"),
+    ) { uri: Uri? ->
+        if (uri != null) {
+            try {
+                val content = vaultViewModel.backupVault(password)
+                if (content.isEmpty()) throw Exception("Backup content is empty")
+
+                context.contentResolver.openOutputStream(uri)?.use { outputStream ->
+                    outputStream.write(content.toByteArray())
+                }
+
+                Logger.i("BackupVaultScreen", "Vault successfully backed up")
+                navController.popBackStack(
+                    navController.graph.startDestinationId,
+                    inclusive = false
+                )
+            } catch (e: Exception) {
+                Logger.e("BackupVaultScreen", "Error saving vault: ${e.message}")
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -126,6 +157,8 @@ fun BackupVaultScreen() {
                     if (!isPasswordStrong || !passwordsMatch) {
                         return@WideButton
                     }
+
+                    createDocumentLauncher.launch("vault")
                 }
             )
         }

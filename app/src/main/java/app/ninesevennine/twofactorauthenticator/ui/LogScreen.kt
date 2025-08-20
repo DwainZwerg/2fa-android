@@ -110,17 +110,15 @@ fun LogScreen() {
                 context.contentResolver.openOutputStream(uri)?.use { outputStream ->
                     outputStream.write(logContent.toByteArray())
                 }
-                Toast.makeText(context, "Log saved successfully", Toast.LENGTH_SHORT).show()
             } catch (e: Exception) {
                 Logger.e("LogScreen", "Error saving log file: ${e.message}")
-                Toast.makeText(context, "Failed to save log", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     LogAppBar {
-        Logger.i("LogScreen", "Prompting user to save debug log")
+        Logger.i("LogScreen", "onShare")
 
-        createDocumentLauncher.launch("2fa_debug.log")
+        createDocumentLauncher.launch("debug_log")
     }
 }

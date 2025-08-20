@@ -38,7 +38,6 @@ import app.ninesevennine.twofactorauthenticator.ui.elements.WideTitle
 import app.ninesevennine.twofactorauthenticator.ui.elements.bottomappbar.EditAppBar
 import app.ninesevennine.twofactorauthenticator.ui.elements.dropdown.DropDownSingleChoice
 import app.ninesevennine.twofactorauthenticator.ui.elements.otpcard.OtpCard
-import app.ninesevennine.twofactorauthenticator.ui.elements.textfields.ConfidentialSingleLineTextField
 import app.ninesevennine.twofactorauthenticator.ui.elements.textfields.NumbersOnlyTextField
 import app.ninesevennine.twofactorauthenticator.ui.elements.textfields.SingleLineTextField
 import app.ninesevennine.twofactorauthenticator.ui.elements.textfields.TextField2fa
@@ -50,16 +49,16 @@ import kotlin.time.ExperimentalTime
 
 @Serializable
 data class EditScreenRoute(
-    val id: Int
+    val id: Long
 )
 
 @Composable
-fun EditScreen(id: Int) {
+fun EditScreen(id: Long) {
     val vaultViewModel = LocalVaultViewModel.current
 
     var item by remember {
         mutableStateOf(
-            if (id == 0) {
+            if (id == 0L) {
                 VaultItem()
             } else {
                 vaultViewModel.getItemById(id) ?: VaultItem()
@@ -67,7 +66,7 @@ fun EditScreen(id: Int) {
         )
     }
 
-    if (item.id == 0) {
+    if (item.id == 0L) {
         QRScannerView { newItem ->
             item = newItem
         }
@@ -288,7 +287,7 @@ fun EditScreen(id: Int) {
             @OptIn(ExperimentalTime::class)
             item.lastUpdated = Clock.System.now().epochSeconds
 
-            vaultViewModel.updateItem(item)
+            vaultViewModel.updateItemOrAdd(item)
             navController.popBackStack()
         }
     )

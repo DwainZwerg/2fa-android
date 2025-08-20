@@ -34,22 +34,22 @@ class VaultViewModel(
     }
 
     fun addItem(item: VaultItem) {
-        _items.add(item.copy(id = Random.nextInt()))
+        _items.add(item.copy(id = Random.nextLong()))
     }
 
-    fun removeItemById(id: Int) {
-        Logger.i("VaultViewModel", "Removing item")
+    fun removeItemById(id: Long) {
+        Logger.i("VaultViewModel", "removeItemById")
 
         _items.removeAll { it.id == id }
         saveVault()
     }
 
-    fun getItemById(id: Int): VaultItem? {
+    fun getItemById(id: Long): VaultItem? {
         return _items.find { it.id == id }
     }
 
-    fun updateItem(updatedItem: VaultItem) {
-        Logger.i("VaultViewModel", "Updating item")
+    fun updateItemOrAdd(updatedItem: VaultItem) {
+        Logger.i("VaultViewModel", "updateItemOrAdd")
 
         val index = _items.indexOfFirst { it.id == updatedItem.id }
         if (index != -1) {
@@ -63,6 +63,10 @@ class VaultViewModel(
 
     fun saveVault() {
         VaultModel.saveVault(context, _items.toList())
+    }
+
+    fun backupVault(password: String): String {
+        return VaultModel.backupVault(_items.toList(), password)
     }
 
     private val _currentTimeSeconds = MutableStateFlow(0L)

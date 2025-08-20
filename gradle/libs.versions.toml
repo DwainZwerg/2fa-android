@@ -1,6 +1,6 @@
 [versions]
 agp = "8.11.1"
-kotlin = "2.2.0"
+kotlin = "2.2.10"
 coreKtx = "1.17.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"
@@ -29,13 +29,14 @@ navigation-compose = { group = "androidx.navigation", name = "navigation-compose
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version = "1.9.0" }
 material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version = "1.7.8" }
 androidx-splash-screen = { group = "androidx.core", name = "core-splashscreen", version = "1.0.1" }
-reorderable = { group = "sh.calvin.reorderable", name = "reorderable", version = "2.5.1" }
+reorderable = { group = "sh.calvin.reorderable", name = "reorderable", version = "3.0.0" }
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version = "0.7.1" }
 androidx-camerax-core = { group = "androidx.camera", name = "camera-core", version = "1.4.2" }
 androidx-camerax-camera2 = { group = "androidx.camera", name = "camera-camera2", version = "1.4.2" }
 androidx-camerax-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version = "1.4.2" }
 androidx-camerax-view = { group = "androidx.camera", name = "camera-view", version = "1.5.0-rc01" }
 zxing = { group = "com.google.zxing", name = "core", version = "3.5.3" }
+bouncycastle = { group = "org.bouncycastle", name = "bcprov-jdk18on", version = "1.81" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
