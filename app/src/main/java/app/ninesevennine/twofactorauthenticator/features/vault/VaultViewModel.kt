@@ -68,17 +68,17 @@ class VaultViewModel(
         var updatedCount = 0
 
         vaultItems.forEach { newItem ->
-            val index = _items.indexOfFirst { it.secret.contentEquals(newItem.secret) }
+            val index = _items.indexOfFirst { it.uuid == newItem.uuid }
 
             if (index != -1) {
                 val existingItem = _items[index]
 
                 if (newItem.lastUpdated > existingItem.lastUpdated) {
-                    _items[index] = newItem.copy(uuid = existingItem.uuid)
+                    _items[index] = newItem
                     updatedCount++
                 }
             } else {
-                _items.add(newItem.copy(uuid = Uuid.random()))
+                _items.add(newItem)
                 addedCount++
             }
         }
