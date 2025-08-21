@@ -38,6 +38,7 @@ import app.ninesevennine.twofactorauthenticator.features.theme.ThemeOption
 import app.ninesevennine.twofactorauthenticator.ui.elements.WideTitle
 import app.ninesevennine.twofactorauthenticator.ui.elements.bottomappbar.SettingsAppBar
 import app.ninesevennine.twofactorauthenticator.ui.elements.widebutton.WideButtonWithIcon
+import app.ninesevennine.twofactorauthenticator.ui.elements.widebutton.WideButtonWithTintedIcon
 import app.ninesevennine.twofactorauthenticator.ui.elements.wideradiobutton.WideRadioButtonWithIcon
 import app.ninesevennine.twofactorauthenticator.ui.elements.wideradiobutton.WideRadioButtonWithTintedIcon
 import app.ninesevennine.twofactorauthenticator.utils.Logger
@@ -155,17 +156,19 @@ private fun BackupSettingsSection() {
         label = localizedString(R.string.settings_button_backup_vault),
         onClick = { navController.navigate(BackupVaultScreenRoute) }
     )
+
     WideButtonWithIcon(
         icon = Icons.Filled.Download,
         label = localizedString(R.string.settings_button_restore_vault),
         onClick = { navController.navigate(RestoreVaultScreenRoute) }
     )
-//    WideButtonWithTintedIcon(
-//        icon = painterResource(R.drawable.issuer_google),
-//        tint = Color.Unspecified,
-//        label = "Export to Google Authenticator",
-//        onClick = {}
-//    )
+
+    WideButtonWithTintedIcon(
+        icon = painterResource(R.drawable.icon_google_authenticator),
+        tint = Color.Unspecified,
+        label = "Export to Google Authenticator",
+        onClick = {}
+    )
 }
 
 @Composable
