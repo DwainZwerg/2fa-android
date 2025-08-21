@@ -3,37 +3,36 @@ package app.ninesevennine.twofactorauthenticator.utils
 import org.bouncycastle.crypto.generators.Argon2BytesGenerator
 import org.bouncycastle.crypto.params.Argon2Parameters
 import java.security.SecureRandom
-import kotlin.math.min
 
 object Argon2id {
-    private const val DEFAULT_MEMORY_KIB: Int = 16 * 1024 // 16 MiB
-    private const val DEFAULT_ITERATIONS: Int = 3
-    private val DEFAULT_PARALLELISM: Int = min(Runtime.getRuntime().availableProcessors(), 4)
-    private const val DEFAULT_SALT_LEN: Int = 24
+    const val DEFAULT_M: Int = 96 * 1024 // 96 MiB
+    const val DEFAULT_T: Int = 3 // time cost
+    const val DEFAULT_P: Int = 2 // parallelism
 
-    private val secureRandom = SecureRandom()
-
-    fun hash(password: ByteArray, hashLength: Int): Pair<ByteArray, ByteArray> {
-        val salt = ByteArray(DEFAULT_SALT_LEN).also { secureRandom.nextBytes(it) }
-        val hash = hashWithSalt(password, hashLength, salt)
-
-        return salt to hash
-    }
-
-    fun hashWithSalt(password: ByteArray, hashLength: Int, salt: ByteArray): ByteArray {
+    fun get(
+        password: ByteArray,
+        salt: ByteArray,
+        outLength: Int,
+        m: Int = DEFAULT_M,
+        t: Int = DEFAULT_T,
+        p: Int = DEFAULT_P
+    ): ByteArray {
         val params = Argon2Parameters.Builder(Argon2Parameters.ARGON2_id)
             .withSalt(salt)
-            .withIterations(DEFAULT_ITERATIONS)
-            .withMemoryAsKB(DEFAULT_MEMORY_KIB)
-            .withParallelism(DEFAULT_PARALLELISM)
+            .withMemoryAsKB(m)
+            .withParallelism(t)
+            .withIterations(p)
             .build()
 
-        val gen = Argon2BytesGenerator()
-        gen.init(params)
+        val generator = Argon2BytesGenerator()
+        generator.init(params)
 
-        val out = ByteArray(hashLength)
-        gen.generateBytes(password, out)
+        val output = ByteArray(outLength)
+        generator.generateBytes(password, output, 0, output.size)
 
-        return out
+        return output
     }
+
+    fun generateSalt(sizeBytes: Int = 16): ByteArray =
+        SecureRandom().generateSeed(sizeBytes)
 }

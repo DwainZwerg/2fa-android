@@ -70,14 +70,15 @@ object VaultModel {
         Logger.i("VaultModel", "BackupVault")
 
         return runCatching {
-            val (salt, key) = Argon2id.hash(
-                password.toByteArray(Charsets.UTF_8),
-                ChaCha20Poly1305.KEY_SIZE
+            val salt = Argon2id.generateSalt(16)
+            val key = Argon2id.get(
+                password = password.toByteArray(Charsets.UTF_8),
+                salt = salt,
+                outLength = ChaCha20Poly1305.KEY_SIZE
             )
             val nonce = ChaCha20Poly1305.randomNonce()
 
             val vaultsJsonAsByteArray = vaultItemsAsJson(vaultItems).toByteArray(Charsets.UTF_8)
-
             val encryptedData = ChaCha20Poly1305.encrypt(vaultsJsonAsByteArray, key, nonce)
 
             JSONObject().apply {
@@ -85,6 +86,11 @@ object VaultModel {
                 put("data", Base64.encode(encryptedData))
                 put("salt", Base64.encode(salt))
                 put("nonce", Base64.encode(nonce))
+                put("argon2id", JSONObject().apply {
+                    put("m", Argon2id.DEFAULT_M)
+                    put("t", Argon2id.DEFAULT_T)
+                    put("p", Argon2id.DEFAULT_P)
+                })
             }.toString()
         }.onFailure { e ->
             Logger.e("VaultModel", "Error backing up vault: ${e.stackTraceToString()}")
@@ -179,10 +185,18 @@ object VaultModel {
             val salt = obj.getString("salt").let { Base64.decode(it) }
             val nonce = obj.getString("nonce").let { Base64.decode(it) }
 
-            val key = Argon2id.hashWithSalt(
-                password.toByteArray(Charsets.UTF_8),
-                ChaCha20Poly1305.KEY_SIZE,
-                salt
+            val argonObj = obj.getJSONObject("argon2id")
+            val m = argonObj.getInt("m")
+            val t = argonObj.getInt("t")
+            val p = argonObj.getInt("p")
+
+            val key = Argon2id.get(
+                password = password.toByteArray(Charsets.UTF_8),
+                salt = salt,
+                outLength = ChaCha20Poly1305.KEY_SIZE,
+                m = m,
+                t = t,
+                p = p
             )
 
             val data = ChaCha20Poly1305.decrypt(rawData, key, nonce) ?: return@runCatching null
