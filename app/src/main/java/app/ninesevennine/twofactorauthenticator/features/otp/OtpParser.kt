@@ -6,10 +6,15 @@ import app.ninesevennine.twofactorauthenticator.utils.Base32
 import java.net.URI
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
-import kotlin.random.Random
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 fun otpParser(url: String): VaultItem? {
-    val uri = try { URI(url) } catch (_: Exception) { return null }
+    val uri = try {
+        URI(url)
+    } catch (_: Exception) {
+        return null
+    }
     if (uri.scheme != "otpauth") return null
 
     val type = uri.host?.lowercase() ?: return null
@@ -27,6 +32,7 @@ fun otpParser(url: String): VaultItem? {
             val parts = rawLabel.split(":", limit = 2)
             (parts[0]) to parts[1]
         }
+
         else -> rawLabel to null
     }
 
@@ -59,12 +65,13 @@ fun otpParser(url: String): VaultItem? {
         else -> OtpHashFunctions.SHA1
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     return VaultItem(
-        id = Random.nextLong(),
+        uid = Uuid.random(),
         name = accountName ?: "",
         issuer = issuer,
         note = "",
-        secret =  Base32.decode(secret) ?: return null,
+        secret = Base32.decode(secret) ?: return null,
         period = period.coerceAtLeast(10),
         digits = digits.coerceIn(4, 10),
         counter = counter.coerceAtLeast(0),

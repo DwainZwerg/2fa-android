@@ -12,9 +12,10 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 import kotlin.io.encoding.Base64
-import kotlin.random.Random
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 object VaultModel {
     private const val FILE_NAME = "vault.json"
@@ -88,6 +89,7 @@ object VaultModel {
         }.getOrElse { "" }
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     @Suppress("UNUSED_PARAMETER")
     private fun jsonAsVaultItems(version: Int, dataJson: String): List<VaultItem> {
         return runCatching {
@@ -116,7 +118,7 @@ object VaultModel {
 
                 @OptIn(ExperimentalTime::class)
                 val item = VaultItem(
-                    id = Random.nextLong(),
+                    uid = Uuid.random(),
                     lastUpdated = obj.optLong(
                         "lastUpdated",
                         Clock.System.now().epochSeconds // Temporarily use current time as fallback

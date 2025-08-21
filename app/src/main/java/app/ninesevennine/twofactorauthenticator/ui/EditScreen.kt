@@ -43,30 +43,35 @@ import app.ninesevennine.twofactorauthenticator.ui.elements.textfields.SingleLin
 import app.ninesevennine.twofactorauthenticator.ui.elements.textfields.TextField2fa
 import app.ninesevennine.twofactorauthenticator.ui.elements.widebutton.WideButtonError
 import app.ninesevennine.twofactorauthenticator.utils.Base32
+import app.ninesevennine.twofactorauthenticator.utils.Constants
 import kotlinx.serialization.Serializable
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 @Serializable
 data class EditScreenRoute(
-    val id: Long
+    val uidString: String
 )
 
+@OptIn(ExperimentalUuidApi::class)
 @Composable
-fun EditScreen(id: Long) {
+fun EditScreen(uidString: String) {
     val vaultViewModel = LocalVaultViewModel.current
 
     var item by remember {
         mutableStateOf(
-            if (id == 0L) {
+            if (uidString == Constants.NILUUIDSTR) {
                 VaultItem()
             } else {
-                vaultViewModel.getItemById(id) ?: VaultItem()
+                vaultViewModel.getItemByUid(Uuid.parse(uidString)) ?: VaultItem()
             }
         )
     }
 
-    if (item.id == 0L) {
+    if (item.uid == Constants.NILUUID) {
         QRScannerView { newItem ->
             item = newItem
         }
@@ -140,7 +145,7 @@ fun EditScreen(id: Long) {
             label = localizedString(R.string.edit_delete),
             onClick = {
                 navController.popBackStack()
-                vaultViewModel.removeItemById(item.id)
+                vaultViewModel.removeItemByUid(item.uid)
             }
         )
 

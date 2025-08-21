@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
 import app.ninesevennine.twofactorauthenticator.LocalVaultViewModel
 import app.ninesevennine.twofactorauthenticator.features.vault.VaultItem
+import kotlin.uuid.ExperimentalUuidApi
 
 @Composable
 fun OtpCard(
@@ -79,9 +80,10 @@ fun OtpCard(
                 .padding(16.dp)
                 .fillMaxSize()
         ) {
+            @OptIn(ExperimentalUuidApi::class)
             OtpCardUpper(
                 enableEditing = enableEditing,
-                id = item.id,
+                uidString = item.uid.toString(),
                 otpType = item.otpType,
                 name = item.name,
                 issuer = item.issuer,

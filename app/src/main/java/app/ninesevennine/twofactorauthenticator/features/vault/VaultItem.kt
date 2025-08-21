@@ -3,9 +3,13 @@ package app.ninesevennine.twofactorauthenticator.features.vault
 import app.ninesevennine.twofactorauthenticator.features.otp.OtpHashFunctions
 import app.ninesevennine.twofactorauthenticator.features.otp.OtpTypes
 import app.ninesevennine.twofactorauthenticator.ui.elements.otpcard.OtpCardColors
+import app.ninesevennine.twofactorauthenticator.utils.Constants
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 data class VaultItem(
-    var id: Long = 0,
+    var uid: Uuid = Constants.NILUUID,
     var lastUpdated: Long = 0,
     var name: String = "",
     var issuer: String = "",
@@ -24,7 +28,7 @@ data class VaultItem(
 
         other as VaultItem
 
-        if (id != other.id) return false
+        if (uid != other.uid) return false
         if (period != other.period) return false
         if (digits != other.digits) return false
         if (counter != other.counter) return false
@@ -40,7 +44,7 @@ data class VaultItem(
     }
 
     override fun hashCode(): Int {
-        var result = id.hashCode()
+        var result = uid.hashCode()
         result = 31 * result + period
         result = 31 * result + digits
         result = 31 * result + counter.hashCode()

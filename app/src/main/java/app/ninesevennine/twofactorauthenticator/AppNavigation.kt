@@ -12,8 +12,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import app.ninesevennine.twofactorauthenticator.ui.BackupVaultScreen
 import app.ninesevennine.twofactorauthenticator.ui.BackupVaultScreenRoute
-import app.ninesevennine.twofactorauthenticator.ui.EditScreenRoute
 import app.ninesevennine.twofactorauthenticator.ui.EditScreen
+import app.ninesevennine.twofactorauthenticator.ui.EditScreenRoute
 import app.ninesevennine.twofactorauthenticator.ui.LogScreen
 import app.ninesevennine.twofactorauthenticator.ui.LogScreenRoute
 import app.ninesevennine.twofactorauthenticator.ui.MainScreen
@@ -30,7 +30,9 @@ fun AppNavigation() {
     val themeColors = LocalThemeViewModel.current.colors
 
     NavHost(
-        modifier = Modifier.fillMaxSize().background(themeColors.background),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(themeColors.background),
         navController = navController,
         startDestination = MainScreenRoute,
         enterTransition = {
@@ -62,7 +64,7 @@ fun AppNavigation() {
         composable<SettingsScreenRoute> { SettingsScreen() }
         composable<EditScreenRoute> {
             val args = it.toRoute<EditScreenRoute>()
-            EditScreen(args.id)
+            EditScreen(args.uidString)
         }
         composable<BackupVaultScreenRoute> { BackupVaultScreen() }
         composable<RestoreVaultScreenRoute> { RestoreVaultScreen() }

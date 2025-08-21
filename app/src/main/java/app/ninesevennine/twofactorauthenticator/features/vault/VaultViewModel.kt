@@ -16,10 +16,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlin.random.Random
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 class VaultViewModel(
     @Suppress("StaticFieldLeak")
     private val context: Context
@@ -34,24 +36,24 @@ class VaultViewModel(
     }
 
     fun addItem(item: VaultItem) {
-        _items.add(item.copy(id = Random.nextLong()))
+        _items.add(item.copy(uid = Uuid.random()))
     }
 
-    fun removeItemById(id: Long) {
+    fun removeItemByUid(uid: Uuid) {
         Logger.i("VaultViewModel", "removeItemById")
 
-        _items.removeAll { it.id == id }
+        _items.removeAll { it.uid == uid }
         saveVault()
     }
 
-    fun getItemById(id: Long): VaultItem? {
-        return _items.find { it.id == id }
+    fun getItemByUid(uid: Uuid): VaultItem? {
+        return _items.find { it.uid == uid }
     }
 
     fun updateItemOrAdd(updatedItem: VaultItem) {
         Logger.i("VaultViewModel", "updateItemOrAdd")
 
-        val index = _items.indexOfFirst { it.id == updatedItem.id }
+        val index = _items.indexOfFirst { it.uid == updatedItem.uid }
         if (index != -1) {
             _items[index] = updatedItem
         } else {
@@ -72,11 +74,11 @@ class VaultViewModel(
                 val existingItem = _items[index]
 
                 if (newItem.lastUpdated > existingItem.lastUpdated) {
-                    _items[index] = newItem.copy(id = existingItem.id)
+                    _items[index] = newItem.copy(uid = existingItem.uid)
                     updatedCount++
                 }
             } else {
-                _items.add(newItem.copy(id = Random.nextLong()))
+                _items.add(newItem.copy(uid = Uuid.random()))
                 addedCount++
             }
         }

@@ -41,7 +41,7 @@ import app.ninesevennine.twofactorauthenticator.ui.EditScreenRoute
 @Composable
 fun OtpCardUpper(
     enableEditing: Boolean,
-    id: Long,
+    uidString: String,
     otpType: OtpTypes,
     name: String,
     issuer: String,
@@ -181,7 +181,7 @@ fun OtpCardUpper(
                         view.playSoundEffect(SoundEffectConstants.CLICK)
 
                         if (enableEditing) {
-                            navController.navigate(EditScreenRoute(id))
+                            navController.navigate(EditScreenRoute(uidString))
                         }
                     },
                 contentAlignment = Alignment.Center

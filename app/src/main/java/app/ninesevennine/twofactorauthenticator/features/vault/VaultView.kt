@@ -17,6 +17,7 @@ import app.ninesevennine.twofactorauthenticator.LocalVaultViewModel
 import app.ninesevennine.twofactorauthenticator.ui.elements.otpcard.OtpCard
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyGridState
+import kotlin.uuid.ExperimentalUuidApi
 
 @Composable
 fun VaultView() {
@@ -40,8 +41,9 @@ fun VaultView() {
         ),
         horizontalArrangement = Arrangement.Center
     ) {
-        itemsIndexed(items, key = { _, item -> item.id }) { index, item ->
-            ReorderableItem(reorderState, key = item.id) { dragging ->
+        @OptIn(ExperimentalUuidApi::class)
+        itemsIndexed(items, key = { _, item -> item.uid }) { index, item ->
+            ReorderableItem(reorderState, key = item.uid) { dragging ->
                 OtpCard(
                     modifier = Modifier.longPressDraggableHandle(),
                     item = item,
