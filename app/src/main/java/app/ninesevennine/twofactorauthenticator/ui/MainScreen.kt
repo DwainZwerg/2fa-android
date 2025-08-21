@@ -4,9 +4,8 @@ import androidx.compose.runtime.Composable
 import app.ninesevennine.twofactorauthenticator.LocalNavController
 import app.ninesevennine.twofactorauthenticator.features.vault.VaultView
 import app.ninesevennine.twofactorauthenticator.ui.elements.bottomappbar.MainAppBar
+import app.ninesevennine.twofactorauthenticator.utils.Constants
 import kotlinx.serialization.Serializable
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 @Serializable
 object MainScreenRoute
@@ -22,8 +21,7 @@ fun MainScreen() {
             navController.navigate(SettingsScreenRoute)
         },
         onAdd = {
-            @OptIn(ExperimentalUuidApi::class)
-            navController.navigate(EditScreenRoute("00000000-0000-0000-0000-000000000000"))
+            navController.navigate(EditScreenRoute(Constants.NILUUIDSTR))
         }
     )
 }
