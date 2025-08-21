@@ -9,7 +9,7 @@ import kotlin.uuid.Uuid
 
 @OptIn(ExperimentalUuidApi::class)
 data class VaultItem(
-    var uid: Uuid = Constants.NILUUID,
+    var uuid: Uuid = Constants.NILUUID,
     var lastUpdated: Long = 0,
     var name: String = "",
     var issuer: String = "",
@@ -28,7 +28,7 @@ data class VaultItem(
 
         other as VaultItem
 
-        if (uid != other.uid) return false
+        if (uuid != other.uuid) return false
         if (period != other.period) return false
         if (digits != other.digits) return false
         if (counter != other.counter) return false
@@ -44,7 +44,7 @@ data class VaultItem(
     }
 
     override fun hashCode(): Int {
-        var result = uid.hashCode()
+        var result = uuid.hashCode()
         result = 31 * result + period
         result = 31 * result + digits
         result = 31 * result + counter.hashCode()

@@ -83,7 +83,7 @@ fun OtpCard(
             @OptIn(ExperimentalUuidApi::class)
             OtpCardUpper(
                 enableEditing = enableEditing,
-                uidString = item.uid.toString(),
+                uuidString = item.uuid.toString(),
                 otpType = item.otpType,
                 name = item.name,
                 issuer = item.issuer,

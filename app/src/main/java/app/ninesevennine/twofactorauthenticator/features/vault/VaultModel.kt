@@ -17,6 +17,7 @@ import kotlin.time.ExperimentalTime
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 object VaultModel {
     private const val FILE_NAME = "vault.json"
 
@@ -24,6 +25,7 @@ object VaultModel {
         val json = JSONArray().apply {
             vaultItems.forEach { item ->
                 put(JSONObject().apply {
+                    put("uuid", item.uuid.toString())
                     put("lastUpdated", item.lastUpdated)
                     if (item.name.isNotEmpty()) put("name", item.name)
                     if (item.issuer.isNotEmpty()) put("issuer", item.issuer)
@@ -108,31 +110,22 @@ object VaultModel {
             for (i in 0 until jsonArray.length()) {
                 val obj = jsonArray.optJSONObject(i) ?: continue
 
-                val secret = obj.getString("secret").let { Base64.decode(it) }
-                val digits = obj.getInt("digits")
-                val otpType = obj.getString("otpType").let { OtpTypes.fromString(it) }
-                val otpHashFunction =
-                    obj.getString("otpHashFunction").let { OtpHashFunctions.fromString(it) }
-                val otpCardColor =
-                    obj.getString("otpCardColor").let { OtpCardColors.fromString(it) }
-
                 @OptIn(ExperimentalTime::class)
                 val item = VaultItem(
-                    uid = Uuid.random(),
-                    lastUpdated = obj.optLong(
-                        "lastUpdated",
-                        Clock.System.now().epochSeconds // Temporarily use current time as fallback
-                    ),
+                    /* Temporarily use Uuid.random() as fallback */
+                    uuid = runCatching { Uuid.parse(obj.getString("uuid")) }.getOrElse { Uuid.random() },
+                    /* Temporarily use current time as fallback */
+                    lastUpdated = obj.optLong("lastUpdated", Clock.System.now().epochSeconds),
                     name = obj.optString("name", ""),
                     issuer = obj.optString("issuer", ""),
                     note = obj.optString("note", ""),
-                    secret = secret,
+                    secret = Base64.decode(obj.getString("secret")),
                     period = obj.optInt("period", 30),
-                    digits = digits,
+                    digits = obj.getInt("digits"),
                     counter = obj.optLong("counter", 0),
-                    otpType = otpType,
-                    otpHashFunction = otpHashFunction,
-                    otpCardColor = otpCardColor
+                    otpType = OtpTypes.fromString(obj.getString("otpType")),
+                    otpHashFunction = OtpHashFunctions.fromString(obj.getString("otpHashFunction")),
+                    otpCardColor = OtpCardColors.fromString(obj.getString("otpCardColor"))
                 )
 
                 list.add(item)

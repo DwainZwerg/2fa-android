@@ -53,25 +53,25 @@ import kotlin.uuid.Uuid
 @OptIn(ExperimentalUuidApi::class)
 @Serializable
 data class EditScreenRoute(
-    val uidString: String
+    val uuidString: String
 )
 
 @OptIn(ExperimentalUuidApi::class)
 @Composable
-fun EditScreen(uidString: String) {
+fun EditScreen(uuidString: String) {
     val vaultViewModel = LocalVaultViewModel.current
 
     var item by remember {
         mutableStateOf(
-            if (uidString == Constants.NILUUIDSTR) {
+            if (uuidString == Constants.NILUUIDSTR) {
                 VaultItem()
             } else {
-                vaultViewModel.getItemByUid(Uuid.parse(uidString)) ?: VaultItem()
+                vaultViewModel.getItemByUuid(Uuid.parse(uuidString)) ?: VaultItem()
             }
         )
     }
 
-    if (item.uid == Constants.NILUUID) {
+    if (item.uuid == Constants.NILUUID) {
         QRScannerView { newItem ->
             item = newItem
         }
@@ -145,7 +145,7 @@ fun EditScreen(uidString: String) {
             label = localizedString(R.string.edit_delete),
             onClick = {
                 navController.popBackStack()
-                vaultViewModel.removeItemByUid(item.uid)
+                vaultViewModel.removeItemByUuid(item.uuid)
             }
         )
 

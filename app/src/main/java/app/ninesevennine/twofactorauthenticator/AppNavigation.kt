@@ -64,7 +64,7 @@ fun AppNavigation() {
         composable<SettingsScreenRoute> { SettingsScreen() }
         composable<EditScreenRoute> {
             val args = it.toRoute<EditScreenRoute>()
-            EditScreen(args.uidString)
+            EditScreen(args.uuidString)
         }
         composable<BackupVaultScreenRoute> { BackupVaultScreen() }
         composable<RestoreVaultScreenRoute> { RestoreVaultScreen() }

@@ -67,7 +67,7 @@ fun otpParser(url: String): VaultItem? {
 
     @OptIn(ExperimentalUuidApi::class)
     return VaultItem(
-        uid = Uuid.random(),
+        uuid = Uuid.random(),
         name = accountName ?: "",
         issuer = issuer,
         note = "",

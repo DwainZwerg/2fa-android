@@ -42,8 +42,8 @@ fun VaultView() {
         horizontalArrangement = Arrangement.Center
     ) {
         @OptIn(ExperimentalUuidApi::class)
-        itemsIndexed(items, key = { _, item -> item.uid }) { index, item ->
-            ReorderableItem(reorderState, key = item.uid) { dragging ->
+        itemsIndexed(items, key = { _, item -> item.uuid }) { index, item ->
+            ReorderableItem(reorderState, key = item.uuid) { dragging ->
                 OtpCard(
                     modifier = Modifier.longPressDraggableHandle(),
                     item = item,

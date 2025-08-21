@@ -36,24 +36,24 @@ class VaultViewModel(
     }
 
     fun addItem(item: VaultItem) {
-        _items.add(item.copy(uid = Uuid.random()))
+        _items.add(item.copy(uuid = Uuid.random()))
     }
 
-    fun removeItemByUid(uid: Uuid) {
+    fun removeItemByUuid(uuid: Uuid) {
         Logger.i("VaultViewModel", "removeItemById")
 
-        _items.removeAll { it.uid == uid }
+        _items.removeAll { it.uuid == uuid }
         saveVault()
     }
 
-    fun getItemByUid(uid: Uuid): VaultItem? {
-        return _items.find { it.uid == uid }
+    fun getItemByUuid(uuid: Uuid): VaultItem? {
+        return _items.find { it.uuid == uuid }
     }
 
     fun updateItemOrAdd(updatedItem: VaultItem) {
         Logger.i("VaultViewModel", "updateItemOrAdd")
 
-        val index = _items.indexOfFirst { it.uid == updatedItem.uid }
+        val index = _items.indexOfFirst { it.uuid == updatedItem.uuid }
         if (index != -1) {
             _items[index] = updatedItem
         } else {
@@ -74,11 +74,11 @@ class VaultViewModel(
                 val existingItem = _items[index]
 
                 if (newItem.lastUpdated > existingItem.lastUpdated) {
-                    _items[index] = newItem.copy(uid = existingItem.uid)
+                    _items[index] = newItem.copy(uuid = existingItem.uuid)
                     updatedCount++
                 }
             } else {
-                _items.add(newItem.copy(uid = Uuid.random()))
+                _items.add(newItem.copy(uuid = Uuid.random()))
                 addedCount++
             }
         }
