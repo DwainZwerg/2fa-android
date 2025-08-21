@@ -1,53 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="main_search">Buscar</string>
+    <!-- Common -->
+    <string name="common_use_system_default">Usar predeterminados</string>
+    <string name="common_cancel">Cancelar</string>
+    <string name="common_password_hint">Contraseña</string>
+    <string name="common_search_hint">Buscar</string>
 
-    <string name="edit_basic_information">Información básica</string>
-    <string name="edit_name">Nombre</string>
-    <string name="edit_issuer">Emisor</string>
-    <string name="edit_note">Nota</string>
-    <string name="edit_delete">Eliminar</string>
-    <string name="edit_advanced_settings">Ajustes avanzados</string>
-    <string name="edit_secret">Secreto</string>
-    <string name="edit_seconds">segundos</string>
-    <string name="edit_digits_trailing">dígitos</string>
-    <string name="edit_counter_trailing">contador</string>
+    <!-- EditScreen.kt -->
+    <string name="edit_screen_basic_info_title">Información básica</string>
+    <string name="edit_field_name_hint">Nombre</string>
+    <string name="edit_field_issuer_hint">Emisor</string>
+    <string name="edit_field_note_hint">Nota</string>
+    <string name="edit_button_delete">Eliminar</string>
+    <string name="edit_screen_advanced_title">Ajustes avanzados</string>
+    <string name="edit_field_secret_hint">Secreto</string>
+    <string name="edit_unit_seconds">segundos</string>
+    <string name="edit_unit_digits">dígitos</string>
+    <string name="edit_unit_counter">contador</string>
 
-    <string name="qr_scanner_view_camera_permission_required">Se requiere permiso de la cámara para escanear códigos QR</string>
-    <string name="qr_scanner_view_cancel">Cancelar</string>
+    <!-- QRScannerView.kt -->
+    <string name="qr_scanner_permission_required">
+        Se requiere permiso de la cámara para escanear códigos QR
+    </string>
 
-    <string name="settings">Configuración</string>
-    <string name="settings_language">Idioma</string>
-    <string name="settings_appearance">Aspecto</string>
+    <!-- SettingsScreen.kt -->
+    <string name="settings_title">Configuración</string>
+    <string name="settings_option_language">Idioma</string>
+    <string name="settings_option_appearance">Aspecto</string>
     <string name="settings_appearance_light">Claro</string>
     <string name="settings_appearance_dark">Oscuro</string>
     <string name="settings_appearance_dynamic">Dinámico</string>
-    <string name="settings_manage_vault">Gestionar Cámara acorazada</string>
-    <string name="settings_manage_vault_backup_vault">Backup de Cámara acorazada</string>
-    <string name="settings_manage_vault_restore_vault">Restaurar Cámara acorazada</string>
-    <string name="settings_about">Acerca de la aplicación</string>
-    <string name="settings_about_join_community">Únete a nuestra comunidad</string>
-    <string name="settings_about_view_source_code">Ver código fuente</string>
-    <string name="settings_about_debug_log">Registro de diagnóstico</string>
-    <string name="settings_use_system_default">Usar predeterminados</string>
+    <string name="settings_section_manage_vault">Gestionar Cámara acorazada</string>
+    <string name="settings_button_backup_vault">Backup de Cámara acorazada</string>
+    <string name="settings_button_restore_vault">Restaurar Cámara acorazada</string>
+    <string name="settings_section_about">Acerca de la aplicación</string>
+    <string name="about_button_join_community">Únete a nuestra comunidad</string>
+    <string name="about_button_view_source">Ver código fuente</string>
+    <string name="about_button_debug_log">Registro de diagnóstico</string>
 
-    <string name="backup_vault_credentials">Credenciales</string>
-    <string name="backup_vault_password">Contraseña</string>
-    <string name="backup_vault_error_password_not_long">Debe tener al menos 8 caracteres</string>
-    <string name="backup_vault_error_password_no_uppercase">Incluya una letra mayúscula</string>
-    <string name="backup_vault_error_password_no_digit">Incluya un número</string>
-    <string name="backup_vault_error_password_no_special">Incluya un carácter especial</string>
-    <string name="backup_vault_confirm_password">Confirmar contraseña</string>
-    <string name="backup_vault_backing_up">Haciendo backup</string>
-    <string name="backup_vault_backup">Backup</string>
-    <string name="backup_vault_cancel">Cancelar</string>
+    <!-- Backup/Restore -->
+    <string name="backup_title_credentials">Credenciales</string>
+    <string name="backup_error_password_length">Debe tener al menos 8 caracteres</string>
+    <string name="backup_error_password_uppercase">Incluya una letra mayúscula</string>
+    <string name="backup_error_password_digit">Incluya un número</string>
+    <string name="backup_error_password_special">Incluya un carácter especial</string>
+    <string name="backup_field_confirm_password_hint">Confirmar contraseña</string>
+    <string name="backup_status_backing_up">Haciendo backup</string>
+    <string name="backup_button_action">Backup</string>
+    <string name="restore_prompt_credentials">Introduzca las credenciales para la cámara acorazada</string>
+    <string name="restore_error_incorrect_password">Contraseña incorrecta</string>
+    <string name="restore_status_restoring">Restaurando</string>
+    <string name="restore_button_action">Restaurar</string>
 
-    <string name="restore_vault_enter_credentials">Introduzca las credenciales para la cámara acorazada</string>
-    <string name="restore_vault_password">Contraseña</string>
-    <string name="restore_vault_incorrect_password">Contraseña incorrecta</string>
-    <string name="restore_vault_restoring">Restaurando</string>
-    <string name="restore_vault_restore">Restaurar</string>
-    <string name="restore_vault_cancel">Cancelar</string>
-
+    <!-- LogScreen.kt-->
     <string name="debug_log">Registro de diagnóstico</string>
 </resources>

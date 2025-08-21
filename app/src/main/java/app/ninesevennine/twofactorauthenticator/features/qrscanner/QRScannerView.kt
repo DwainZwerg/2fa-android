@@ -143,7 +143,7 @@ private fun CancelButton() {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = localizedString(R.string.qr_scanner_view_cancel),
+            text = localizedString(R.string.common_cancel),
             fontFamily = InterVariable,
             color = Color.White,
             fontWeight = FontWeight.W700,
@@ -270,7 +270,7 @@ private fun PermissionRequiredMessage() {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = localizedString(R.string.qr_scanner_view_camera_permission_required),
+            text = localizedString(R.string.qr_scanner_permission_required),
             fontFamily = InterVariable,
             textAlign = TextAlign.Center,
             color = Color.White,

@@ -109,27 +109,27 @@ fun EditScreen(uuidString: String) {
         )
 
         Spacer(modifier = Modifier.height(16.dp))
-        WideTitle(text = localizedString(R.string.edit_basic_information))
+        WideTitle(text = localizedString(R.string.edit_screen_basic_info_title))
 
         SingleLineTextField(
             modifier = Modifier.fillMaxWidth(),
             value = item.name,
             onValueChange = { item = item.copy(name = it) },
-            placeholder = localizedString(R.string.edit_name)
+            placeholder = localizedString(R.string.edit_field_name_hint)
         )
 
         SingleLineTextField(
             modifier = Modifier.fillMaxWidth(),
             value = item.issuer,
             onValueChange = { item = item.copy(issuer = it) },
-            placeholder = localizedString(R.string.edit_issuer)
+            placeholder = localizedString(R.string.edit_field_issuer_hint)
         )
 
         SingleLineTextField(
             modifier = Modifier.fillMaxWidth(),
             value = item.note,
             onValueChange = { item = item.copy(note = it) },
-            placeholder = localizedString(R.string.edit_note)
+            placeholder = localizedString(R.string.edit_field_note_hint)
         )
 
         // Yes/No popup?
@@ -142,7 +142,7 @@ fun EditScreen(uuidString: String) {
                     tint = colors.onErrorContainer
                 )
             },
-            label = localizedString(R.string.edit_delete),
+            label = localizedString(R.string.edit_button_delete),
             onClick = {
                 navController.popBackStack()
                 vaultViewModel.removeItemByUuid(item.uuid)
@@ -150,7 +150,7 @@ fun EditScreen(uuidString: String) {
         )
 
         Spacer(modifier = Modifier.height(16.dp))
-        WideTitle(text = localizedString(R.string.edit_advanced_settings))
+        WideTitle(text = localizedString(R.string.edit_screen_advanced_title))
 
         TextField2fa(
             modifier = Modifier.fillMaxWidth(),
@@ -165,7 +165,7 @@ fun EditScreen(uuidString: String) {
                     secretError = true
                 }
             },
-            placeholder = localizedString(R.string.edit_secret),
+            placeholder = localizedString(R.string.edit_field_secret_hint),
             isError = secretError
         )
 
@@ -221,7 +221,7 @@ fun EditScreen(uuidString: String) {
                         }
                     },
                     placeholder = "0+",
-                    trailingText = localizedString(R.string.edit_counter_trailing),
+                    trailingText = localizedString(R.string.edit_unit_counter),
                     isError = counterError
                 )
             } else {
@@ -243,7 +243,7 @@ fun EditScreen(uuidString: String) {
                         }
                     },
                     placeholder = "10+",
-                    trailingText = localizedString(R.string.edit_seconds),
+                    trailingText = localizedString(R.string.edit_unit_seconds),
                     isError = periodError
                 )
             }
@@ -268,7 +268,7 @@ fun EditScreen(uuidString: String) {
                     }
                 },
                 placeholder = "4-10",
-                trailingText = localizedString(R.string.edit_digits_trailing),
+                trailingText = localizedString(R.string.edit_unit_digits),
                 isError = digitsError
             )
         }

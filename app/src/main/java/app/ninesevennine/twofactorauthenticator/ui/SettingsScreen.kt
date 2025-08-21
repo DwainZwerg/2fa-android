@@ -75,7 +75,7 @@ fun SettingsScreen() {
 private fun LanguageSettingsSection() {
     val localeViewModel = LocalLocaleViewModel.current
 
-    WideTitle(text = localizedString(R.string.settings_language))
+    WideTitle(text = localizedString(R.string.settings_option_language))
 
     WideRadioButtonWithTintedIcon(
         icon = painterResource(id = R.drawable.lang_en),
@@ -103,7 +103,7 @@ private fun LanguageSettingsSection() {
 
     WideButtonWithIcon(
         icon = Icons.Default.Refresh,
-        label = localizedString(R.string.settings_use_system_default),
+        label = localizedString(R.string.common_use_system_default),
         onClick = { localeViewModel.updateLocale(LocaleOption.SYSTEM_DEFAULT) }
     )
 }
@@ -113,7 +113,7 @@ private fun ThemeSettingsSection() {
     val themeViewModel = LocalThemeViewModel.current
 
     Spacer(modifier = Modifier.height(16.dp))
-    WideTitle(text = localizedString(R.string.settings_appearance))
+    WideTitle(text = localizedString(R.string.settings_option_appearance))
 
     WideRadioButtonWithIcon(
         icon = Icons.Filled.LightMode,
@@ -138,7 +138,7 @@ private fun ThemeSettingsSection() {
 
     WideButtonWithIcon(
         icon = Icons.Default.Refresh,
-        label = localizedString(R.string.settings_use_system_default),
+        label = localizedString(R.string.common_use_system_default),
         onClick = { themeViewModel.updateTheme(ThemeOption.SYSTEM_DEFAULT) }
     )
 }
@@ -148,16 +148,16 @@ private fun BackupSettingsSection() {
     val navController = LocalNavController.current
 
     Spacer(modifier = Modifier.height(16.dp))
-    WideTitle(text = localizedString(R.string.settings_manage_vault))
+    WideTitle(text = localizedString(R.string.settings_section_manage_vault))
 
     WideButtonWithIcon(
         icon = Icons.Filled.Upload,
-        label = localizedString(R.string.settings_manage_vault_backup_vault),
+        label = localizedString(R.string.settings_button_backup_vault),
         onClick = { navController.navigate(BackupVaultScreenRoute) }
     )
     WideButtonWithIcon(
         icon = Icons.Filled.Download,
-        label = localizedString(R.string.settings_manage_vault_restore_vault),
+        label = localizedString(R.string.settings_button_restore_vault),
         onClick = { navController.navigate(RestoreVaultScreenRoute) }
     )
 //    WideButtonWithTintedIcon(
@@ -174,11 +174,11 @@ private fun AboutSettingsSection() {
     val navController = LocalNavController.current
 
     Spacer(modifier = Modifier.height(16.dp))
-    WideTitle(text = localizedString(R.string.settings_about))
+    WideTitle(text = localizedString(R.string.settings_section_about))
 
     WideButtonWithIcon(
         icon = Icons.Filled.Groups,
-        label = localizedString(R.string.settings_about_join_community),
+        label = localizedString(R.string.about_button_join_community),
         onClick = {
             val intent = Intent(Intent.ACTION_VIEW, "https://discord.com/invite/zxgXNzhYJu".toUri())
             context.startActivity(intent)
@@ -187,7 +187,7 @@ private fun AboutSettingsSection() {
 
     WideButtonWithIcon(
         icon = painterResource(R.drawable.github),
-        label = localizedString(R.string.settings_about_view_source_code),
+        label = localizedString(R.string.about_button_view_source),
         onClick = {
             val intent = Intent(Intent.ACTION_VIEW, "https://github.com/979st/2fa-android".toUri())
             context.startActivity(intent)
@@ -196,7 +196,7 @@ private fun AboutSettingsSection() {
 
     WideButtonWithIcon(
         icon = Icons.Filled.Code,
-        label = localizedString(R.string.settings_about_debug_log),
+        label = localizedString(R.string.about_button_debug_log),
         onClick = {
             Logger.i("SettingsScreen", "Opened debug log")
             navController.navigate(LogScreenRoute)

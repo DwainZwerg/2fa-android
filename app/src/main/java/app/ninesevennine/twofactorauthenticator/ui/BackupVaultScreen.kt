@@ -134,33 +134,33 @@ fun BackupVaultScreen() {
                 )
             }
 
-            WideTitle(text = localizedString(R.string.backup_vault_credentials))
+            WideTitle(text = localizedString(R.string.backup_title_credentials))
 
             ConfidentialSingleLineTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = password,
                 onValueChange = { password = it },
-                placeholder = localizedString(R.string.backup_vault_password),
+                placeholder = localizedString(R.string.common_password_hint),
                 isError = !isPasswordStrong
             )
 
             if (!isPasswordLong) WideText(
-                text = localizedString(R.string.backup_vault_error_password_not_long),
+                text = localizedString(R.string.backup_error_password_length),
                 color = colors.error
             )
 
             if (!hasPasswordUppercase) WideText(
-                text = localizedString(R.string.backup_vault_error_password_no_uppercase),
+                text = localizedString(R.string.backup_error_password_uppercase),
                 color = colors.error
             )
 
             if (!hasPasswordDigit) WideText(
-                text = localizedString(R.string.backup_vault_error_password_no_digit),
+                text = localizedString(R.string.backup_error_password_digit),
                 color = colors.error
             )
 
             if (!hasPasswordSpecial) WideText(
-                text = localizedString(R.string.backup_vault_error_password_no_special),
+                text = localizedString(R.string.backup_error_password_special),
                 color = colors.error
             )
 
@@ -168,15 +168,15 @@ fun BackupVaultScreen() {
                 modifier = Modifier.fillMaxWidth(),
                 value = confirmPassword,
                 onValueChange = { confirmPassword = it },
-                placeholder = localizedString(R.string.backup_vault_confirm_password),
+                placeholder = localizedString(R.string.backup_field_confirm_password_hint),
                 isError = !passwordsMatch
             )
 
             WideButton(
                 label = if (isBackingUp)
-                    "${localizedString(R.string.backup_vault_backing_up)}${dots[dotCount]}"
+                    "${localizedString(R.string.backup_status_backing_up)}${dots[dotCount]}"
                 else
-                    localizedString(R.string.backup_vault_backup),
+                    localizedString(R.string.backup_button_action),
                 color = colors.primary,
                 textColor = colors.onPrimary,
                 onClick = {
@@ -204,7 +204,7 @@ fun BackupVaultScreen() {
         }
 
         WideButton(
-            label = localizedString(R.string.backup_vault_cancel),
+            label = localizedString(R.string.common_cancel),
             onClick = { navController.popBackStack() }
         )
     }

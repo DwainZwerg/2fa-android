@@ -97,7 +97,7 @@ fun MainAppBar(
                     )
 
                     Text(
-                        text = localizedString(R.string.main_search),
+                        text = localizedString(R.string.common_search_hint),
                         fontFamily = InterVariable,
                         color = colors.onPrimaryContainer,
                         fontWeight = FontWeight.W700,

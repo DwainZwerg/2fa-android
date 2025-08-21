@@ -100,7 +100,7 @@ fun SettingsAppBar() {
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = localizedString(R.string.settings),
+                    text = localizedString(R.string.settings_title),
                     modifier = Modifier.padding(start = 16.dp, end = 32.dp),
                     fontFamily = InterVariable,
                     color = colors.onPrimaryContainer,

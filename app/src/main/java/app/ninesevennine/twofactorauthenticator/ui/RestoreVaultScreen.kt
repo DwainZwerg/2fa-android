@@ -123,26 +123,26 @@ fun RestoreVaultScreen() {
                 )
             }
 
-            WideTitle(text = "${localizedString(R.string.restore_vault_enter_credentials)} ($restoreFilename)")
+            WideTitle(text = "${localizedString(R.string.restore_prompt_credentials)} ($restoreFilename)")
 
             ConfidentialSingleLineTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = password,
                 onValueChange = { password = it },
-                placeholder = localizedString(R.string.restore_vault_password),
+                placeholder = localizedString(R.string.common_password_hint),
                 isError = password.isEmpty()
             )
 
             if (restoreError) WideText(
-                text = localizedString(R.string.restore_vault_incorrect_password),
+                text = localizedString(R.string.restore_error_incorrect_password),
                 color = colors.error
             )
 
             WideButton(
                 label = if (isRestoring)
-                    "${localizedString(R.string.restore_vault_restoring)}${dots[dotCount]}"
+                    "${localizedString(R.string.restore_status_restoring)}${dots[dotCount]}"
                 else
-                    localizedString(R.string.restore_vault_restore),
+                    localizedString(R.string.restore_button_action),
                 color = colors.primary,
                 textColor = colors.onPrimary,
                 onClick = {
@@ -172,7 +172,7 @@ fun RestoreVaultScreen() {
         }
 
         WideButton(
-            label = localizedString(R.string.restore_vault_cancel),
+            label = localizedString(R.string.common_cancel),
             onClick = { navController.popBackStack() }
         )
     }
