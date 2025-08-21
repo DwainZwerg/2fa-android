@@ -29,9 +29,9 @@
     <string name="settings_appearance_light">Light</string>
     <string name="settings_appearance_dark">Dark</string>
     <string name="settings_appearance_dynamic">Dynamic</string>
-    <string name="settings_section_manage_vault">Manage Vault</string>
-    <string name="settings_button_backup_vault">Backup Vault</string>
-    <string name="settings_button_restore_vault">Restore Vault</string>
+    <string name="settings_section_manage_data">Backup &amp; Restore</string>
+    <string name="settings_button_backup_codes">Backup 2FA Codes</string>
+    <string name="settings_button_restore_codes">Restore 2FA Codes</string>
     <string name="settings_section_about">About</string>
     <string name="about_button_join_community">Join Community</string>
     <string name="about_button_view_source">View Source Code</string>

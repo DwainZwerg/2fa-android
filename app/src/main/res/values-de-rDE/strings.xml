@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- The following needs updating. Use default strings.xml as a base -->
+
     <!-- Common -->
     <string name="common_use_system_default">App Standard</string>
     <string name="common_cancel">Cancel</string>
@@ -30,9 +32,9 @@
     <string name="settings_appearance_light">Light</string>
     <string name="settings_appearance_dark">Dark</string>
     <string name="settings_appearance_dynamic">Dynamisch</string>
-    <string name="settings_section_manage_vault">Manage Vault</string>
-    <string name="settings_button_backup_vault">Backup Vault</string>
-    <string name="settings_button_restore_vault">Restore Vault</string>
+    <string name="settings_section_manage_data">Manage Vault</string>
+    <string name="settings_button_backup_codes">Backup Vault</string>
+    <string name="settings_button_restore_codes">Restore Vault</string>
     <string name="settings_section_about">About</string>
     <string name="about_button_join_community">Discord</string>
     <string name="about_button_view_source">Source Code</string>

@@ -30,9 +30,9 @@
     <string name="settings_appearance_light">Светлое</string>
     <string name="settings_appearance_dark">Темное</string>
     <string name="settings_appearance_dynamic">Динамика</string>
-    <string name="settings_section_manage_vault">Управлять хранилищем</string>
-    <string name="settings_button_backup_vault">Резервное копирование хранилища</string>
-    <string name="settings_button_restore_vault">Восстановить хранилище</string>
+    <string name="settings_section_manage_data">Резервное копирование и восстановление</string>
+    <string name="settings_button_backup_codes">Бэкап кодов 2FA</string>
+    <string name="settings_button_restore_codes">Восстановить коды 2FA</string>
     <string name="settings_section_about">О приложении</string>
     <string name="about_button_join_community">Присоединиться к сообществу</string>
     <string name="about_button_view_source">Посмотреть исходный код</string>

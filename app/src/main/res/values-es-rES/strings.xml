@@ -30,9 +30,9 @@
     <string name="settings_appearance_light">Claro</string>
     <string name="settings_appearance_dark">Oscuro</string>
     <string name="settings_appearance_dynamic">Dinámico</string>
-    <string name="settings_section_manage_vault">Gestionar Cámara acorazada</string>
-    <string name="settings_button_backup_vault">Backup de Cámara acorazada</string>
-    <string name="settings_button_restore_vault">Restaurar Cámara acorazada</string>
+    <string name="settings_section_manage_data">Copia de seguridad y restauración</string>
+    <string name="settings_button_backup_codes">Hacer copia de seguridad 2FA</string>
+    <string name="settings_button_restore_codes">Restaurar códigos 2FA</string>
     <string name="settings_section_about">Acerca de la aplicación</string>
     <string name="about_button_join_community">Únete a nuestra comunidad</string>
     <string name="about_button_view_source">Ver código fuente</string>
