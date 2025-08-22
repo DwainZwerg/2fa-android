@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
@@ -15,6 +16,7 @@ import app.ninesevennine.twofactorauthenticator.features.theme.InterVariable
 fun WideText(
     modifier: Modifier = Modifier,
     text: String,
+    textAlign: TextAlign = TextAlign.Start,
     color: Color = Color.Unspecified
 ) {
     val colors = LocalThemeViewModel.current.colors
@@ -25,6 +27,7 @@ fun WideText(
         fontFamily = InterVariable,
         color = if (color == Color.Unspecified) colors.onBackground else color,
         fontWeight = FontWeight.Normal,
-        fontSize = 18.sp
+        fontSize = 18.sp,
+        textAlign = textAlign
     )
 }

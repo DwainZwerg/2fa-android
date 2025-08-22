@@ -167,7 +167,7 @@ private fun BackupSettingsSection() {
         icon = painterResource(R.drawable.icon_google_authenticator),
         tint = Color.Unspecified,
         label = "Export to Google Authenticator",
-        onClick = {}
+        onClick = { navController.navigate(ExportToGoogleAuthScreenRoute) }
     )
 }
 
