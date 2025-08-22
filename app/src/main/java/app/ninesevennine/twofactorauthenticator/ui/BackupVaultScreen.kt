@@ -197,7 +197,7 @@ fun BackupVaultScreen() {
                             return@launch
                         }
 
-                        createDocumentLauncher.launch("vault")
+                        createDocumentLauncher.launch("2fa_codes_backup")
                     }
                 }
             )
