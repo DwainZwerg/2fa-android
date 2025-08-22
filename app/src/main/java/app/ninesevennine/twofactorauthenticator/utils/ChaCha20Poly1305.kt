@@ -10,10 +10,6 @@ object ChaCha20Poly1305 {
     const val NONCE_SIZE: Int = 12
     const val MAC_SIZE = 16
 
-    private val secureRandom = SecureRandom()
-
-    fun randomNonce(): ByteArray = ByteArray(NONCE_SIZE).also { secureRandom.nextBytes(it) }
-
     fun encrypt(input: ByteArray, key: ByteArray, nonce: ByteArray): ByteArray {
         val cipher = ChaCha20Poly1305()
         val params = AEADParameters(KeyParameter(key), MAC_SIZE * 8, nonce)
