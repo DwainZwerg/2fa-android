@@ -9,8 +9,11 @@ import app.ninesevennine.twofactorauthenticator.utils.QRCode
 import java.net.URLEncoder
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 object GoogleAuthenticator {
+    @OptIn(ExperimentalTime::class)
     fun exportVaultItems(vaultItems: List<VaultItem>): List<Bitmap> {
         Logger.i("GoogleAuthenticator", "exportVaultItems")
 
@@ -30,7 +33,7 @@ object GoogleAuthenticator {
             version = 1,
             batchSize = 1,
             batchIndex = 0,
-            batchId = (System.currentTimeMillis() / 1000).toInt()
+            batchId = Clock.System.now().epochSeconds.toInt()
         )
 
         val singleUrl = createMigrationUrl(singlePayload)
