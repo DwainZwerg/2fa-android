@@ -1,11 +1,13 @@
 package app.ninesevennine.twofactorauthenticator.features.vault
 
 import android.content.Context
+import android.graphics.Bitmap
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ninesevennine.twofactorauthenticator.BuildConfig
+import app.ninesevennine.twofactorauthenticator.features.googleauthenticator.GoogleAuthenticator
 import app.ninesevennine.twofactorauthenticator.features.otp.HOTP
 import app.ninesevennine.twofactorauthenticator.features.otp.OtpHashFunctions
 import app.ninesevennine.twofactorauthenticator.features.otp.OtpTypes
@@ -107,6 +109,10 @@ class VaultViewModel(
         }
 
         return false
+    }
+
+    fun exportToGoogleAuth(): List<Bitmap> {
+        return GoogleAuthenticator.exportVaultItems(_items.toList())
     }
 
     private val _currentTimeSeconds = MutableStateFlow(0L)
