@@ -17,12 +17,20 @@ object GoogleAuthenticator {
     fun exportVaultItems(vaultItems: List<VaultItem>): List<Bitmap> {
         Logger.i("GoogleAuthenticator", "exportVaultItems")
 
-        if (vaultItems.isEmpty()) return emptyList()
+        if (vaultItems.isEmpty()) {
+            Logger.i("GoogleAuthenticator", "No items to export")
+            return emptyList()
+        }
 
         // Filter compatible items
         val compatibleItems = vaultItems.filter { isCompatible(it) }
 
-        if (compatibleItems.isEmpty()) return emptyList()
+        if (compatibleItems.isEmpty()) {
+            Logger.i("GoogleAuthenticator", "No compatible items to export")
+            return emptyList()
+        }
+
+        Logger.i("GoogleAuthenticator", "${compatibleItems.size} / ${vaultItems.size} items can be exported to Google Authenticator")
 
         // Convert to migration parameters
         val otpParameters = compatibleItems.map { convertToMigrationParameters(it) }
