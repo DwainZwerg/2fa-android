@@ -30,7 +30,10 @@ object GoogleAuthenticator {
             return emptyList()
         }
 
-        Logger.i("GoogleAuthenticator", "${compatibleItems.size} / ${vaultItems.size} items can be exported to Google Authenticator")
+        Logger.i(
+            "GoogleAuthenticator",
+            "${compatibleItems.size} / ${vaultItems.size} items can be exported to Google Authenticator"
+        )
 
         // Convert to migration parameters
         val otpParameters = compatibleItems.map { convertToMigrationParameters(it) }
