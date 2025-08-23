@@ -33,6 +33,9 @@
     <string name="settings_section_manage_data">Copia de seguridad y restauración</string>
     <string name="settings_button_backup_codes">Hacer copia de seguridad 2FA</string>
     <string name="settings_button_restore_codes">Restaurar códigos 2FA</string>
+    <string name="settings_button_export_google_authenticator">
+        Exportar a Google Authenticator
+    </string>
     <string name="settings_section_about">Acerca de la aplicación</string>
     <string name="about_button_join_community">Únete a nuestra comunidad</string>
     <string name="about_button_view_source">Ver código fuente</string>
@@ -51,6 +54,11 @@
     <string name="restore_error_incorrect_password">Contraseña incorrecta</string>
     <string name="restore_status_restoring">Restaurando</string>
     <string name="restore_button_action">Restaurar</string>
+
+    <!-- ExportToGoogleAuthScreen -->
+    <string name="export_google_authenticator_notice">
+        Solo los tokens TOTP y HOTP que generan códigos de 6 u 8 dígitos con intervalos de 30 segundos pueden exportarse a Google Authenticator
+    </string>
 
     <!-- LogScreen.kt-->
     <string name="debug_log">Registro de diagnóstico</string>

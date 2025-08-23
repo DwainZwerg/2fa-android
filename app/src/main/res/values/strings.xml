@@ -32,6 +32,9 @@
     <string name="settings_section_manage_data">Backup &amp; Restore</string>
     <string name="settings_button_backup_codes">Backup 2FA Codes</string>
     <string name="settings_button_restore_codes">Restore 2FA Codes</string>
+    <string name="settings_button_export_google_authenticator">
+        Export to Google Authenticator
+    </string>
     <string name="settings_section_about">About</string>
     <string name="about_button_join_community">Join Community</string>
     <string name="about_button_view_source">View Source Code</string>
@@ -50,6 +53,11 @@
     <string name="restore_error_incorrect_password">Incorrect password</string>
     <string name="restore_status_restoring">Restoring</string>
     <string name="restore_button_action">Restore</string>
+
+    <!-- ExportToGoogleAuthScreen -->
+    <string name="export_google_authenticator_notice">
+        Only TOTP and HOTP tokens that generate 6-digit or 8-digit codes with 30-second intervals can be exported to Google Authenticator
+    </string>
 
     <!-- LogScreen.kt-->
     <string name="debug_log">Debug Log</string>

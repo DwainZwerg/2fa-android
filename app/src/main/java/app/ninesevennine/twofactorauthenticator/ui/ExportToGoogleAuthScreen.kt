@@ -124,7 +124,7 @@ fun ExportToGoogleAuthScreen() {
             }
 
             WideText(
-                text = "Only TOTP and HOTP tokens that generate 6-digit or 8-digit codes with 30-second intervals can be exported to Google Authenticator",
+                text = localizedString(R.string.export_google_authenticator_notice),
                 textAlign = TextAlign.Center
             )
 
