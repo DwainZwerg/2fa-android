@@ -69,6 +69,9 @@ class MainActivity : ComponentActivity() {
             themeViewModel.updateTheme(ThemeModel.readTheme(context))
             localeViewModel.updateLocale(LocaleModel.readLocale(context))
 
+            this.config.updateLocale(localeViewModel.localeOption)
+            this.config.updateTheme(themeViewModel.themeOption)
+
             this@MainActivity.vaultViewModel = vaultViewModel
 
             CompositionLocalProvider(
