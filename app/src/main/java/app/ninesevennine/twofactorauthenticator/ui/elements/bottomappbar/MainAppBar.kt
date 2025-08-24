@@ -3,6 +3,7 @@ package app.ninesevennine.twofactorauthenticator.ui.elements.bottomappbar
 import android.view.SoundEffectConstants
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -30,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
@@ -43,7 +45,8 @@ import app.ninesevennine.twofactorauthenticator.features.theme.InterVariable
 @Composable
 fun MainAppBar(
     onSettings: () -> Unit,
-    onAdd: () -> Unit
+    onAdd: () -> Unit,
+    onAddLongPress: () -> Unit
 ) {
     val haptic = LocalHapticFeedback.current
     val view = LocalView.current
@@ -143,11 +146,21 @@ fun MainAppBar(
                         )
                     )
                     .background(colors.primaryContainer)
-                    .clickable {
-                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                        view.playSoundEffect(SoundEffectConstants.CLICK)
+                    .pointerInput(Unit) {
+                        detectTapGestures(
+                            onTap = {
+                                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                                view.playSoundEffect(SoundEffectConstants.CLICK)
 
-                        onAdd()
+                                onAdd()
+                            },
+                            onLongPress = {
+                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                view.playSoundEffect(SoundEffectConstants.CLICK)
+
+                                onAddLongPress()
+                            }
+                        )
                     },
                 contentAlignment = Alignment.Center
             ) {

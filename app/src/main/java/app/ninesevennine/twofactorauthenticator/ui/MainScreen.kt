@@ -22,6 +22,9 @@ fun MainScreen() {
         },
         onAdd = {
             navController.navigate(EditScreenRoute(Constants.NILUUIDSTR))
+        },
+        onAddLongPress = {
+            navController.navigate(EditScreenRoute(Constants.ONEUUIDSTR))
         }
     )
 }

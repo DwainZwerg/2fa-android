@@ -63,10 +63,16 @@ fun EditScreen(uuidString: String) {
 
     var item by remember {
         mutableStateOf(
-            if (uuidString == Constants.NILUUIDSTR) {
-                VaultItem()
-            } else {
-                vaultViewModel.getItemByUuid(Uuid.parse(uuidString)) ?: VaultItem()
+            when (uuidString) {
+                Constants.NILUUIDSTR -> {
+                    VaultItem()
+                }
+                Constants.ONEUUIDSTR -> {
+                    VaultItem(uuid = Uuid.random())
+                }
+                else -> {
+                    vaultViewModel.getItemByUuid(Uuid.parse(uuidString)) ?: VaultItem()
+                }
             }
         )
     }
@@ -82,7 +88,7 @@ fun EditScreen(uuidString: String) {
     val colors = LocalThemeViewModel.current.colors
 
     var secretInput by remember { mutableStateOf(Base32.encode(item.secret)) }
-    var secretError by remember { mutableStateOf(false) }
+    var secretError by remember { mutableStateOf(item.secret.isEmpty()) }
 
     var periodInput by remember { mutableStateOf(item.period.toString()) }
     var periodError by remember { mutableStateOf(false) }
