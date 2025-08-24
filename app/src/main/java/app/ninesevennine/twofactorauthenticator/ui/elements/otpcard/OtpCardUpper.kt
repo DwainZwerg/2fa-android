@@ -21,6 +21,8 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,27 +35,35 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ninesevennine.twofactorauthenticator.LocalNavController
+import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
+import app.ninesevennine.twofactorauthenticator.LocalVaultViewModel
 import app.ninesevennine.twofactorauthenticator.features.otp.OtpIssuer
 import app.ninesevennine.twofactorauthenticator.features.otp.OtpTypes
 import app.ninesevennine.twofactorauthenticator.features.theme.InterVariable
+import app.ninesevennine.twofactorauthenticator.features.vault.VaultItem
 import app.ninesevennine.twofactorauthenticator.ui.EditScreenRoute
+import kotlin.uuid.ExperimentalUuidApi
 
+@OptIn(ExperimentalUuidApi::class)
 @Composable
 fun OtpCardUpper(
-    enableEditing: Boolean,
-    uuidString: String,
-    otpType: OtpTypes,
-    name: String,
-    issuer: String,
-    sweepAngle: Float,
-    colors: OtpCardPalette,
-    onRefreshButton: () -> Unit
+    item: VaultItem,
+    enableEditing: Boolean
 ) {
-    val haptic = LocalHapticFeedback.current
     val view = LocalView.current
+    val haptic = LocalHapticFeedback.current
+    val theme = LocalThemeViewModel.current
+    val colors = remember(item.otpCardColor) {
+        theme.getOtpCardColors(item.otpCardColor)
+    }
     val navController = LocalNavController.current
+    val vaultViewModel = LocalVaultViewModel.current
 
-    val issuerIcon = remember(issuer) { OtpIssuer.getIcon(issuer) }
+    val issuerIcon = remember(item.issuer) { OtpIssuer.getIcon(item.issuer) }
+
+    val currentTimeSeconds by vaultViewModel.currentTimeSeconds.collectAsState()
+    val secondsLeft = item.period - (currentTimeSeconds % item.period)
+    val sweepAngle = secondsLeft.toFloat() / item.period.toFloat() * 360f
 
     Box(
         contentAlignment = Alignment.Center,
@@ -86,10 +96,10 @@ fun OtpCardUpper(
                     }
 
                     Text(
-                        text = if (issuer.isNotEmpty()) {
-                            issuer.first().uppercase()
-                        } else if (name.isNotEmpty()) {
-                            name.first().uppercase()
+                        text = if (item.issuer.isNotEmpty()) {
+                            item.issuer.first().uppercase()
+                        } else if (item.name.isNotEmpty()) {
+                            item.name.first().uppercase()
                         } else {
                             "?"
                         },
@@ -110,7 +120,7 @@ fun OtpCardUpper(
                 horizontalAlignment = Alignment.Start
             ) {
                 Text(
-                    text = issuer.ifEmpty { name },
+                    text = item.issuer.ifEmpty { item.name },
                     fontFamily = InterVariable,
                     color = colors.thirdColor,
                     fontWeight = FontWeight.W700,
@@ -118,9 +128,9 @@ fun OtpCardUpper(
                     maxLines = 1
                 )
 
-                if (name.isNotEmpty()) {
+                if (item.name.isNotEmpty()) {
                     Text(
-                        text = name,
+                        text = item.name,
                         fontFamily = InterVariable,
                         color = colors.thirdColor,
                         fontWeight = FontWeight.Normal,
@@ -132,7 +142,7 @@ fun OtpCardUpper(
 
             Spacer(Modifier.width(8.dp))
 
-            if (otpType != OtpTypes.HOTP) {
+            if (item.otpType != OtpTypes.HOTP) {
                 Canvas(Modifier.size(32.dp)) {
                     drawArc(
                         color = colors.secondColor,
@@ -154,7 +164,7 @@ fun OtpCardUpper(
                             view.playSoundEffect(SoundEffectConstants.CLICK)
 
                             if (enableEditing) {
-                                onRefreshButton()
+                                vaultViewModel.incrementItemCounter(item.uuid)
                             }
                         },
                     contentAlignment = Alignment.Center
@@ -181,7 +191,7 @@ fun OtpCardUpper(
                         view.playSoundEffect(SoundEffectConstants.CLICK)
 
                         if (enableEditing) {
-                            navController.navigate(EditScreenRoute(uuidString))
+                            navController.navigate(EditScreenRoute(item.uuid.toString()))
                         }
                     },
                 contentAlignment = Alignment.Center

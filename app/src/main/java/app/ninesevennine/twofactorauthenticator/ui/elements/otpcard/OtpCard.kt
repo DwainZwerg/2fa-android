@@ -1,7 +1,6 @@
 package app.ninesevennine.twofactorauthenticator.ui.elements.otpcard
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,17 +10,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
-import app.ninesevennine.twofactorauthenticator.LocalVaultViewModel
 import app.ninesevennine.twofactorauthenticator.features.vault.VaultItem
-import kotlin.uuid.ExperimentalUuidApi
 
 @Composable
 fun OtpCard(
@@ -30,74 +25,40 @@ fun OtpCard(
     dragging: Boolean,
     enableEditing: Boolean = true
 ) {
-    val colors = LocalThemeViewModel.current.getOtpCardColors(item.otpCardColor)
-    val vaultViewModel = LocalVaultViewModel.current
+    val theme = LocalThemeViewModel.current
 
-    val currentTimeSeconds by vaultViewModel.currentTimeSeconds.collectAsState()
-    val secondsLeft = item.period - (currentTimeSeconds % item.period)
-    val progress = secondsLeft.toFloat() / item.period.toFloat()
-
-    val currentCycle = currentTimeSeconds / item.period
-
-    val otpCode = remember(item, currentCycle) {
-        if (item.secret.isEmpty()) return@remember ""
-
-        vaultViewModel.generateOtp(
-            otpType = item.otpType,
-            otpHashFunction = item.otpHashFunction,
-            secret = item.secret,
-            digits = item.digits,
-            period = item.period,
-            count = item.counter,
-            currentTimeSeconds = currentCycle * item.period
-        )
+    val colors = remember(item.otpCardColor) {
+        theme.getOtpCardColors(item.otpCardColor)
     }
+
+    val shape = RoundedCornerShape(32.dp)
+
+    val cardModifier = modifier
+        .padding(vertical = 8.dp, horizontal = 16.dp)
+        .fillMaxWidth()
+        .height(208.dp)
+        .then(
+            if (dragging) Modifier.shadow(
+                elevation = 8.dp,
+                shape = shape,
+                clip = false
+            ) else Modifier
+        )
+        .background(color = colors.firstColor, shape = shape)
 
     Box(
         contentAlignment = Alignment.Center,
-        modifier = modifier
-            .padding(vertical = 8.dp, horizontal = 16.dp)
-            .fillMaxWidth()
-            .height(208.dp)
-            .then(
-                if (dragging)
-                    Modifier.shadow(
-                        elevation = 8.dp,
-                        shape = RoundedCornerShape(32.dp),
-                        clip = false
-                    )
-                else Modifier
-            )
-            .background(
-                color = colors.firstColor,
-                shape = RoundedCornerShape(32.dp)
-            )
+        modifier = cardModifier
     ) {
         Column(
-            verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxSize()
         ) {
-            @OptIn(ExperimentalUuidApi::class)
-            OtpCardUpper(
-                enableEditing = enableEditing,
-                uuidString = item.uuid.toString(),
-                otpType = item.otpType,
-                name = item.name,
-                issuer = item.issuer,
-                sweepAngle = 360f * progress,
-                colors = colors,
-                onRefreshButton = {
-                    vaultViewModel.updateItemOrAdd(item.copy(counter = item.counter + 1))
-                }
-            )
+            OtpCardUpper(item = item, enableEditing = enableEditing)
             Spacer(Modifier.height(16.dp))
-            OtpCardLower(
-                colors = colors,
-                code = otpCode
-            )
+            OtpCardLower(item = item)
         }
     }
 }

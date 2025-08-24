@@ -65,6 +65,13 @@ class VaultViewModel(
         saveVault()
     }
 
+    fun incrementItemCounter(uuid: Uuid) {
+        val index = _items.indexOfFirst { it.uuid == uuid }
+        if (index != -1) {
+            _items[index] = _items[index].copy(counter = _items[index].counter + 1)
+        }
+    }
+
     fun restoreVaultItems(vaultItems: List<VaultItem>) {
         var addedCount = 0
         var updatedCount = 0

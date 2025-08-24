@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Upload
+import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +33,7 @@ import app.ninesevennine.twofactorauthenticator.LocalLocaleViewModel
 import app.ninesevennine.twofactorauthenticator.LocalNavController
 import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
 import app.ninesevennine.twofactorauthenticator.R
+import app.ninesevennine.twofactorauthenticator.config
 import app.ninesevennine.twofactorauthenticator.features.locale.LocaleOption
 import app.ninesevennine.twofactorauthenticator.features.locale.localizedString
 import app.ninesevennine.twofactorauthenticator.features.theme.ThemeOption
@@ -63,6 +65,8 @@ fun SettingsScreen() {
         ThemeSettingsSection()
 
         BackupSettingsSection()
+
+        OtherSettingsScreen()
 
         AboutSettingsSection()
 
@@ -168,6 +172,21 @@ private fun BackupSettingsSection() {
         tint = Color.Unspecified,
         label = localizedString(R.string.settings_button_export_google_authenticator),
         onClick = { navController.navigate(ExportToGoogleAuthScreenRoute) }
+    )
+}
+
+@Composable
+private fun OtherSettingsScreen() {
+    val context = LocalContext.current
+
+    Spacer(modifier = Modifier.height(16.dp))
+    WideTitle(text = "Other")
+
+    WideRadioButtonWithIcon(
+        icon = Icons.Default.Visibility,
+        label = "Tap to reveal",
+        enabled = context.config.global.requireTapToReveal,
+        onClick = { context.config.updateTapToReveal(!context.config.global.requireTapToReveal) }
     )
 }
 

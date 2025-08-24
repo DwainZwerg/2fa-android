@@ -86,5 +86,6 @@ class MainActivity : ComponentActivity() {
         super.onPause()
 
         vaultViewModel.saveVault()
+        this.config.save(this)
     }
 }
