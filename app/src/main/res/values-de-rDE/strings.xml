@@ -38,6 +38,8 @@
     <string name="settings_button_export_google_authenticator">
         Export to Google Authenticator
     </string>
+    <string name="settings_section_other">Other</string>
+    <string name="settings_button_tap_to_reveal">Tap to reveal</string>
     <string name="settings_section_about">About</string>
     <string name="about_button_join_community">Discord</string>
     <string name="about_button_view_source">Source Code</string>

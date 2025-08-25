@@ -36,6 +36,8 @@
     <string name="settings_button_export_google_authenticator">
         Exportar a Google Authenticator
     </string>
+    <string name="settings_section_other">Otros ajustes</string>
+    <string name="settings_button_tap_to_reveal">Tocar para mostrar códigos</string>
     <string name="settings_section_about">Acerca de la aplicación</string>
     <string name="about_button_join_community">Únete a nuestra comunidad</string>
     <string name="about_button_view_source">Ver código fuente</string>
