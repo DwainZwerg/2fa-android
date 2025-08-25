@@ -12,8 +12,6 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 import kotlin.io.encoding.Base64
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -117,12 +115,9 @@ object VaultModel {
             for (i in 0 until jsonArray.length()) {
                 val obj = jsonArray.optJSONObject(i) ?: continue
 
-                @OptIn(ExperimentalTime::class)
                 val item = VaultItem(
-                    /* Temporarily use Uuid.random() as fallback */
-                    uuid = runCatching { Uuid.parse(obj.getString("uuid")) }.getOrElse { Uuid.random() },
-                    /* Temporarily use current time as fallback */
-                    lastUpdated = obj.optLong("lastUpdated", Clock.System.now().epochSeconds),
+                    uuid = Uuid.parse(obj.getString("uuid")),
+                    lastUpdated = obj.getLong("lastUpdated"),
                     name = obj.optString("name", ""),
                     issuer = obj.optString("issuer", ""),
                     note = obj.optString("note", ""),
