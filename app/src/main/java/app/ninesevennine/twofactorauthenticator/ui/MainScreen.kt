@@ -25,6 +25,9 @@ fun MainScreen() {
         },
         onAddLongPress = {
             navController.navigate(EditScreenRoute(Constants.ONEUUIDSTR))
+        },
+        onSearch = {
+
         }
     )
 }
