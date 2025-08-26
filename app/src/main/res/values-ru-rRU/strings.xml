@@ -37,7 +37,7 @@
         Экспорт в Google Authenticator
     </string>
     <string name="settings_section_other">Другие настройки</string>
-    <string name="settings_button_tap_to_reveal">Показать коды по нажатию</string>
+    <string name="settings_button_tap_to_reveal">Показать коды при нажатии</string>
     <string name="settings_section_about">О приложении</string>
     <string name="about_button_join_community">Присоединиться к сообществу</string>
     <string name="about_button_view_source">Посмотреть исходный код</string>
