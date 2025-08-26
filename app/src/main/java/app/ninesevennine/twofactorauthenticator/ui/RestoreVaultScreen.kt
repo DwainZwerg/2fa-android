@@ -100,6 +100,7 @@ fun RestoreVaultScreen() {
     }
 
     if (restoreContent.isEmpty()) return
+
     Column(
         modifier = Modifier
             .fillMaxSize()
