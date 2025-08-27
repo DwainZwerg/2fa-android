@@ -1,6 +1,6 @@
 # ![2fa Icon](./assets/icon.svg) 2fa
 
-2fa by 979 is a free, open-source one-time password (OTP) manager published under the European Union Public License (EUPL). Designed for privacy and anonymity, it contains no networking code, uses minimal dependencies, and collects no telemetry - everything stays on your device. Development is community-driven and fully auditable. The app is primarily developed and tested on GrapheneOS running on Google Pixel devices, and remains compatible with other Android phones (for example, Samsung).
+2fa by 979 is a free, open-source one-time password (OTP) manager published under the European Union Public License (EUPL). Designed for privacy and anonymity, it contains no networking code, uses minimal dependencies, and collects no telemetry - everything stays on your device. Development is community-driven and fully auditable. The app is primarily developed and tested on Google Pixel devices, and remains compatible with other Android phones, such as Samsung models.
 
 ## Features
 ### Time-based One-Time Password (TOTP)
@@ -19,6 +19,9 @@
 
 ### Export to Google Authenticator
 - Migration via QR code for easy device transfer
+
+### Honorable mentions
+- Works without Google Play Services
 
 ## Installation
 
