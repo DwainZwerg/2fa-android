@@ -13,7 +13,8 @@ object ConfigModel {
     data class Config(
         var locale: LocaleOption = LocaleOption.SYSTEM_DEFAULT,
         var theme: ThemeOption = ThemeOption.SYSTEM_DEFAULT,
-        var requireTapToReveal: Boolean = false
+        var requireTapToReveal: Boolean = false,
+        var enableFocusSearch: Boolean = false
     ) {
         fun save(context: Context) {
             runCatching {
@@ -22,6 +23,7 @@ object ConfigModel {
                     put("locale", locale.value)
                     put("theme", theme.value)
                     put("requireTapToReveal", requireTapToReveal)
+                    put("enableFocusSearch", enableFocusSearch)
                 }.toString().let { jsonString ->
                     File(context.noBackupFilesDir, FILE_NAME)
                         .writeText(jsonString, Charsets.UTF_8)
@@ -46,7 +48,8 @@ object ConfigModel {
                     Config(
                         locale = LocaleOption.fromString(json.getString("locale")),
                         theme = ThemeOption.fromInt(json.getInt("theme")),
-                        requireTapToReveal = json.getBoolean("requireTapToReveal")
+                        requireTapToReveal = json.getBoolean("requireTapToReveal"),
+                        enableFocusSearch = json.optBoolean("enableFocusSearch", false)
                     )
                 }.getOrElse { e ->
                     Log.e("ConfigModel", "Failed loading config", e)

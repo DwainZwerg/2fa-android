@@ -32,6 +32,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,9 +41,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -54,6 +58,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
 import app.ninesevennine.twofactorauthenticator.R
+import app.ninesevennine.twofactorauthenticator.config
 import app.ninesevennine.twofactorauthenticator.features.locale.localizedString
 import app.ninesevennine.twofactorauthenticator.features.theme.InterVariable
 
@@ -67,6 +72,7 @@ fun MainAppBar(
     val haptic = LocalHapticFeedback.current
     val view = LocalView.current
     val colors = LocalThemeViewModel.current.colors
+    val context = LocalContext.current
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -78,8 +84,19 @@ fun MainAppBar(
     val isKeyboardOpen = imeBottom > 80.dp
     val bottomPadding = if (isKeyboardOpen) imeBottom else navBottom + 8.dp
 
+    val focusRequester = remember { FocusRequester() }
+
+    if (context.config.global.enableFocusSearch) {
+        LaunchedEffect(Unit) {
+            focusRequester.requestFocus()
+            keyboardController?.show()
+        }
+    }
+
     Box(
-        modifier = Modifier.fillMaxSize().padding(PaddingValues(bottom = bottomPadding)),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(PaddingValues(bottom = bottomPadding)),
         contentAlignment = Alignment.BottomCenter
     ) {
         Row(
@@ -97,7 +114,12 @@ fun MainAppBar(
                     clip = false
                 )
                 .then(
-                    if (isKeyboardOpen) Modifier.clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
+                    if (isKeyboardOpen) Modifier.clip(
+                        RoundedCornerShape(
+                            topStart = 32.dp,
+                            topEnd = 32.dp
+                        )
+                    )
                     else Modifier.clip(RoundedCornerShape(32.dp))
                 )
                 .background(colors.primaryContainer),
@@ -113,7 +135,8 @@ fun MainAppBar(
                 modifier = Modifier
                     .padding(start = 8.dp)
                     .weight(1f)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .focusRequester(focusRequester),
                 singleLine = true,
                 textStyle = TextStyle(
                     fontFamily = InterVariable,

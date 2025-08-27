@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ManageSearch
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.Contrast
 import androidx.compose.material.icons.filled.DarkMode
@@ -21,8 +22,6 @@ import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.TouchApp
 import androidx.compose.material.icons.filled.Upload
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -187,9 +186,17 @@ private fun OtherSettingsScreen() {
     val requireTapToReveal = context.config.global.requireTapToReveal
     WideRadioButtonWithIcon(
         icon = Icons.Default.TouchApp,
-        label = localizedString(R.string.settings_button_tap_to_reveal),
+        label = localizedString(R.string.settings_option_tap_to_reveal),
         enabled = requireTapToReveal,
         onClick = { context.config.updateTapToReveal(!requireTapToReveal) }
+    )
+
+    val enableFocusSearch = context.config.global.enableFocusSearch
+    WideRadioButtonWithIcon(
+        icon = Icons.AutoMirrored.Filled.ManageSearch,
+        label = localizedString(R.string.settings_option_focus_search),
+        enabled = enableFocusSearch,
+        onClick = { context.config.updateFocusSearch(!enableFocusSearch) }
     )
 }
 

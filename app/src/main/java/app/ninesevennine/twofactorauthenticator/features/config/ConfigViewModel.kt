@@ -26,4 +26,8 @@ class ConfigViewModel : ViewModel() {
     fun updateTapToReveal(value: Boolean) {
         global = global.copy(requireTapToReveal = value)
     }
+
+    fun updateFocusSearch(value: Boolean) {
+        global = global.copy(enableFocusSearch = value)
+    }
 }
