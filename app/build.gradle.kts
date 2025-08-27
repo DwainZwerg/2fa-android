@@ -51,8 +51,8 @@ android {
     defaultConfig {
         minSdk = 35
         targetSdk = 36
-        versionCode = 5
-        versionName = "Alpha 5"
+        versionCode = 6
+        versionName = "Alpha 6"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
