@@ -86,7 +86,7 @@ fun MainAppBar(
 
     val focusRequester = remember { FocusRequester() }
 
-    if (context.config.global.enableFocusSearch) {
+    if (context.config.values.enableFocusSearch) {
         LaunchedEffect(Unit) {
             focusRequester.requestFocus()
             keyboardController?.show()

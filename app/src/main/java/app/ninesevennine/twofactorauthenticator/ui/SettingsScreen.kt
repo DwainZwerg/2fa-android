@@ -183,7 +183,7 @@ private fun OtherSettingsScreen() {
     Spacer(modifier = Modifier.height(16.dp))
     WideTitle(text = localizedString(R.string.settings_section_other))
 
-    val requireTapToReveal = context.config.global.requireTapToReveal
+    val requireTapToReveal = context.config.values.requireTapToReveal
     WideRadioButtonWithIcon(
         icon = Icons.Default.TouchApp,
         label = localizedString(R.string.settings_option_tap_to_reveal),
@@ -191,7 +191,7 @@ private fun OtherSettingsScreen() {
         onClick = { context.config.updateTapToReveal(!requireTapToReveal) }
     )
 
-    val enableFocusSearch = context.config.global.enableFocusSearch
+    val enableFocusSearch = context.config.values.enableFocusSearch
     WideRadioButtonWithIcon(
         icon = Icons.AutoMirrored.Filled.ManageSearch,
         label = localizedString(R.string.settings_option_focus_search),

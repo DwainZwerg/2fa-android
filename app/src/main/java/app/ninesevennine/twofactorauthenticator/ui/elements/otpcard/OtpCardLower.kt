@@ -54,7 +54,7 @@ fun OtpCardLower(
     val otpCode = remember(item, currentCycle, revealed) {
         if (item.secret.isEmpty()) return@remember ""
 
-        if (context.config.global.requireTapToReveal && !revealed) {
+        if (context.config.values.requireTapToReveal && !revealed) {
             return@remember "•".repeat(item.digits)
         }
 
@@ -105,7 +105,7 @@ fun OtpCardLower(
             fontFamily = InterVariable,
             color = colors.firstColor,
             fontWeight = FontWeight.W700,
-            fontSize = if (!revealed && context.config.global.requireTapToReveal) 56.sp else 48.sp,
+            fontSize = if (!revealed && context.config.values.requireTapToReveal) 56.sp else 48.sp,
             maxLines = 1
         )
     }

@@ -9,25 +9,25 @@ import app.ninesevennine.twofactorauthenticator.features.locale.LocaleOption
 import app.ninesevennine.twofactorauthenticator.features.theme.ThemeOption
 
 class ConfigViewModel : ViewModel() {
-    var global by mutableStateOf(ConfigModel.Config())
+    var values by mutableStateOf(ConfigModel.Config())
         private set
 
-    fun save(context: Context) = global.save(context)
-    fun load(context: Context) = ConfigModel.Config.load(context).also { global = it }
+    fun save(context: Context) = values.save(context)
+    fun load(context: Context) = ConfigModel.Config.load(context).also { values = it }
 
     fun updateLocale(value: LocaleOption) {
-        global = global.copy(locale = value)
+        values = values.copy(locale = value)
     }
 
     fun updateTheme(value: ThemeOption) {
-        global = global.copy(theme = value)
+        values = values.copy(theme = value)
     }
 
     fun updateTapToReveal(value: Boolean) {
-        global = global.copy(requireTapToReveal = value)
+        values = values.copy(requireTapToReveal = value)
     }
 
     fun updateFocusSearch(value: Boolean) {
-        global = global.copy(enableFocusSearch = value)
+        values = values.copy(enableFocusSearch = value)
     }
 }
