@@ -14,9 +14,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.ninesevennine.twofactorauthenticator.features.crypto.SecureCrypto
-import app.ninesevennine.twofactorauthenticator.features.locale.LocaleModel
 import app.ninesevennine.twofactorauthenticator.features.locale.LocaleViewModel
-import app.ninesevennine.twofactorauthenticator.features.locale.LocaleViewModelFactory
 import app.ninesevennine.twofactorauthenticator.features.theme.ThemeOption
 import app.ninesevennine.twofactorauthenticator.features.vault.VaultViewModel
 import app.ninesevennine.twofactorauthenticator.features.vault.VaultViewModelFactory
@@ -25,9 +23,6 @@ import app.ninesevennine.twofactorauthenticator.utils.System
 
 val LocalNavController =
     staticCompositionLocalOf<NavHostController> { error("NavController not provided") }
-
-val LocalLocaleViewModel =
-    staticCompositionLocalOf<LocaleViewModel> { error("LocaleViewModel not provided") }
 
 val LocalVaultViewModel =
     staticCompositionLocalOf<VaultViewModel> { error("VaultViewModel not provided") }
@@ -63,13 +58,7 @@ class MainActivity : ComponentActivity() {
             val context = LocalContext.current
 
             val navController: NavHostController = rememberNavController()
-            val localeViewModel: LocaleViewModel =
-                viewModel(factory = LocaleViewModelFactory(context))
             val vaultViewModel: VaultViewModel = viewModel(factory = VaultViewModelFactory(context))
-
-            localeViewModel.updateLocale(LocaleModel.readLocale(context))
-
-            configViewModel.updateLocale(localeViewModel.localeOption)
 
             this@MainActivity.vaultViewModel = vaultViewModel
 
@@ -82,7 +71,6 @@ class MainActivity : ComponentActivity() {
 
             CompositionLocalProvider(
                 LocalNavController provides navController,
-                LocalLocaleViewModel provides localeViewModel,
                 LocalVaultViewModel provides vaultViewModel
             ) {
                 AppNavigation()

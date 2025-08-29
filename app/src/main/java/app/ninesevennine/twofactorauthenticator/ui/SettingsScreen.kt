@@ -30,13 +30,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
-import app.ninesevennine.twofactorauthenticator.LocalLocaleViewModel
 import app.ninesevennine.twofactorauthenticator.LocalNavController
 import app.ninesevennine.twofactorauthenticator.R
 import app.ninesevennine.twofactorauthenticator.configViewModel
 import app.ninesevennine.twofactorauthenticator.features.locale.LocaleOption
 import app.ninesevennine.twofactorauthenticator.features.locale.localizedString
 import app.ninesevennine.twofactorauthenticator.features.theme.ThemeOption
+import app.ninesevennine.twofactorauthenticator.localeViewModel
 import app.ninesevennine.twofactorauthenticator.themeViewModel
 import app.ninesevennine.twofactorauthenticator.ui.elements.WideTitle
 import app.ninesevennine.twofactorauthenticator.ui.elements.bottomappbar.SettingsAppBar
@@ -79,7 +79,8 @@ fun SettingsScreen() {
 
 @Composable
 private fun LanguageSettingsSection() {
-    val localeViewModel = LocalLocaleViewModel.current
+    val context = LocalContext.current
+    val localeViewModel = context.localeViewModel
 
     WideTitle(text = localizedString(R.string.settings_option_language))
 
@@ -88,7 +89,7 @@ private fun LanguageSettingsSection() {
         tint = Color.Unspecified,
         label = "English International",
         enabled = localeViewModel.effectiveLocale == LocaleOption.EN_US.value,
-        onClick = { localeViewModel.updateLocale(LocaleOption.EN_US) }
+        onClick = { localeViewModel.updateLocale(context, LocaleOption.EN_US) }
     )
 
     WideRadioButtonWithTintedIcon(
@@ -96,7 +97,7 @@ private fun LanguageSettingsSection() {
         tint = Color.Unspecified,
         label = "Español",
         enabled = localeViewModel.effectiveLocale == LocaleOption.ES_ES.value,
-        onClick = { localeViewModel.updateLocale(LocaleOption.ES_ES) }
+        onClick = { localeViewModel.updateLocale(context, LocaleOption.ES_ES) }
     )
 
     WideRadioButtonWithTintedIcon(
@@ -104,13 +105,13 @@ private fun LanguageSettingsSection() {
         tint = Color.Unspecified,
         label = "Русский",
         enabled = localeViewModel.effectiveLocale == LocaleOption.RU_RU.value,
-        onClick = { localeViewModel.updateLocale(LocaleOption.RU_RU) }
+        onClick = { localeViewModel.updateLocale(context, LocaleOption.RU_RU) }
     )
 
     WideButtonWithIcon(
         icon = Icons.Default.Refresh,
         label = localizedString(R.string.common_use_system_default),
-        onClick = { localeViewModel.updateLocale(LocaleOption.SYSTEM_DEFAULT) }
+        onClick = { localeViewModel.updateLocale(context, LocaleOption.SYSTEM_DEFAULT) }
     )
 }
 

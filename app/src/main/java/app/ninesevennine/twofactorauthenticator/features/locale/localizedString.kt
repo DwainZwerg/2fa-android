@@ -3,7 +3,8 @@ package app.ninesevennine.twofactorauthenticator.features.locale
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import app.ninesevennine.twofactorauthenticator.LocalLocaleViewModel
+import androidx.compose.ui.platform.LocalContext
+import app.ninesevennine.twofactorauthenticator.localeViewModel
 
 // This function exists to prevent localization from breaking when the theme changes.
 // Using localeViewModel.getLocalizedString(resourceId) directly outside a @Composable
@@ -12,11 +13,12 @@ import app.ninesevennine.twofactorauthenticator.LocalLocaleViewModel
 // updates correctly whenever the locale (or theme) changes.
 @Composable
 fun localizedString(@StringRes resourceId: Int): String {
-    val localeViewModel = LocalLocaleViewModel.current
+    val context = LocalContext.current
+    val localeViewModel = context.localeViewModel
 
     val locale = localeViewModel.effectiveLocale
 
     return remember(locale) {
-        localeViewModel.getLocalizedString(resourceId)
+        localeViewModel.getLocalizedString(context, resourceId)
     }
 }

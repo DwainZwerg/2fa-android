@@ -8,26 +8,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
+import app.ninesevennine.twofactorauthenticator.configViewModel
 import app.ninesevennine.twofactorauthenticator.utils.Logger
 import java.util.Locale
 
-class LocaleViewModel(
-    @Suppress("StaticFieldLeak")
-    private val context: Context
-) : ViewModel() {
-    var localeOption by mutableStateOf(LocaleModel.readLocale(context))
-        private set
-
-    private var _effectiveLocale by mutableStateOf(computeEffectiveLocale(localeOption))
+class LocaleViewModel() : ViewModel() {
+    private var _effectiveLocale by mutableStateOf("en")
     val effectiveLocale: String get() = _effectiveLocale
 
     private val stringCache = mutableMapOf<Int, String>()
 
-    init {
-        _effectiveLocale = computeEffectiveLocale(localeOption)
-    }
-
-    fun getLocalizedString(@StringRes resourceId: Int): String {
+    fun getLocalizedString(context: Context, @StringRes resourceId: Int): String {
         return stringCache.getOrPut(resourceId) {
             Configuration(context.resources.configuration).run {
                 setLocale(Locale.forLanguageTag(effectiveLocale))
@@ -36,19 +27,18 @@ class LocaleViewModel(
         }
     }
 
-    fun updateLocale(newOption: LocaleOption) {
+    fun updateLocale(context: Context, newOption: LocaleOption) {
         Logger.i("LocaleViewModel", "updateLocale $newOption")
-        LocaleModel.saveLocale(context, newOption)
 
-        if (localeOption == newOption) return
-
-        localeOption = newOption
+        if (context.configViewModel.values.locale == newOption) return
 
         val newEffectiveLocale = computeEffectiveLocale(newOption)
         if (_effectiveLocale != newEffectiveLocale) {
             _effectiveLocale = newEffectiveLocale
             stringCache.clear()
         }
+
+        context.configViewModel.updateLocale(newOption)
     }
 
     private fun computeEffectiveLocale(option: LocaleOption): String = when (option) {
