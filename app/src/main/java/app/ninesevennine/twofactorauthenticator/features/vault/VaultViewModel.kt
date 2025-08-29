@@ -24,12 +24,36 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 @OptIn(ExperimentalUuidApi::class)
-class VaultViewModel(
-    @Suppress("StaticFieldLeak")
-    private val context: Context
-) : ViewModel() {
+class VaultViewModel() : ViewModel() {
     private val _items = mutableListOf<VaultItem>().toMutableStateList()
     val items: SnapshotStateList<VaultItem> = _items
+
+    fun save(context: Context) {
+        VaultModel.saveVault(context, _items.toList())
+    }
+
+    fun load(context: Context) {
+        _items.addAll(VaultModel.readVault(context))
+
+        if (BuildConfig.DEBUG && _items.isEmpty()) {
+            otpParser("otpauth://totp/Google:user%40gmail.com?issuer=Google&secret=FLBGI3IGK2CKXLRC&algorithm=SHA1&digits=6&period=30")
+                ?.let { addItem(it) }
+            otpParser("otpauth://totp/Cloudflare:user%40gmail.com?issuer=Cloudflare&secret=DXTBJDXEL7IC4MV2&algorithm=SHA1&digits=6&period=30")
+                ?.let { addItem(it) }
+            otpParser("otpauth://totp/Wise?issuer=Wise&secret=WXORKSJAVBV4TIWT&algorithm=SHA1&digits=6&period=30")
+                ?.let { addItem(it) }
+            otpParser("otpauth://totp/Discord:user%40gmail.com?issuer=Discord&secret=VDOJPD4SCRO4DFIT&algorithm=SHA1&digits=6&period=30")
+                ?.let { addItem(it) }
+            otpParser("otpauth://hotp/Amazon:yourusername?secret=6AYUMD6MZNAI2RD4&issuer=Amazon&counter=0")
+                ?.let { addItem(it) }
+            otpParser("otpauth://totp/Hetzner:user%40example.com?secret=WMRMYOEBCTBO6TDQ&issuer=Hetzner&digits=10&period=60&algorithm=SHA512")
+                ?.let { addItem(it.copy(otpCardColor = OtpCardColors.RED)) }
+            otpParser("otpauth://totp/Mega?secret=AOKFKHDC2LZMNIRZ&algorithm=SHA1&digits=6&period=30")
+                ?.let { addItem(it.copy(otpCardColor = OtpCardColors.PINK)) }
+            otpParser("otpauth://totp/Posteo.de:user%40posteo.com?issuer=Posteo.de&secret=PPOD7MUGB2GBV7FV&algorithm=SHA1&digits=6&period=30")
+                ?.let { addItem(it) }
+        }
+    }
 
     fun moveItem(from: Int, to: Int) {
         if (from == to) return
@@ -45,7 +69,6 @@ class VaultViewModel(
         Logger.i("VaultViewModel", "removeItemById")
 
         _items.removeAll { it.uuid == uuid }
-        saveVault()
     }
 
     fun getItemByUuid(uuid: Uuid): VaultItem? {
@@ -61,8 +84,6 @@ class VaultViewModel(
         } else {
             _items.add(updatedItem)
         }
-
-        saveVault()
     }
 
     fun incrementItemCounter(uuid: Uuid) {
@@ -97,12 +118,7 @@ class VaultViewModel(
                 "VaultViewModel",
                 "restoreVaultItems: $updatedCount item(s) updated, $addedCount item(s) added"
             )
-            saveVault()
         }
-    }
-
-    fun saveVault() {
-        VaultModel.saveVault(context, _items.toList())
     }
 
     fun backupVault(password: String): String {
@@ -152,27 +168,6 @@ class VaultViewModel(
     }
 
     init {
-        _items.addAll(VaultModel.readVault(context))
-
-        if (BuildConfig.DEBUG && _items.isEmpty()) {
-            otpParser("otpauth://totp/Google:user%40gmail.com?issuer=Google&secret=FLBGI3IGK2CKXLRC&algorithm=SHA1&digits=6&period=30")
-                ?.let { addItem(it) }
-            otpParser("otpauth://totp/Cloudflare:user%40gmail.com?issuer=Cloudflare&secret=DXTBJDXEL7IC4MV2&algorithm=SHA1&digits=6&period=30")
-                ?.let { addItem(it) }
-            otpParser("otpauth://totp/Wise?issuer=Wise&secret=WXORKSJAVBV4TIWT&algorithm=SHA1&digits=6&period=30")
-                ?.let { addItem(it) }
-            otpParser("otpauth://totp/Discord:user%40gmail.com?issuer=Discord&secret=VDOJPD4SCRO4DFIT&algorithm=SHA1&digits=6&period=30")
-                ?.let { addItem(it) }
-            otpParser("otpauth://hotp/Amazon:yourusername?secret=6AYUMD6MZNAI2RD4&issuer=Amazon&counter=0")
-                ?.let { addItem(it) }
-            otpParser("otpauth://totp/Hetzner:user%40example.com?secret=WMRMYOEBCTBO6TDQ&issuer=Hetzner&digits=10&period=60&algorithm=SHA512")
-                ?.let { addItem(it.copy(otpCardColor = OtpCardColors.RED)) }
-            otpParser("otpauth://totp/Mega?secret=AOKFKHDC2LZMNIRZ&algorithm=SHA1&digits=6&period=30")
-                ?.let { addItem(it.copy(otpCardColor = OtpCardColors.PINK)) }
-            otpParser("otpauth://totp/Posteo.de:user%40posteo.com?issuer=Posteo.de&secret=PPOD7MUGB2GBV7FV&algorithm=SHA1&digits=6&period=30")
-                ?.let { addItem(it) }
-        }
-
         viewModelScope.launch {
             while (true) {
                 @OptIn(ExperimentalTime::class)

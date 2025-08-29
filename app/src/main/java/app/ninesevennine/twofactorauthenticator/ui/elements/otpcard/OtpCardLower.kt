@@ -25,12 +25,12 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.ninesevennine.twofactorauthenticator.LocalVaultViewModel
 import app.ninesevennine.twofactorauthenticator.configViewModel
 import app.ninesevennine.twofactorauthenticator.features.theme.InterVariable
 import app.ninesevennine.twofactorauthenticator.features.vault.VaultItem
 import app.ninesevennine.twofactorauthenticator.themeViewModel
 import app.ninesevennine.twofactorauthenticator.utils.Logger
+import app.ninesevennine.twofactorauthenticator.vaultViewModel
 
 @Composable
 fun OtpCardLower(
@@ -44,7 +44,7 @@ fun OtpCardLower(
         theme.getOtpCardColors(context, item.otpCardColor)
     }
     val clipboard = LocalClipboard.current
-    val vaultViewModel = LocalVaultViewModel.current
+    val vaultViewModel = context.vaultViewModel
 
     var revealed by remember { mutableStateOf(false) }
 

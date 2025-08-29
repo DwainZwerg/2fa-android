@@ -17,12 +17,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import app.ninesevennine.twofactorauthenticator.LocalNavController
-import app.ninesevennine.twofactorauthenticator.LocalVaultViewModel
 import app.ninesevennine.twofactorauthenticator.ui.elements.bottomappbar.MainAppBar
 import app.ninesevennine.twofactorauthenticator.ui.elements.otpcard.OtpCard
 import app.ninesevennine.twofactorauthenticator.utils.Constants
+import app.ninesevennine.twofactorauthenticator.vaultViewModel
 import kotlinx.serialization.Serializable
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyGridState
@@ -33,8 +34,9 @@ object MainScreenRoute
 
 @Composable
 fun MainScreen() {
+    val context = LocalContext.current
     val navController = LocalNavController.current
-    val vaultViewModel = LocalVaultViewModel.current
+    val vaultViewModel = context.vaultViewModel
 
     val items = vaultViewModel.items
 

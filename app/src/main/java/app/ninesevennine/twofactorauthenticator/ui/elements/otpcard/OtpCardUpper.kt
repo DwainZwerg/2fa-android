@@ -36,13 +36,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ninesevennine.twofactorauthenticator.LocalNavController
-import app.ninesevennine.twofactorauthenticator.LocalVaultViewModel
 import app.ninesevennine.twofactorauthenticator.features.otp.OtpIssuer
 import app.ninesevennine.twofactorauthenticator.features.otp.OtpTypes
 import app.ninesevennine.twofactorauthenticator.features.theme.InterVariable
 import app.ninesevennine.twofactorauthenticator.features.vault.VaultItem
 import app.ninesevennine.twofactorauthenticator.themeViewModel
 import app.ninesevennine.twofactorauthenticator.ui.EditScreenRoute
+import app.ninesevennine.twofactorauthenticator.vaultViewModel
 import kotlin.uuid.ExperimentalUuidApi
 
 @OptIn(ExperimentalUuidApi::class)
@@ -59,7 +59,7 @@ fun OtpCardUpper(
         theme.getOtpCardColors(context, item.otpCardColor)
     }
     val navController = LocalNavController.current
-    val vaultViewModel = LocalVaultViewModel.current
+    val vaultViewModel = context.vaultViewModel
 
     val issuerIcon = remember(item.issuer) { OtpIssuer.getIcon(item.issuer) }
 

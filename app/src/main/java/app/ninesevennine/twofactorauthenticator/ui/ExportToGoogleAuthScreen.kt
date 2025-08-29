@@ -42,7 +42,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ninesevennine.twofactorauthenticator.LocalNavController
-import app.ninesevennine.twofactorauthenticator.LocalVaultViewModel
 import app.ninesevennine.twofactorauthenticator.R
 import app.ninesevennine.twofactorauthenticator.features.locale.localizedString
 import app.ninesevennine.twofactorauthenticator.features.theme.InterVariable
@@ -50,6 +49,7 @@ import app.ninesevennine.twofactorauthenticator.themeViewModel
 import app.ninesevennine.twofactorauthenticator.ui.elements.WideText
 import app.ninesevennine.twofactorauthenticator.ui.elements.WideTitle
 import app.ninesevennine.twofactorauthenticator.ui.elements.widebutton.WideButton
+import app.ninesevennine.twofactorauthenticator.vaultViewModel
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -60,7 +60,7 @@ fun ExportToGoogleAuthScreen() {
     val context = LocalContext.current
     val colors = context.themeViewModel.colors
     val navController = LocalNavController.current
-    val vaultViewModel = LocalVaultViewModel.current
+    val vaultViewModel = context.vaultViewModel
 
     val qrBitmaps by remember { mutableStateOf(vaultViewModel.exportToGoogleAuth()) }
     val qrPages by remember { mutableIntStateOf(qrBitmaps.size) }

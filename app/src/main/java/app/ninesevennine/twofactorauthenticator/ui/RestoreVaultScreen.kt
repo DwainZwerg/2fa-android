@@ -32,7 +32,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import app.ninesevennine.twofactorauthenticator.LocalNavController
-import app.ninesevennine.twofactorauthenticator.LocalVaultViewModel
 import app.ninesevennine.twofactorauthenticator.R
 import app.ninesevennine.twofactorauthenticator.features.locale.localizedString
 import app.ninesevennine.twofactorauthenticator.themeViewModel
@@ -41,6 +40,7 @@ import app.ninesevennine.twofactorauthenticator.ui.elements.WideTitle
 import app.ninesevennine.twofactorauthenticator.ui.elements.textfields.ConfidentialSingleLineTextField
 import app.ninesevennine.twofactorauthenticator.ui.elements.widebutton.WideButton
 import app.ninesevennine.twofactorauthenticator.utils.Logger
+import app.ninesevennine.twofactorauthenticator.vaultViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -55,7 +55,7 @@ fun RestoreVaultScreen() {
     val context = LocalContext.current
     val colors = context.themeViewModel.colors
     val navController = LocalNavController.current
-    val vaultViewModel = LocalVaultViewModel.current
+    val vaultViewModel = context.vaultViewModel
 
     var password by remember { mutableStateOf("") }
 

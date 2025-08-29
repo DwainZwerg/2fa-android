@@ -30,7 +30,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import app.ninesevennine.twofactorauthenticator.LocalNavController
-import app.ninesevennine.twofactorauthenticator.LocalVaultViewModel
 import app.ninesevennine.twofactorauthenticator.R
 import app.ninesevennine.twofactorauthenticator.features.locale.localizedString
 import app.ninesevennine.twofactorauthenticator.features.otp.OtpHashFunctions
@@ -48,6 +47,7 @@ import app.ninesevennine.twofactorauthenticator.ui.elements.textfields.TextField
 import app.ninesevennine.twofactorauthenticator.ui.elements.widebutton.WideButtonError
 import app.ninesevennine.twofactorauthenticator.utils.Base32
 import app.ninesevennine.twofactorauthenticator.utils.Constants
+import app.ninesevennine.twofactorauthenticator.vaultViewModel
 import kotlinx.serialization.Serializable
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
@@ -63,7 +63,8 @@ data class EditScreenRoute(
 @OptIn(ExperimentalUuidApi::class)
 @Composable
 fun EditScreen(uuidString: String) {
-    val vaultViewModel = LocalVaultViewModel.current
+    val context = LocalContext.current
+    val vaultViewModel = context.vaultViewModel
 
     var item by remember {
         mutableStateOf(
@@ -88,7 +89,6 @@ fun EditScreen(uuidString: String) {
         return
     }
 
-    val context = LocalContext.current
     val navController = LocalNavController.current
     val colors = context.themeViewModel.colors
 
@@ -310,6 +310,7 @@ fun EditScreen(uuidString: String) {
             item.lastUpdated = Clock.System.now().epochSeconds
 
             vaultViewModel.updateItemOrAdd(item)
+            vaultViewModel.save(context)
             navController.popBackStack()
         }
     )
