@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
@@ -28,13 +29,14 @@ import app.ninesevennine.twofactorauthenticator.ui.SettingsScreenRoute
 
 @Composable
 fun AppNavigation() {
+    val context = LocalContext.current
     val navController = LocalNavController.current
-    val themeColors = LocalThemeViewModel.current.colors
+    val colors = context.themeViewModel.colors
 
     NavHost(
         modifier = Modifier
             .fillMaxSize()
-            .background(themeColors.background),
+            .background(colors.background),
         navController = navController,
         startDestination = MainScreenRoute,
         enterTransition = {

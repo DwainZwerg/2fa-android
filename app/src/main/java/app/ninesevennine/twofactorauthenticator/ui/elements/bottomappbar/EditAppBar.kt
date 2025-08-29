@@ -28,22 +28,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
 import app.ninesevennine.twofactorauthenticator.features.theme.InterVariable
+import app.ninesevennine.twofactorauthenticator.themeViewModel
 
 @Composable
 fun EditAppBar(
     onCancel: () -> Unit,
     onDone: () -> Unit
 ) {
+    val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
     val view = LocalView.current
-    val colors = LocalThemeViewModel.current.colors
+    val colors = context.themeViewModel.colors
 
     Box(
         modifier = Modifier
@@ -66,10 +68,12 @@ fun EditAppBar(
             Box(
                 modifier = Modifier
                     .height(64.dp)
-                    .clip(RoundedCornerShape(
-                        topStart = 32.dp, bottomStart = 32.dp,
-                        topEnd = 8.dp, bottomEnd = 8.dp
-                    ))
+                    .clip(
+                        RoundedCornerShape(
+                            topStart = 32.dp, bottomStart = 32.dp,
+                            topEnd = 8.dp, bottomEnd = 8.dp
+                        )
+                    )
                     .background(colors.surfaceVariant)
                     .clickable {
                         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
@@ -82,7 +86,9 @@ fun EditAppBar(
                 Icon(
                     imageVector = Icons.Filled.Close,
                     contentDescription = null,
-                    modifier = Modifier.padding(start = 16.dp, end = 12.dp).size(32.dp),
+                    modifier = Modifier
+                        .padding(start = 16.dp, end = 12.dp)
+                        .size(32.dp),
                     tint = colors.onSurfaceVariant
                 )
             }
@@ -112,10 +118,12 @@ fun EditAppBar(
             Box(
                 modifier = Modifier
                     .height(64.dp)
-                    .clip(RoundedCornerShape(
-                        topStart = 8.dp, bottomStart = 8.dp,
-                        topEnd = 32.dp, bottomEnd = 32.dp
-                    ))
+                    .clip(
+                        RoundedCornerShape(
+                            topStart = 8.dp, bottomStart = 8.dp,
+                            topEnd = 32.dp, bottomEnd = 32.dp
+                        )
+                    )
                     .background(colors.primary)
                     .clickable {
                         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
@@ -128,7 +136,9 @@ fun EditAppBar(
                 Icon(
                     imageVector = Icons.Filled.Done,
                     contentDescription = null,
-                    modifier = Modifier.padding(start = 12.dp, end = 16.dp).size(32.dp),
+                    modifier = Modifier
+                        .padding(start = 12.dp, end = 16.dp)
+                        .size(32.dp),
                     tint = colors.onPrimary
                 )
             }

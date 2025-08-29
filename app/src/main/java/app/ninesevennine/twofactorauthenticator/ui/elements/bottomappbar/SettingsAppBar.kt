@@ -27,22 +27,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ninesevennine.twofactorauthenticator.LocalNavController
-import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
 import app.ninesevennine.twofactorauthenticator.R
 import app.ninesevennine.twofactorauthenticator.features.locale.localizedString
 import app.ninesevennine.twofactorauthenticator.features.theme.InterVariable
+import app.ninesevennine.twofactorauthenticator.themeViewModel
 
 @Composable
 fun SettingsAppBar() {
+    val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
     val view = LocalView.current
-    val colors = LocalThemeViewModel.current.colors
+    val colors = context.themeViewModel.colors
     val navController = LocalNavController.current
 
     Box(

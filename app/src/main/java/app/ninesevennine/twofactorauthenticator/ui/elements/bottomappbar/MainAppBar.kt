@@ -56,11 +56,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
 import app.ninesevennine.twofactorauthenticator.R
-import app.ninesevennine.twofactorauthenticator.config
+import app.ninesevennine.twofactorauthenticator.configViewModel
 import app.ninesevennine.twofactorauthenticator.features.locale.localizedString
 import app.ninesevennine.twofactorauthenticator.features.theme.InterVariable
+import app.ninesevennine.twofactorauthenticator.themeViewModel
 
 @Composable
 fun MainAppBar(
@@ -69,10 +69,10 @@ fun MainAppBar(
     onAddLongPress: () -> Unit,
     onSearch: (String) -> Unit
 ) {
+    val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
     val view = LocalView.current
-    val colors = LocalThemeViewModel.current.colors
-    val context = LocalContext.current
+    val colors = context.themeViewModel.colors
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -86,7 +86,7 @@ fun MainAppBar(
 
     val focusRequester = remember { FocusRequester() }
 
-    if (context.config.values.enableFocusSearch) {
+    if (context.configViewModel.values.enableFocusSearch) {
         LaunchedEffect(Unit) {
             focusRequester.requestFocus()
             keyboardController?.show()

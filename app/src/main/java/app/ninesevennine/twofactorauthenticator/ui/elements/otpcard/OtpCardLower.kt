@@ -25,24 +25,24 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
 import app.ninesevennine.twofactorauthenticator.LocalVaultViewModel
-import app.ninesevennine.twofactorauthenticator.config
+import app.ninesevennine.twofactorauthenticator.configViewModel
 import app.ninesevennine.twofactorauthenticator.features.theme.InterVariable
 import app.ninesevennine.twofactorauthenticator.features.vault.VaultItem
+import app.ninesevennine.twofactorauthenticator.themeViewModel
 import app.ninesevennine.twofactorauthenticator.utils.Logger
 
 @Composable
 fun OtpCardLower(
     item: VaultItem
 ) {
+    val context = LocalContext.current
     val view = LocalView.current
     val haptic = LocalHapticFeedback.current
-    val theme = LocalThemeViewModel.current
+    val theme = context.themeViewModel
     val colors = remember(item.otpCardColor) {
-        theme.getOtpCardColors(item.otpCardColor)
+        theme.getOtpCardColors(context, item.otpCardColor)
     }
-    val context = LocalContext.current
     val clipboard = LocalClipboard.current
     val vaultViewModel = LocalVaultViewModel.current
 
@@ -54,7 +54,7 @@ fun OtpCardLower(
     val otpCode = remember(item, currentCycle, revealed) {
         if (item.secret.isEmpty()) return@remember ""
 
-        if (context.config.values.requireTapToReveal && !revealed) {
+        if (context.configViewModel.values.requireTapToReveal && !revealed) {
             return@remember "•".repeat(item.digits)
         }
 
@@ -105,7 +105,7 @@ fun OtpCardLower(
             fontFamily = InterVariable,
             color = colors.firstColor,
             fontWeight = FontWeight.W700,
-            fontSize = if (!revealed && context.config.values.requireTapToReveal) 56.sp else 48.sp,
+            fontSize = if (!revealed && context.configViewModel.values.requireTapToReveal) 56.sp else 48.sp,
             maxLines = 1
         )
     }

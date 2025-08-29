@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
@@ -35,12 +36,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ninesevennine.twofactorauthenticator.LocalNavController
-import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
 import app.ninesevennine.twofactorauthenticator.LocalVaultViewModel
 import app.ninesevennine.twofactorauthenticator.features.otp.OtpIssuer
 import app.ninesevennine.twofactorauthenticator.features.otp.OtpTypes
 import app.ninesevennine.twofactorauthenticator.features.theme.InterVariable
 import app.ninesevennine.twofactorauthenticator.features.vault.VaultItem
+import app.ninesevennine.twofactorauthenticator.themeViewModel
 import app.ninesevennine.twofactorauthenticator.ui.EditScreenRoute
 import kotlin.uuid.ExperimentalUuidApi
 
@@ -50,11 +51,12 @@ fun OtpCardUpper(
     item: VaultItem,
     enableEditing: Boolean
 ) {
+    val context = LocalContext.current
     val view = LocalView.current
     val haptic = LocalHapticFeedback.current
-    val theme = LocalThemeViewModel.current
+    val theme = context.themeViewModel
     val colors = remember(item.otpCardColor) {
-        theme.getOtpCardColors(item.otpCardColor)
+        theme.getOtpCardColors(context, item.otpCardColor)
     }
     val navController = LocalNavController.current
     val vaultViewModel = LocalVaultViewModel.current

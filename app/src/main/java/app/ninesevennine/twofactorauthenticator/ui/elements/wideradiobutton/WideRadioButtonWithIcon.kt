@@ -5,7 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
-import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
+import androidx.compose.ui.platform.LocalContext
+import app.ninesevennine.twofactorauthenticator.themeViewModel
 
 @Composable
 fun WideRadioButtonWithIcon(
@@ -15,7 +16,8 @@ fun WideRadioButtonWithIcon(
     enabled: Boolean,
     onClick: () -> Unit
 ) {
-    val colors = LocalThemeViewModel.current.colors
+    val context = LocalContext.current
+    val colors = context.themeViewModel.colors
 
     WideRadioButtonWithIconInternal(
         modifier = modifier,
@@ -41,7 +43,8 @@ fun WideRadioButtonWithIcon(
     enabled: Boolean,
     onClick: () -> Unit
 ) {
-    val colors = LocalThemeViewModel.current.colors
+    val context = LocalContext.current
+    val colors = context.themeViewModel.colors
 
     WideRadioButtonWithIconInternal(
         modifier = modifier,

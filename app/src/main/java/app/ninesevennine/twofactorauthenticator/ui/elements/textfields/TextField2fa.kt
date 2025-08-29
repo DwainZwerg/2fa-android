@@ -18,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -29,8 +30,8 @@ import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
 import app.ninesevennine.twofactorauthenticator.features.theme.InterVariable
+import app.ninesevennine.twofactorauthenticator.themeViewModel
 
 @Composable
 fun TextField2fa(
@@ -40,7 +41,8 @@ fun TextField2fa(
     placeholder: String = "",
     isError: Boolean = false
 ) {
-    val colors = LocalThemeViewModel.current.colors
+    val context = LocalContext.current
+    val colors = context.themeViewModel.colors
 
     var revealed by remember { mutableStateOf(false) }
 

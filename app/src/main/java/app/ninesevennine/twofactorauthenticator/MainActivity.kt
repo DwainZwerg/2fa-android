@@ -6,8 +6,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -15,9 +17,7 @@ import app.ninesevennine.twofactorauthenticator.features.crypto.SecureCrypto
 import app.ninesevennine.twofactorauthenticator.features.locale.LocaleModel
 import app.ninesevennine.twofactorauthenticator.features.locale.LocaleViewModel
 import app.ninesevennine.twofactorauthenticator.features.locale.LocaleViewModelFactory
-import app.ninesevennine.twofactorauthenticator.features.theme.ThemeModel
-import app.ninesevennine.twofactorauthenticator.features.theme.ThemeViewModel
-import app.ninesevennine.twofactorauthenticator.features.theme.ThemeViewModelFactory
+import app.ninesevennine.twofactorauthenticator.features.theme.ThemeOption
 import app.ninesevennine.twofactorauthenticator.features.vault.VaultViewModel
 import app.ninesevennine.twofactorauthenticator.features.vault.VaultViewModelFactory
 import app.ninesevennine.twofactorauthenticator.utils.Logger
@@ -25,8 +25,7 @@ import app.ninesevennine.twofactorauthenticator.utils.System
 
 val LocalNavController =
     staticCompositionLocalOf<NavHostController> { error("NavController not provided") }
-val LocalThemeViewModel =
-    staticCompositionLocalOf<ThemeViewModel> { error("ThemeViewModel not provided") }
+
 val LocalLocaleViewModel =
     staticCompositionLocalOf<LocaleViewModel> { error("LocaleViewModel not provided") }
 
@@ -64,22 +63,25 @@ class MainActivity : ComponentActivity() {
             val context = LocalContext.current
 
             val navController: NavHostController = rememberNavController()
-            val themeViewModel: ThemeViewModel = viewModel(factory = ThemeViewModelFactory(context))
             val localeViewModel: LocaleViewModel =
                 viewModel(factory = LocaleViewModelFactory(context))
             val vaultViewModel: VaultViewModel = viewModel(factory = VaultViewModelFactory(context))
 
-            themeViewModel.updateTheme(ThemeModel.readTheme(context))
             localeViewModel.updateLocale(LocaleModel.readLocale(context))
 
-            this.config.updateLocale(localeViewModel.localeOption)
-            this.config.updateTheme(themeViewModel.themeOption)
+            configViewModel.updateLocale(localeViewModel.localeOption)
 
             this@MainActivity.vaultViewModel = vaultViewModel
 
+            LaunchedEffect(themeViewModel.theme) {
+                val isDarkTheme = themeViewModel.theme == ThemeOption.DARK.value
+                val controller = WindowInsetsControllerCompat(window, window.decorView)
+                controller.isAppearanceLightStatusBars = !isDarkTheme
+                controller.isAppearanceLightNavigationBars = !isDarkTheme
+            }
+
             CompositionLocalProvider(
                 LocalNavController provides navController,
-                LocalThemeViewModel provides themeViewModel,
                 LocalLocaleViewModel provides localeViewModel,
                 LocalVaultViewModel provides vaultViewModel
             ) {
@@ -92,6 +94,6 @@ class MainActivity : ComponentActivity() {
         super.onPause()
 
         vaultViewModel.saveVault()
-        this.config.save(this)
+        configViewModel.save(this)
     }
 }

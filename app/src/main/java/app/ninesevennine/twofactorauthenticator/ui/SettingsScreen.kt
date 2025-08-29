@@ -32,12 +32,12 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import app.ninesevennine.twofactorauthenticator.LocalLocaleViewModel
 import app.ninesevennine.twofactorauthenticator.LocalNavController
-import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
 import app.ninesevennine.twofactorauthenticator.R
-import app.ninesevennine.twofactorauthenticator.config
+import app.ninesevennine.twofactorauthenticator.configViewModel
 import app.ninesevennine.twofactorauthenticator.features.locale.LocaleOption
 import app.ninesevennine.twofactorauthenticator.features.locale.localizedString
 import app.ninesevennine.twofactorauthenticator.features.theme.ThemeOption
+import app.ninesevennine.twofactorauthenticator.themeViewModel
 import app.ninesevennine.twofactorauthenticator.ui.elements.WideTitle
 import app.ninesevennine.twofactorauthenticator.ui.elements.bottomappbar.SettingsAppBar
 import app.ninesevennine.twofactorauthenticator.ui.elements.widebutton.WideButtonWithIcon
@@ -116,7 +116,8 @@ private fun LanguageSettingsSection() {
 
 @Composable
 private fun ThemeSettingsSection() {
-    val themeViewModel = LocalThemeViewModel.current
+    val context = LocalContext.current
+    val themeViewModel = context.themeViewModel
 
     Spacer(modifier = Modifier.height(16.dp))
     WideTitle(text = localizedString(R.string.settings_option_appearance))
@@ -125,27 +126,27 @@ private fun ThemeSettingsSection() {
         icon = Icons.Filled.LightMode,
         label = localizedString(R.string.settings_appearance_light),
         enabled = themeViewModel.theme == ThemeOption.LIGHT.value,
-        onClick = { themeViewModel.updateTheme(ThemeOption.LIGHT) }
+        onClick = { themeViewModel.updateTheme(context, ThemeOption.LIGHT) }
     )
 
     WideRadioButtonWithIcon(
         icon = Icons.Filled.DarkMode,
         label = localizedString(R.string.settings_appearance_dark),
         enabled = themeViewModel.theme == ThemeOption.DARK.value,
-        onClick = { themeViewModel.updateTheme(ThemeOption.DARK) }
+        onClick = { themeViewModel.updateTheme(context, ThemeOption.DARK) }
     )
 
     WideRadioButtonWithIcon(
         icon = Icons.Filled.Contrast,
         label = localizedString(R.string.settings_appearance_dynamic),
         enabled = themeViewModel.theme == ThemeOption.DYNAMIC.value,
-        onClick = { themeViewModel.updateTheme(ThemeOption.DYNAMIC) }
+        onClick = { themeViewModel.updateTheme(context, ThemeOption.DYNAMIC) }
     )
 
     WideButtonWithIcon(
         icon = Icons.Default.Refresh,
         label = localizedString(R.string.common_use_system_default),
-        onClick = { themeViewModel.updateTheme(ThemeOption.SYSTEM_DEFAULT) }
+        onClick = { themeViewModel.updateTheme(context, ThemeOption.SYSTEM_DEFAULT) }
     )
 }
 
@@ -183,20 +184,20 @@ private fun OtherSettingsScreen() {
     Spacer(modifier = Modifier.height(16.dp))
     WideTitle(text = localizedString(R.string.settings_section_other))
 
-    val requireTapToReveal = context.config.values.requireTapToReveal
+    val requireTapToReveal = context.configViewModel.values.requireTapToReveal
     WideRadioButtonWithIcon(
         icon = Icons.Default.TouchApp,
         label = localizedString(R.string.settings_option_tap_to_reveal),
         enabled = requireTapToReveal,
-        onClick = { context.config.updateTapToReveal(!requireTapToReveal) }
+        onClick = { context.configViewModel.updateTapToReveal(!requireTapToReveal) }
     )
 
-    val enableFocusSearch = context.config.values.enableFocusSearch
+    val enableFocusSearch = context.configViewModel.values.enableFocusSearch
     WideRadioButtonWithIcon(
         icon = Icons.AutoMirrored.Filled.ManageSearch,
         label = localizedString(R.string.settings_option_focus_search),
         enabled = enableFocusSearch,
-        onClick = { context.config.updateFocusSearch(!enableFocusSearch) }
+        onClick = { context.configViewModel.updateFocusSearch(!enableFocusSearch) }
     )
 }
 

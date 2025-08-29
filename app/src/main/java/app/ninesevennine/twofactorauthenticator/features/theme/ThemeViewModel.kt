@@ -12,6 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
+import app.ninesevennine.twofactorauthenticator.configViewModel
 import app.ninesevennine.twofactorauthenticator.ui.elements.otpcard.OtpCardColors
 import app.ninesevennine.twofactorauthenticator.ui.elements.otpcard.OtpCardPalette
 import app.ninesevennine.twofactorauthenticator.ui.elements.otpcard.otpDarkBluePalette
@@ -28,28 +29,22 @@ import app.ninesevennine.twofactorauthenticator.ui.elements.otpcard.otpLightPink
 import app.ninesevennine.twofactorauthenticator.ui.elements.otpcard.otpLightRedPalette
 import app.ninesevennine.twofactorauthenticator.utils.Logger
 
-class ThemeViewModel(
-    @Suppress("StaticFieldLeak")
-    private val context: Context
-) : ViewModel() {
-    var themeOption by mutableStateOf(ThemeOption.SYSTEM_DEFAULT)
-        private set
-
+class ThemeViewModel() : ViewModel() {
     var theme by mutableIntStateOf(ThemeOption.LIGHT.value)
         private set
 
     var colors by mutableStateOf(lightColorScheme())
         private set
 
-    private val isSystemDark: Boolean
-        get() = context.resources.configuration.uiMode and
-                Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+    private fun isSystemDark(context: Context): Boolean {
+        return context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+    }
 
-    fun getOtpCardColors(otpCardColor: OtpCardColors): OtpCardPalette {
-        val dark = when (themeOption) {
+    fun getOtpCardColors(context: Context, otpCardColor: OtpCardColors): OtpCardPalette {
+        val dark = when (context.configViewModel.values.theme) {
             ThemeOption.LIGHT -> false
             ThemeOption.DARK -> true
-            else -> isSystemDark
+            else -> isSystemDark(context)
         }
 
         return when (otpCardColor) {
@@ -62,21 +57,18 @@ class ThemeViewModel(
         }
     }
 
-    fun updateTheme(themeOption: ThemeOption) {
+    fun updateTheme(context: Context, themeOption: ThemeOption) {
         Logger.i("ThemeViewModel", "updateTheme $themeOption")
-        ThemeModel.saveTheme(context, themeOption)
-
-        this.themeOption = themeOption
 
         val (colorScheme, themeValue) = when (themeOption) {
-            ThemeOption.SYSTEM_DEFAULT -> if (isSystemDark)
+            ThemeOption.SYSTEM_DEFAULT -> if (isSystemDark(context))
                 darkColorScheme() to ThemeOption.DARK.value
             else
                 lightColorScheme() to ThemeOption.LIGHT.value
 
             ThemeOption.LIGHT -> lightColorScheme() to ThemeOption.LIGHT.value
             ThemeOption.DARK -> darkColorScheme() to ThemeOption.DARK.value
-            ThemeOption.DYNAMIC -> if (isSystemDark)
+            ThemeOption.DYNAMIC -> if (isSystemDark(context))
                 dynamicDarkColorScheme(context) to ThemeOption.DYNAMIC.value
             else
                 dynamicLightColorScheme(context) to ThemeOption.DYNAMIC.value
@@ -84,6 +76,8 @@ class ThemeViewModel(
 
         colors = colorScheme
         theme = themeValue
+
+        context.configViewModel.updateTheme(themeOption)
     }
 
 

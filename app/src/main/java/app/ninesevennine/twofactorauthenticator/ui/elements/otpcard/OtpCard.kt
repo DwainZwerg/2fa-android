@@ -14,9 +14,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
 import app.ninesevennine.twofactorauthenticator.features.vault.VaultItem
+import app.ninesevennine.twofactorauthenticator.themeViewModel
 
 @Composable
 fun OtpCard(
@@ -25,10 +26,11 @@ fun OtpCard(
     dragging: Boolean,
     enableEditing: Boolean = true
 ) {
-    val theme = LocalThemeViewModel.current
+    val context = LocalContext.current
+    val theme = context.themeViewModel
 
     val colors = remember(item.otpCardColor) {
-        theme.getOtpCardColors(item.otpCardColor)
+        theme.getOtpCardColors(context, item.otpCardColor)
     }
 
     val shape = RoundedCornerShape(32.dp)

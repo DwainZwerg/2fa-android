@@ -9,6 +9,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -16,8 +17,8 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
 import app.ninesevennine.twofactorauthenticator.features.theme.InterVariable
+import app.ninesevennine.twofactorauthenticator.themeViewModel
 
 @Composable
 fun NumbersOnlyTextField(
@@ -28,7 +29,8 @@ fun NumbersOnlyTextField(
     trailingText: String = "",
     isError: Boolean = false
 ) {
-    val colors = LocalThemeViewModel.current.colors
+    val context = LocalContext.current
+    val colors = context.themeViewModel.colors
 
     OutlinedTextField(
         value = value,

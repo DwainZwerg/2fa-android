@@ -26,8 +26,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
 import app.ninesevennine.twofactorauthenticator.features.theme.InterVariable
+import app.ninesevennine.twofactorauthenticator.themeViewModel
 import app.ninesevennine.twofactorauthenticator.ui.elements.bottomappbar.LogAppBar
 import app.ninesevennine.twofactorauthenticator.utils.Logger
 import kotlinx.serialization.Serializable
@@ -38,7 +38,7 @@ object LogScreenRoute
 @Composable
 fun LogScreen() {
     val context = LocalContext.current
-    val colors = LocalThemeViewModel.current.colors
+    val colors = context.themeViewModel.colors
 
     val logLines by remember {
         derivedStateOf {

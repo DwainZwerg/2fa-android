@@ -27,9 +27,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import app.ninesevennine.twofactorauthenticator.LocalNavController
-import app.ninesevennine.twofactorauthenticator.LocalThemeViewModel
 import app.ninesevennine.twofactorauthenticator.LocalVaultViewModel
 import app.ninesevennine.twofactorauthenticator.R
 import app.ninesevennine.twofactorauthenticator.features.locale.localizedString
@@ -37,6 +37,7 @@ import app.ninesevennine.twofactorauthenticator.features.otp.OtpHashFunctions
 import app.ninesevennine.twofactorauthenticator.features.otp.OtpTypes
 import app.ninesevennine.twofactorauthenticator.features.qrscanner.QRScannerView
 import app.ninesevennine.twofactorauthenticator.features.vault.VaultItem
+import app.ninesevennine.twofactorauthenticator.themeViewModel
 import app.ninesevennine.twofactorauthenticator.ui.elements.WideTitle
 import app.ninesevennine.twofactorauthenticator.ui.elements.bottomappbar.EditAppBar
 import app.ninesevennine.twofactorauthenticator.ui.elements.dropdown.DropDownSingleChoice
@@ -87,8 +88,9 @@ fun EditScreen(uuidString: String) {
         return
     }
 
+    val context = LocalContext.current
     val navController = LocalNavController.current
-    val colors = LocalThemeViewModel.current.colors
+    val colors = context.themeViewModel.colors
 
     var secretInput by remember { mutableStateOf(Base32.encode(item.secret)) }
     var secretError by remember { mutableStateOf(item.secret.isEmpty()) }
