@@ -49,7 +49,7 @@ object ConfigModel {
                         locale = LocaleOption.fromString(json.getString("locale")),
                         theme = ThemeOption.fromInt(json.getInt("theme")),
                         requireTapToReveal = json.getBoolean("requireTapToReveal"),
-                        enableFocusSearch = json.optBoolean("enableFocusSearch", false)
+                        enableFocusSearch = json.getBoolean("enableFocusSearch")
                     )
                 }.getOrElse { e ->
                     Log.e("ConfigModel", "Failed loading config", e)
