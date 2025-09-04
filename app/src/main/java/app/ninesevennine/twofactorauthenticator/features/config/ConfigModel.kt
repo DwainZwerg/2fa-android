@@ -13,6 +13,7 @@ object ConfigModel {
     data class Config(
         var locale: LocaleOption = LocaleOption.SYSTEM_DEFAULT,
         var theme: ThemeOption = ThemeOption.SYSTEM_DEFAULT,
+        var requireBiometrics: Boolean = false,
         var requireTapToReveal: Boolean = false,
         var enableFocusSearch: Boolean = false
     ) {
@@ -22,6 +23,7 @@ object ConfigModel {
                     put("version", 1)
                     put("locale", locale.value)
                     put("theme", theme.value)
+                    put("requireBiometrics", requireBiometrics)
                     put("requireTapToReveal", requireTapToReveal)
                     put("enableFocusSearch", enableFocusSearch)
                 }.toString().let { jsonString ->
@@ -48,6 +50,7 @@ object ConfigModel {
                     Config(
                         locale = LocaleOption.fromString(json.getString("locale")),
                         theme = ThemeOption.fromInt(json.getInt("theme")),
+                        requireBiometrics = json.optBoolean("requireBiometrics", false),
                         requireTapToReveal = json.getBoolean("requireTapToReveal"),
                         enableFocusSearch = json.getBoolean("enableFocusSearch")
                     )
