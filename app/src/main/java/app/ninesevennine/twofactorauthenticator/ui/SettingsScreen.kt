@@ -17,7 +17,6 @@ import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.Contrast
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Download
-import androidx.compose.material.icons.filled.Fingerprint
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Refresh
@@ -185,14 +184,6 @@ private fun OtherSettingsScreen() {
 
     Spacer(modifier = Modifier.height(16.dp))
     WideTitle(text = localizedString(R.string.settings_section_other))
-
-    val requireBiometrics = context.configViewModel.values.requireBiometrics
-    WideRadioButtonWithIcon(
-        icon = Icons.Default.Fingerprint,
-        label = "Require biometrics",
-        enabled = requireBiometrics,
-        onClick = { context.configViewModel.updateBiometrics(!requireBiometrics) }
-    )
 
     val requireTapToReveal = context.configViewModel.values.requireTapToReveal
     WideRadioButtonWithIcon(

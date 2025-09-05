@@ -23,10 +23,6 @@ class ConfigViewModel : ViewModel() {
         values = values.copy(theme = value)
     }
 
-    fun updateBiometrics(value: Boolean) {
-        values = values.copy(requireBiometrics = value)
-    }
-
     fun updateTapToReveal(value: Boolean) {
         values = values.copy(requireTapToReveal = value)
     }

@@ -30,9 +30,10 @@ class MyApplication : Application() {
             "ro.build.fingerprint = ${System.getSystemProperty("ro.build.fingerprint")}"
         )
 
+        configViewModel.load(this)
+
         SecureCrypto.initialize(this)
 
-        configViewModel.load(this)
         localeViewModel.updateLocale(this, configViewModel.values.locale)
         themeViewModel.updateTheme(this, configViewModel.values.theme)
 
