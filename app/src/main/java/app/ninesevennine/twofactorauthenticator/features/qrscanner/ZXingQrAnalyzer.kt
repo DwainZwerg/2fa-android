@@ -13,8 +13,6 @@ import com.google.zxing.ReaderException
 import com.google.zxing.common.HybridBinarizer
 import java.util.EnumMap
 import kotlin.math.min
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 
 class ZXingQrAnalyzer(
     private val viewfinderPercent: Float,
@@ -26,8 +24,6 @@ class ZXingQrAnalyzer(
         setHints(hints)
     }
 
-    private var lastProcessedTime = 0L
-    private val scanIntervalMillis = 200L
     private var imageBuffer = ByteArray(0)
 
     override fun analyze(imageProxy: ImageProxy) {
@@ -35,14 +31,6 @@ class ZXingQrAnalyzer(
             imageProxy.close()
             return
         }
-
-        @OptIn(ExperimentalTime::class)
-        val currentTime = Clock.System.now().toEpochMilliseconds()
-        if (currentTime - lastProcessedTime < scanIntervalMillis) {
-            imageProxy.close()
-            return
-        }
-        lastProcessedTime = currentTime
 
         try {
             val plane = imageProxy.planes[0]
