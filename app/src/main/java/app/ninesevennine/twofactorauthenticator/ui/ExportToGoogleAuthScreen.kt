@@ -1,5 +1,7 @@
 package app.ninesevennine.twofactorauthenticator.ui
 
+import android.view.WindowManager
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -22,6 +24,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -36,6 +39,7 @@ import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -61,6 +65,8 @@ fun ExportToGoogleAuthScreen() {
     val colors = context.themeViewModel.colors
     val navController = LocalNavController.current
     val vaultViewModel = context.vaultViewModel
+
+    BrightnessController(setBrightness = true, brightnessValue = 1.0f)
 
     val qrBitmaps by remember { mutableStateOf(vaultViewModel.exportToGoogleAuth()) }
     val qrPages by remember { mutableIntStateOf(qrBitmaps.size) }
@@ -180,5 +186,28 @@ fun ExportToGoogleAuthScreen() {
             label = localizedString(R.string.common_cancel),
             onClick = { navController.popBackStack() }
         )
+    }
+}
+
+@Composable
+fun BrightnessController(
+    setBrightness: Boolean,
+    brightnessValue: Float = 1.0f
+) {
+    val view = LocalView.current
+
+    DisposableEffect(setBrightness) {
+        val window = (view.context as ComponentActivity).window
+        val layoutParams = window.attributes
+
+        if (setBrightness) {
+            layoutParams.screenBrightness = brightnessValue
+            window.attributes = layoutParams
+        }
+
+        onDispose {
+            layoutParams.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE
+            window.attributes = layoutParams
+        }
     }
 }
