@@ -37,7 +37,7 @@
     </string>
     <string name="settings_section_other">Other settings</string>
     <string name="settings_option_tap_to_reveal">Tap to reveal codes</string>
-    <string name="settings_option_focus_search">Start in Search</string>
+    <string name="settings_option_focus_search">Focus search on launch</string>
     <string name="settings_section_about">About</string>
     <string name="about_button_join_community">Join Community</string>
     <string name="about_button_view_source">View Source Code</string>

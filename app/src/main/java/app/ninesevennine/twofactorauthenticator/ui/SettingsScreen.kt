@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ManageSearch
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.Contrast
 import androidx.compose.material.icons.filled.DarkMode
@@ -195,7 +194,7 @@ private fun OtherSettingsScreen() {
 
     val enableFocusSearch = context.configViewModel.values.enableFocusSearch
     WideRadioButtonWithIcon(
-        icon = Icons.AutoMirrored.Filled.ManageSearch,
+        icon = painterResource(R.drawable.frame_inspect),
         label = localizedString(R.string.settings_option_focus_search),
         enabled = enableFocusSearch,
         onClick = { context.configViewModel.updateFocusSearch(!enableFocusSearch) }

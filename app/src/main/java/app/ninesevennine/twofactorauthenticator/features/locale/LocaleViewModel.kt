@@ -4,16 +4,16 @@ import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
 import androidx.annotation.StringRes
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
 import app.ninesevennine.twofactorauthenticator.configViewModel
 import app.ninesevennine.twofactorauthenticator.utils.Logger
 import java.util.Locale
 
 class LocaleViewModel() : ViewModel() {
-    private var _effectiveLocale by mutableStateOf("en")
+    private var _effectiveLocale by mutableStateOf("en-US")
     val effectiveLocale: String get() = _effectiveLocale
 
     private val stringCache = mutableMapOf<Int, String>()
@@ -47,6 +47,7 @@ class LocaleViewModel() : ViewModel() {
                 Resources.getSystem().configuration.locales[0]?.language ?: "en"
             ).value
         }
+
         else -> option.value
     }
 }

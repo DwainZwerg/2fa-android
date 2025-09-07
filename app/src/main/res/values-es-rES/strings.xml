@@ -38,7 +38,7 @@
     </string>
     <string name="settings_section_other">Otros ajustes</string>
     <string name="settings_option_tap_to_reveal">Tocar para mostrar códigos</string>
-    <string name="settings_option_focus_search">Iniciar en Búsqueda</string>
+    <string name="settings_option_focus_search">Enfocar la búsqueda al iniciar</string>
     <string name="settings_section_about">Acerca de la aplicación</string>
     <string name="about_button_join_community">Únete a nuestra comunidad</string>
     <string name="about_button_view_source">Ver código fuente</string>
