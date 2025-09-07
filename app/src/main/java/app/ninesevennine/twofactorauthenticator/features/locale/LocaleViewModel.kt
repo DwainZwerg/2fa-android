@@ -30,8 +30,6 @@ class LocaleViewModel() : ViewModel() {
     fun updateLocale(context: Context, newOption: LocaleOption) {
         Logger.i("LocaleViewModel", "updateLocale $newOption")
 
-        if (context.configViewModel.values.locale == newOption) return
-
         val newEffectiveLocale = computeEffectiveLocale(newOption)
         if (_effectiveLocale != newEffectiveLocale) {
             _effectiveLocale = newEffectiveLocale
