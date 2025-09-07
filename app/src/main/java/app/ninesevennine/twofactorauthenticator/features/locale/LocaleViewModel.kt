@@ -42,7 +42,7 @@ class LocaleViewModel() : ViewModel() {
     private fun computeEffectiveLocale(option: LocaleOption): String = when (option) {
         LocaleOption.SYSTEM_DEFAULT -> {
             LocaleOption.fromLanguageOrDefault(
-                Resources.getSystem().configuration.locales[0]?.language ?: "en"
+                Resources.getSystem().configuration.locales[0]?.language ?: "en-US"
             ).value
         }
 
