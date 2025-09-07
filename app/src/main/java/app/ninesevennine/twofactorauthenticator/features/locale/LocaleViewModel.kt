@@ -13,7 +13,7 @@ import app.ninesevennine.twofactorauthenticator.utils.Logger
 import java.util.Locale
 
 class LocaleViewModel() : ViewModel() {
-    private var _effectiveLocale by mutableStateOf("en-US")
+    private var _effectiveLocale by mutableStateOf(LocaleOption.EN_US.value)
     val effectiveLocale: String get() = _effectiveLocale
 
     private val stringCache = mutableMapOf<Int, String>()
@@ -42,7 +42,7 @@ class LocaleViewModel() : ViewModel() {
     private fun computeEffectiveLocale(option: LocaleOption): String = when (option) {
         LocaleOption.SYSTEM_DEFAULT -> {
             LocaleOption.fromLanguageOrDefault(
-                Resources.getSystem().configuration.locales[0]?.language ?: "en-US"
+                Resources.getSystem().configuration.locales[0]?.language ?: LocaleOption.EN_US.value
             ).value
         }
 
