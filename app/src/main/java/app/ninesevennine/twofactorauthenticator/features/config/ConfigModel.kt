@@ -13,7 +13,7 @@ object ConfigModel {
     data class Config(
         var locale: LocaleOption = LocaleOption.SYSTEM_DEFAULT,
         var theme: ThemeOption = ThemeOption.SYSTEM_DEFAULT,
-        var requirePINUnlock: Boolean = false,
+        var requirePINToUnlock: Boolean = false,
         var requireTapToReveal: Boolean = false,
         var enableFocusSearch: Boolean = false
     ) {
@@ -23,7 +23,7 @@ object ConfigModel {
                     put("version", 1)
                     put("locale", locale.value)
                     put("theme", theme.value)
-                    put("requirePINUnlock", requirePINUnlock)
+                    put("requirePINToUnlock", requirePINToUnlock)
                     put("requireTapToReveal", requireTapToReveal)
                     put("enableFocusSearch", enableFocusSearch)
                 }.toString().let { jsonString ->
@@ -50,7 +50,7 @@ object ConfigModel {
                     Config(
                         locale = LocaleOption.fromString(json.getString("locale")),
                         theme = ThemeOption.fromInt(json.getInt("theme")),
-                        requirePINUnlock = json.optBoolean("requirePINUnlock", false),
+                        requirePINToUnlock = json.optBoolean("requirePINToUnlock", false),
                         requireTapToReveal = json.getBoolean("requireTapToReveal"),
                         enableFocusSearch = json.getBoolean("enableFocusSearch")
                     )
