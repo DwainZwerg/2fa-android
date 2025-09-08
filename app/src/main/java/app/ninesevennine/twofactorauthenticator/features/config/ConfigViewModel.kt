@@ -23,6 +23,10 @@ class ConfigViewModel : ViewModel() {
         values = values.copy(theme = value)
     }
 
+    fun updatePINUnlock(value: Boolean) {
+        values = values.copy(requirePINUnlock = value)
+    }
+
     fun updateTapToReveal(value: Boolean) {
         values = values.copy(requireTapToReveal = value)
     }
