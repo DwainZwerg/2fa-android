@@ -3,7 +3,6 @@ package app.ninesevennine.twofactorauthenticator.utils
 import org.bouncycastle.crypto.modes.ChaCha20Poly1305
 import org.bouncycastle.crypto.params.AEADParameters
 import org.bouncycastle.crypto.params.KeyParameter
-import java.security.SecureRandom
 
 object ChaCha20Poly1305 {
     const val KEY_SIZE: Int = 32

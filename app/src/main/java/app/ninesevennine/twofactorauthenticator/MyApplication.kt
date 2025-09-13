@@ -2,7 +2,7 @@ package app.ninesevennine.twofactorauthenticator
 
 import android.app.Application
 import app.ninesevennine.twofactorauthenticator.features.config.ConfigViewModel
-import app.ninesevennine.twofactorauthenticator.features.crypto.SecureCrypto
+import app.ninesevennine.twofactorauthenticator.features.crypto.SecureCryptoViewModel
 import app.ninesevennine.twofactorauthenticator.features.locale.LocaleViewModel
 import app.ninesevennine.twofactorauthenticator.features.theme.ThemeViewModel
 import app.ninesevennine.twofactorauthenticator.features.vault.VaultViewModel
@@ -13,8 +13,8 @@ class MyApplication : Application() {
     val configViewModel = ConfigViewModel()
     val localeViewModel = LocaleViewModel()
     val themeViewModel = ThemeViewModel()
+    val secureCryptoViewModel = SecureCryptoViewModel()
     val vaultViewModel = VaultViewModel()
-
 
     override fun onCreate() {
         super.onCreate()
@@ -32,10 +32,10 @@ class MyApplication : Application() {
 
         configViewModel.load(this)
 
-        SecureCrypto.initialize(this)
-
         localeViewModel.updateLocale(this, configViewModel.values.locale)
         themeViewModel.updateTheme(this, configViewModel.values.theme)
+
+        secureCryptoViewModel.init()
 
         vaultViewModel.load(this)
     }

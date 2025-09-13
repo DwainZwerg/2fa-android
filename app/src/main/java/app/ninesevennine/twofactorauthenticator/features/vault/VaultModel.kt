@@ -1,9 +1,9 @@
 package app.ninesevennine.twofactorauthenticator.features.vault
 
 import android.content.Context
-import app.ninesevennine.twofactorauthenticator.features.crypto.SecureCrypto
 import app.ninesevennine.twofactorauthenticator.features.otp.OtpHashFunctions
 import app.ninesevennine.twofactorauthenticator.features.otp.OtpTypes
+import app.ninesevennine.twofactorauthenticator.secureCryptoViewModel
 import app.ninesevennine.twofactorauthenticator.ui.elements.otpcard.OtpCardColors
 import app.ninesevennine.twofactorauthenticator.utils.Argon2id
 import app.ninesevennine.twofactorauthenticator.utils.ChaCha20Poly1305
@@ -42,8 +42,8 @@ object VaultModel {
         return json
     }
 
-    private fun encryptVault(vaultItemsJson: String): ByteArray {
-        SecureCrypto.getInstance().encrypt(vaultItemsJson.toByteArray(Charsets.UTF_8))?.let {
+    private fun encryptVault(context: Context, vaultItemsJson: String): ByteArray {
+        context.secureCryptoViewModel.encrypt(vaultItemsJson.toByteArray(Charsets.UTF_8))?.let {
             return it
         }
         throw Exception("encrypt returned null")
@@ -55,7 +55,7 @@ object VaultModel {
         runCatching {
             JSONObject().apply {
                 put("version", 1)
-                put("data", Base64.encode(encryptVault(vaultItemsAsJson(vaultItems))))
+                put("data", Base64.encode(encryptVault(context, vaultItemsAsJson(vaultItems))))
             }.toString().let { jsonString ->
                 File(context.noBackupFilesDir, FILE_NAME).writeText(jsonString, Charsets.UTF_8)
             }
@@ -104,8 +104,7 @@ object VaultModel {
                 JSONArray(dataJson)
             } catch (e: Exception) {
                 Logger.e(
-                    "VaultModel",
-                    "Failed to parse items JSON array: ${e.stackTraceToString()}"
+                    "VaultModel", "Failed to parse items JSON array: ${e.stackTraceToString()}"
                 )
                 return@runCatching emptyList<VaultItem>()
             }
@@ -140,9 +139,9 @@ object VaultModel {
         }
     }
 
-    private fun decryptVault(data: ByteArray): String {
+    private fun decryptVault(context: Context, data: ByteArray): String {
         val rawData =
-            SecureCrypto.getInstance().decrypt(data) ?: throw Exception("decrypt returned null")
+            context.secureCryptoViewModel.decrypt(data) ?: throw Exception("decrypt returned null")
         return String(rawData, Charsets.UTF_8)
     }
 
@@ -161,7 +160,7 @@ object VaultModel {
             val version = obj.getInt("version")
             val rawData = obj.getString("data").let { Base64.decode(it) }
 
-            jsonAsVaultItems(version, decryptVault(rawData))
+            jsonAsVaultItems(version, decryptVault(context, rawData))
         }.getOrElse { e ->
             Logger.e("VaultModel", "Error reading vault: ${e.stackTraceToString()}")
             emptyList()
