@@ -40,7 +40,7 @@ object SecureCryptoModel {
             setRandomizedEncryptionRequired(true)
             setUnlockedDeviceRequired(true)
             setKeySize(256)
-            setIsStrongBoxBacked(false)
+            setIsStrongBoxBacked(true)
         }
 
         try {
