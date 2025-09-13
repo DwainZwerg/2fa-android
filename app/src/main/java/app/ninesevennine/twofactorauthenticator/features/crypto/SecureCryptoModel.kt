@@ -2,7 +2,7 @@ package app.ninesevennine.twofactorauthenticator.features.crypto
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
-import android.util.Log
+import android.security.keystore.StrongBoxUnavailableException
 import app.ninesevennine.twofactorauthenticator.utils.Logger
 import java.security.InvalidKeyException
 import java.security.KeyStore
@@ -46,15 +46,13 @@ object SecureCryptoModel {
         try {
             keyGenerator.init(builder.build())
             keyGenerator.generateKey()
-        } catch (e: Exception) {
-            Log.e("SecureCryptoModel", "", e)
-            Logger.w("SecureCryptoModel", "Failed to generate key: ${e.stackTraceToString()}")
+        } catch (_: StrongBoxUnavailableException) {
+            Logger.w("SecureCryptoModel", "StrongBox unavailable")
 
             builder.setIsStrongBoxBacked(false)
             keyGenerator.init(builder.build())
             keyGenerator.generateKey()
         }
-
     }
 
     fun isKeyPermanentlyInvalidated(key: SecretKey): Boolean {

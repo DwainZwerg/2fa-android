@@ -38,6 +38,7 @@ object Logger {
 
         log("D", tag, message)
     }
+
     fun i(tag: String, message: String) {
         if (BuildConfig.DEBUG) {
             Log.i(tag, message)
@@ -45,13 +46,15 @@ object Logger {
 
         log("I", tag, message)
     }
-    fun w(tag: String, message: String) = {
+
+    fun w(tag: String, message: String) {
         if (BuildConfig.DEBUG) {
             Log.w(tag, message)
         }
 
         log("W", tag, message)
     }
+
     fun e(tag: String, message: String) {
         if (BuildConfig.DEBUG) {
             Log.e(tag, message)
