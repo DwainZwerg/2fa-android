@@ -181,6 +181,7 @@ private fun BackupSettingsSection() {
 @Composable
 private fun OtherSettingsScreen() {
     val context = LocalContext.current
+    val navController = LocalNavController.current
 
     Spacer(modifier = Modifier.height(16.dp))
     WideTitle(text = localizedString(R.string.settings_section_other))
@@ -190,7 +191,7 @@ private fun OtherSettingsScreen() {
         icon = Icons.Default.Pin,
         label = "PIN Unlock",
         enabled = requirePINToUnlock,
-        onClick = { context.configViewModel.updatePINToUnlock(!requirePINToUnlock) }
+        onClick = { navController.navigate(PINUnlockScreenRoute) }
     )
 
     val requireTapToReveal = context.configViewModel.values.requireTapToReveal
