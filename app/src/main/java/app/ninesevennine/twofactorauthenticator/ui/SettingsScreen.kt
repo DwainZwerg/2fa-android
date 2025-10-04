@@ -18,7 +18,6 @@ import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.LightMode
-import androidx.compose.material.icons.filled.Pin
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.TouchApp
 import androidx.compose.material.icons.filled.Upload
@@ -181,18 +180,9 @@ private fun BackupSettingsSection() {
 @Composable
 private fun OtherSettingsScreen() {
     val context = LocalContext.current
-    val navController = LocalNavController.current
 
     Spacer(modifier = Modifier.height(16.dp))
     WideTitle(text = localizedString(R.string.settings_section_other))
-
-    val requirePINToUnlock = context.configViewModel.values.requirePINToUnlock
-    WideRadioButtonWithIcon(
-        icon = Icons.Default.Pin,
-        label = "PIN Unlock",
-        enabled = requirePINToUnlock,
-        onClick = { navController.navigate(PINUnlockScreenRoute) }
-    )
 
     val requireTapToReveal = context.configViewModel.values.requireTapToReveal
     WideRadioButtonWithIcon(

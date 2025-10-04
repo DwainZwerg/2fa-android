@@ -12,8 +12,6 @@ class ConfigViewModel : ViewModel() {
     var values by mutableStateOf(ConfigModel.Config())
         private set
 
-    var pinUnlock by mutableStateOf("")
-
     fun save(context: Context) = values.save(context)
     fun load(context: Context) = ConfigModel.Config.load(context).also { values = it }
 
@@ -23,10 +21,6 @@ class ConfigViewModel : ViewModel() {
 
     fun updateTheme(value: ThemeOption) {
         values = values.copy(theme = value)
-    }
-
-    fun updatePINToUnlock(value: Boolean) {
-        values = values.copy(requirePINToUnlock = value)
     }
 
     fun updateTapToReveal(value: Boolean) {
