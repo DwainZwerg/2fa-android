@@ -70,7 +70,7 @@ fun MainScreen() {
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(
             top = WindowInsets.statusBars.asPaddingValues().calculateTopPadding() + 16.dp,
-            bottom = 192.dp
+            bottom = 448.dp
         ),
         horizontalArrangement = Arrangement.Center
     ) {
