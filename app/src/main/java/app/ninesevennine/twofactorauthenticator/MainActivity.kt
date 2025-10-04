@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.ninesevennine.twofactorauthenticator.features.theme.ThemeOption
+import app.ninesevennine.twofactorauthenticator.ui.elements.UseIncognitoKeyboard
 
 val LocalNavController =
     staticCompositionLocalOf<NavHostController> { error("NavController not provided") }
@@ -36,7 +37,9 @@ class MainActivity : ComponentActivity() {
             CompositionLocalProvider(
                 LocalNavController provides navController
             ) {
-                AppNavigation()
+                UseIncognitoKeyboard {
+                    AppNavigation()
+                }
             }
         }
     }
