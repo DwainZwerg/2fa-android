@@ -4,7 +4,6 @@ import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.security.keystore.StrongBoxUnavailableException
 import app.ninesevennine.twofactorauthenticator.utils.Logger
-import java.security.InvalidKeyException
 import java.security.KeyStore
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
@@ -53,17 +52,6 @@ object SecureCryptoModel {
             keyGenerator.init(builder.build())
             keyGenerator.generateKey()
         }
-    }
-
-    fun isKeyPermanentlyInvalidated(key: SecretKey): Boolean {
-        try {
-            val cipher = Cipher.getInstance(TRANSFORMATION_ALGORITHM)
-            cipher.init(Cipher.ENCRYPT_MODE, key)
-        } catch (_: InvalidKeyException) {
-            return true
-        }
-
-        return false
     }
 
     fun encrypt(key: SecretKey, data: ByteArray): ByteArray? {

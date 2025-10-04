@@ -25,11 +25,6 @@ class SecureCryptoViewModel : ViewModel() {
                 SecureCryptoModel.generateKey(keyAlias)
                 getSecretKey()
             }
-
-            key?.takeIf { SecureCryptoModel.isKeyPermanentlyInvalidated(it) }?.let {
-                SecureCryptoModel.generateKey(keyAlias)
-                key = getSecretKey()
-            }
         } catch (e: Exception) {
             Logger.e("SecureCryptoViewModel", "init failed: ${e.stackTraceToString()}")
         }
