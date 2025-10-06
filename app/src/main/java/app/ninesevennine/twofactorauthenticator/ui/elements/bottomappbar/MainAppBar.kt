@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -104,23 +105,23 @@ fun MainAppBar(
                 .fillMaxWidth()
                 .then(
                     if (isKeyboardOpen) Modifier
-                    else Modifier.padding(horizontal = 32.dp)
+                    else Modifier.padding(horizontal = 24.dp)
                 )
                 .widthIn(max = 384.dp)
-                .height(64.dp)
+                .height(56.dp)
                 .shadow(
                     elevation = 8.dp,
-                    shape = RoundedCornerShape(32.dp),
+                    shape = RoundedCornerShape(26.dp),
                     clip = false
                 )
                 .then(
                     if (isKeyboardOpen) Modifier.clip(
                         RoundedCornerShape(
-                            topStart = 32.dp,
-                            topEnd = 32.dp
+                            topStart = 26.dp,
+                            topEnd = 26.dp
                         )
                     )
-                    else Modifier.clip(RoundedCornerShape(32.dp))
+                    else Modifier.clip(RoundedCornerShape(26.dp))
                 )
                 .background(colors.primaryContainer),
             horizontalArrangement = Arrangement.Center,
@@ -133,14 +134,13 @@ fun MainAppBar(
                     onSearch(new)
                 },
                 modifier = Modifier
-                    .padding(start = 8.dp)
                     .weight(1f)
                     .fillMaxWidth()
                     .focusRequester(focusRequester),
                 singleLine = true,
                 textStyle = TextStyle(
                     fontFamily = InterVariable,
-                    fontWeight = FontWeight.W700,
+                    fontWeight = FontWeight.Normal,
                     fontSize = 18.sp,
                     color = colors.onPrimaryContainer
                 ),
@@ -148,7 +148,7 @@ fun MainAppBar(
                     Icon(
                         imageVector = Icons.Filled.Search,
                         contentDescription = null,
-                        modifier = Modifier.size(32.dp),
+                        modifier = Modifier.size(26.dp).offset(x = 8.dp),
                         tint = colors.onPrimaryContainer
                     )
                 },
@@ -156,9 +156,10 @@ fun MainAppBar(
                     Text(
                         text = localizedString(R.string.common_search_hint),
                         fontFamily = InterVariable,
-                        fontWeight = FontWeight.W700,
+                        letterSpacing = (-0.2).sp,
+                        fontWeight = FontWeight.Normal,
                         fontSize = 18.sp,
-                        color = colors.onPrimaryContainer.copy(alpha = 0.7f)
+                        color = colors.onPrimaryContainer
                     )
                 },
                 colors = TextFieldDefaults.colors(
@@ -204,7 +205,7 @@ fun MainAppBar(
 
             Box(
                 modifier = Modifier
-                    .size(64.dp)
+                    .size(56.dp)
                     .clip(RoundedCornerShape(8.dp))
                     .clickable {
                         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
@@ -216,7 +217,7 @@ fun MainAppBar(
                 Icon(
                     imageVector = Icons.Filled.Settings,
                     contentDescription = null,
-                    modifier = Modifier.size(32.dp),
+                    modifier = Modifier.size(26.dp),
                     tint = colors.onPrimaryContainer
                 )
             }
@@ -231,7 +232,7 @@ fun MainAppBar(
             Box(
                 modifier = Modifier
                     .padding(end = 8.dp)
-                    .size(64.dp)
+                    .size(48.dp)
                     .pointerInput(Unit) {
                         detectTapGestures(
                             onTap = {
@@ -251,7 +252,7 @@ fun MainAppBar(
                 Icon(
                     imageVector = Icons.Filled.Add,
                     contentDescription = null,
-                    modifier = Modifier.size(40.dp),
+                    modifier = Modifier.size(32.dp),
                     tint = colors.onPrimaryContainer
                 )
             }
