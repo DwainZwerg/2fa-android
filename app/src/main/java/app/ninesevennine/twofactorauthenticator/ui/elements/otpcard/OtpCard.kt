@@ -38,7 +38,7 @@ fun OtpCard(
     val cardModifier = modifier
         .padding(vertical = 8.dp, horizontal = 16.dp)
         .fillMaxWidth()
-        .height(208.dp)
+        .height(152.dp)
         .then(
             if (dragging) Modifier.shadow(
                 elevation = 8.dp,
@@ -55,11 +55,10 @@ fun OtpCard(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .padding(16.dp)
+                .padding(horizontal = 8.dp)
                 .fillMaxSize()
         ) {
             OtpCardUpper(item = item, enableEditing = enableEditing)
-            Spacer(Modifier.height(16.dp))
             OtpCardLower(item = item)
         }
     }

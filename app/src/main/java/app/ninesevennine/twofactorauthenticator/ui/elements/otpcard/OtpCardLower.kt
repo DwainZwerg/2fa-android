@@ -75,11 +75,11 @@ fun OtpCardLower(
         } else otpCode
     }
 
-    val shape = RoundedCornerShape(16.dp)
+    val shape = RoundedCornerShape(26.dp)
 
     val lowerModifier = Modifier
         .fillMaxWidth()
-        .height(80.dp)
+        .height(72.dp)
         .background(
             color = colors.secondColor,
             shape = shape
@@ -105,7 +105,7 @@ fun OtpCardLower(
             fontFamily = InterVariable,
             color = colors.firstColor,
             fontWeight = FontWeight.W700,
-            fontSize = if (!revealed && context.configViewModel.values.requireTapToReveal) 56.sp else 48.sp,
+            fontSize = if (!revealed && context.configViewModel.values.requireTapToReveal) 52.sp else 44.sp,
             maxLines = 1
         )
     }

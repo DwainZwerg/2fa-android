@@ -26,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
@@ -71,14 +72,12 @@ fun OtpCardUpper(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxWidth()
-            .height(80.dp)
+            .height(72.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
+            modifier = Modifier.fillMaxWidth().padding(start = 8.dp)
         ) {
             Box(
                 contentAlignment = Alignment.Center
@@ -87,11 +86,11 @@ fun OtpCardUpper(
                     Icon(
                         painter = painterResource(id = issuerIcon),
                         contentDescription = null,
-                        modifier = Modifier.size(64.dp),
+                        modifier = Modifier.size(54.dp),
                         tint = Color.Unspecified
                     )
                 } else {
-                    Canvas(Modifier.size(64.dp)) {
+                    Canvas(Modifier.size(54.dp)) {
                         drawCircle(
                             color = colors.thirdColor
                         )
@@ -108,7 +107,7 @@ fun OtpCardUpper(
                         fontFamily = InterVariable,
                         color = colors.firstColor,
                         fontWeight = FontWeight.W700,
-                        fontSize = 32.sp,
+                        fontSize = 26.sp,
                         maxLines = 1
                     )
                 }
@@ -126,7 +125,7 @@ fun OtpCardUpper(
                     fontFamily = InterVariable,
                     color = colors.thirdColor,
                     fontWeight = FontWeight.W700,
-                    fontSize = 18.sp,
+                    fontSize = 16.sp,
                     maxLines = 1
                 )
 
@@ -136,7 +135,7 @@ fun OtpCardUpper(
                         fontFamily = InterVariable,
                         color = colors.thirdColor,
                         fontWeight = FontWeight.Normal,
-                        fontSize = 16.sp,
+                        fontSize = 14.sp,
                         maxLines = 1
                     )
                 }
@@ -145,7 +144,7 @@ fun OtpCardUpper(
             Spacer(Modifier.width(8.dp))
 
             if (item.otpType != OtpTypes.HOTP) {
-                Canvas(Modifier.size(32.dp)) {
+                Canvas(Modifier.padding(12.dp).size(24.dp)) {
                     drawArc(
                         color = colors.secondColor,
                         startAngle = -90f,
@@ -157,10 +156,6 @@ fun OtpCardUpper(
                 Box(
                     modifier = Modifier
                         .size(48.dp)
-                        .background(
-                            color = colors.secondColor,
-                            shape = RoundedCornerShape(8.dp)
-                        )
                         .clickable {
                             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                             view.playSoundEffect(SoundEffectConstants.CLICK)
@@ -174,20 +169,21 @@ fun OtpCardUpper(
                     Icon(
                         imageVector = Icons.Filled.Refresh,
                         contentDescription = null,
-                        tint = colors.firstColor
+                        tint = colors.secondColor
                     )
                 }
             }
 
-            Spacer(Modifier.width(8.dp))
+            Spacer(
+                modifier = Modifier
+                    .width(1.dp)
+                    .height(32.dp)
+                    .background(colors.secondColor)
+            )
 
             Box(
                 modifier = Modifier
                     .size(48.dp)
-                    .background(
-                        color = colors.secondColor,
-                        shape = RoundedCornerShape(8.dp)
-                    )
                     .clickable {
                         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                         view.playSoundEffect(SoundEffectConstants.CLICK)
@@ -201,7 +197,7 @@ fun OtpCardUpper(
                 Icon(
                     imageVector = Icons.Filled.Edit,
                     contentDescription = null,
-                    tint = colors.firstColor
+                    tint = colors.secondColor
                 )
             }
         }

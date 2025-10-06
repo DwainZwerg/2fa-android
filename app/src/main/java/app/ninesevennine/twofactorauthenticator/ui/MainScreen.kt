@@ -69,7 +69,7 @@ fun MainScreen() {
         columns = GridCells.Fixed(1),
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(
-            top = WindowInsets.statusBars.asPaddingValues().calculateTopPadding() + 16.dp,
+            top = WindowInsets.statusBars.asPaddingValues().calculateTopPadding(),
             bottom = 448.dp
         ),
         horizontalArrangement = Arrangement.Center
