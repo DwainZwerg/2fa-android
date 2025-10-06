@@ -46,7 +46,7 @@ fun OtpCardLower(
     val clipboard = LocalClipboard.current
     val vaultViewModel = context.vaultViewModel
 
-    var revealed by remember { mutableStateOf(false) }
+    var revealed by remember { mutableStateOf(!context.configViewModel.values.requireTapToReveal) }
 
     val currentTimeSeconds by vaultViewModel.currentTimeSeconds.collectAsState()
     val currentCycle = currentTimeSeconds / item.period
@@ -93,7 +93,9 @@ fun OtpCardLower(
                 clipboard.nativeClipboard.setPrimaryClip(ClipData.newPlainText("OTP Code", otpCode))
             }
 
-            revealed = !revealed
+            if (context.configViewModel.values.requireTapToReveal) {
+                revealed = !revealed
+            }
         }
 
     Box(
