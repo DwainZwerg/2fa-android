@@ -107,6 +107,14 @@ private fun LanguageSettingsSection() {
         onClick = { localeViewModel.updateLocale(context, LocaleOption.RU_RU) }
     )
 
+    WideRadioButtonWithTintedIcon(
+        icon = painterResource(id = R.drawable.lang_de),
+        tint = Color.Unspecified,
+        label = "Deutsch",
+        enabled = localeViewModel.effectiveLocale == LocaleOption.DE_DE.value,
+        onClick = { localeViewModel.updateLocale(context, LocaleOption.DE_DE) }
+    )
+
     WideButtonWithIcon(
         icon = Icons.Default.Refresh,
         label = localizedString(R.string.common_use_system_default),
