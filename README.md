@@ -29,8 +29,8 @@
 - **Direct APK:** Download the latest release from [Releases](https://github.com/979st/2fa-android/releases) and verify it using [AppVerifier](https://github.com/soupslurpr/AppVerifier) or Android's official apksigner tool.
 
 ## Development Roadmap
-- **Alpha:** Add essential features and integrate user feedback
-- **Beta:** Refine the UI, improve usability, add animations, and publish on [Accrescent](https://accrescent.app/)
+- ~**Alpha:** Add essential features~
+- **Beta:** Integrate user feedback, refine the UI, improve usability, add animations, and publish on [Accrescent](https://accrescent.app/)
 - **Release Candidate:** Prepare for a full launch on the Google Play Store
 
 ## Verifying APKs
@@ -42,5 +42,7 @@ All official release APKs are signed with our release key. Signing certificate f
 
 We recommend verifying downloads using either [AppVerifier](https://github.com/soupslurpr/AppVerifier) or Android's official apksigner tool.
 
-## 2fa Alpha 2 Demo
-![2fa Alpha 2 Demo](assets/vc-2.gif)
+## 2fa Beta 1 Demo
+| Light | Dark |
+|---:|:---|
+| ![Light](assets/vc_10_light.png) | ![Dark](assets/vc_10_dark.png) |
