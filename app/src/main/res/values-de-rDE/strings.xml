@@ -42,6 +42,7 @@
     <string name="settings_option_focus_search">Suche beim Start fokussieren</string>
     <string name="settings_section_about">Über diese App</string>
     <string name="about_button_join_community">Discord</string>
+    <string name="about_button_follow_us">Bluesky</string>
     <string name="about_button_view_source">Source-Code</string>
     <string name="about_button_debug_log">Debug-Log</string>
 

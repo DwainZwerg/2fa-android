@@ -41,6 +41,7 @@
     <string name="settings_option_focus_search">Enfocar la búsqueda al iniciar</string>
     <string name="settings_section_about">Acerca de la aplicación</string>
     <string name="about_button_join_community">Únete a nuestra comunidad</string>
+    <string name="about_button_follow_us">Síganos</string>
     <string name="about_button_view_source">Ver código fuente</string>
     <string name="about_button_debug_log">Registro de diagnóstico</string>
 
