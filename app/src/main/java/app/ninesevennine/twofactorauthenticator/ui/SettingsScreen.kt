@@ -228,7 +228,7 @@ private fun AboutSettingsSection() {
 
     WideButtonWithIcon(
         icon = Icons.Filled.Groups,
-        label = localizedString(R.string.about_button_join_bluesky),
+        label = localizedString(R.string.about_button_follow_us),
         onClick = {
             val intent = Intent(Intent.ACTION_VIEW, "https://bsky.app/profile/979.st/post/3m2mculywi22w".toUri())
             context.startActivity(intent)
