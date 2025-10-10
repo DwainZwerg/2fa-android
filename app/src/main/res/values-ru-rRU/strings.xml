@@ -40,8 +40,6 @@
     <string name="settings_option_tap_to_reveal">Показать коды при нажатии</string>
     <string name="settings_option_focus_search">Фокусировать поиск при запуске</string>
     <string name="settings_section_about">О приложении</string>
-    <string name="about_button_join_community">Присоединиться к сообществу</string>
-    <string name="about_button_follow_us">Следуйте за нами</string>
     <string name="about_button_view_source">Посмотреть исходный код</string>
     <string name="about_button_debug_log">Журнал заметок</string>
 

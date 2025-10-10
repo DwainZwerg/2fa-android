@@ -16,7 +16,6 @@ import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.Contrast
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Download
-import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.TouchApp
@@ -217,18 +216,20 @@ private fun AboutSettingsSection() {
     Spacer(modifier = Modifier.height(16.dp))
     WideTitle(text = localizedString(R.string.settings_section_about))
 
-    WideButtonWithIcon(
-        icon = Icons.Filled.Groups,
-        label = localizedString(R.string.about_button_join_community),
+    WideButtonWithTintedIcon(
+        icon = painterResource(R.drawable.issuer_discord),
+        tint = Color.Unspecified,
+        label = "Discord",
         onClick = {
             val intent = Intent(Intent.ACTION_VIEW, "https://discord.com/invite/zxgXNzhYJu".toUri())
             context.startActivity(intent)
         }
     )
 
-    WideButtonWithIcon(
-        icon = Icons.Filled.Groups,
-        label = localizedString(R.string.about_button_follow_us),
+    WideButtonWithTintedIcon(
+        icon = painterResource(R.drawable.bluesky),
+        tint = Color.Unspecified,
+        label = "Bluesky",
         onClick = {
             val intent = Intent(Intent.ACTION_VIEW, "https://bsky.app/profile/979.st".toUri())
             context.startActivity(intent)
