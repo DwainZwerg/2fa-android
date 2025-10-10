@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -50,6 +51,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.TextStyle
@@ -76,11 +78,17 @@ fun MainAppBar(
     val colors = context.themeViewModel.colors
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
+    val layoutDirection = LocalLayoutDirection.current
 
     var query by remember { mutableStateOf("") }
 
     val navBottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     val imeBottom = WindowInsets.ime.asPaddingValues().calculateBottomPadding()
+
+    val cutoutLeft =
+        WindowInsets.displayCutout.asPaddingValues().calculateLeftPadding(layoutDirection)
+    val cutoutRight =
+        WindowInsets.displayCutout.asPaddingValues().calculateRightPadding(layoutDirection)
 
     val isKeyboardOpen = imeBottom > 80.dp
     val bottomPadding = if (isKeyboardOpen) imeBottom else navBottom + 8.dp
@@ -104,7 +112,7 @@ fun MainAppBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .then(
-                    if (isKeyboardOpen) Modifier
+                    if (isKeyboardOpen) Modifier.padding(start = cutoutLeft, end = cutoutRight)
                     else Modifier.padding(horizontal = 24.dp)
                 )
                 .widthIn(max = 384.dp)
@@ -148,7 +156,9 @@ fun MainAppBar(
                     Icon(
                         imageVector = Icons.Filled.Search,
                         contentDescription = null,
-                        modifier = Modifier.size(26.dp).offset(x = 8.dp),
+                        modifier = Modifier
+                            .size(26.dp)
+                            .offset(x = 8.dp),
                         tint = colors.onPrimaryContainer
                     )
                 },
