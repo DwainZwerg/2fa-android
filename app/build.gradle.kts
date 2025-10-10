@@ -42,6 +42,10 @@ android {
             dimension = "store"
             applicationId = "app.ninesevennine.twofactorauthenticator"
         }
+        create("accrescent") {
+            dimension = "store"
+            applicationId = "app.ninesevennine.twofactorauthenticator.accrescent"
+        }
         create("play") {
             dimension = "store"
             applicationId = "app.ninesevennine.twofactorauthenticator.play"
