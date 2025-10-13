@@ -1,10 +1,12 @@
 package app.ninesevennine.twofactorauthenticator.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -17,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import app.ninesevennine.twofactorauthenticator.LocalNavController
@@ -27,6 +30,7 @@ import app.ninesevennine.twofactorauthenticator.vaultViewModel
 import kotlinx.serialization.Serializable
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyGridState
+import kotlin.math.max
 import kotlin.uuid.ExperimentalUuidApi
 
 @Serializable
@@ -36,6 +40,7 @@ object MainScreenRoute
 fun MainScreen() {
     val context = LocalContext.current
     val navController = LocalNavController.current
+    val configuration = LocalConfiguration.current
     val vaultViewModel = context.vaultViewModel
 
     val items = vaultViewModel.items
@@ -64,13 +69,20 @@ fun MainScreen() {
 
     val isFiltering = query.trim().isNotEmpty()
 
+    @SuppressLint("ConfigurationScreenWidthHeight")
+    val columnCount = remember(configuration.screenWidthDp) {
+        max(1, configuration.screenWidthDp / 400)
+    }
+
     LazyVerticalGrid(
         state = lazyGridState,
-        columns = GridCells.Fixed(1),
+        columns = GridCells.Fixed(columnCount),
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(
             top = WindowInsets.statusBars.asPaddingValues().calculateTopPadding(),
-            bottom = 448.dp
+            start = 8.dp,
+            end = 8.dp,
+            bottom = WindowInsets.ime.asPaddingValues().calculateBottomPadding() + 96.dp
         ),
         horizontalArrangement = Arrangement.Center
     ) {

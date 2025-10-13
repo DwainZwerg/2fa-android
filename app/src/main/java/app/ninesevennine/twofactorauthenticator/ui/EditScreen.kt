@@ -72,9 +72,11 @@ fun EditScreen(uuidString: String) {
                 Constants.NILUUIDSTR -> {
                     VaultItem()
                 }
+
                 Constants.ONEUUIDSTR -> {
                     VaultItem(uuid = Uuid.random())
                 }
+
                 else -> {
                     vaultViewModel.getItemByUuid(Uuid.parse(uuidString)) ?: VaultItem()
                 }
@@ -120,6 +122,7 @@ fun EditScreen(uuidString: String) {
         Spacer(modifier = Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
 
         OtpCard(
+            modifier = Modifier.padding(horizontal = 8.dp),
             item = item,
             dragging = false,
             enableEditing = false

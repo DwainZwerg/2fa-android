@@ -91,7 +91,7 @@ fun MainAppBar(
         WindowInsets.displayCutout.asPaddingValues().calculateRightPadding(layoutDirection)
 
     val isKeyboardOpen = imeBottom > 80.dp
-    val bottomPadding = if (isKeyboardOpen) imeBottom else navBottom + 8.dp
+    val bottomPadding = if (isKeyboardOpen) imeBottom else navBottom + 4.dp
 
     val focusRequester = remember { FocusRequester() }
 
@@ -110,12 +110,12 @@ fun MainAppBar(
     ) {
         Row(
             modifier = Modifier
+                .widthIn(max = if (!isKeyboardOpen) 500.dp else Int.MAX_VALUE.dp)
                 .fillMaxWidth()
                 .then(
                     if (isKeyboardOpen) Modifier.padding(start = cutoutLeft, end = cutoutRight)
                     else Modifier.padding(horizontal = 24.dp)
                 )
-                .widthIn(max = 384.dp)
                 .height(56.dp)
                 .shadow(
                     elevation = 8.dp,

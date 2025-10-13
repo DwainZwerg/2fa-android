@@ -3,7 +3,6 @@ package app.ninesevennine.twofactorauthenticator.ui.elements.otpcard
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -36,7 +35,7 @@ fun OtpCard(
     val shape = RoundedCornerShape(32.dp)
 
     val cardModifier = modifier
-        .padding(vertical = 8.dp, horizontal = 16.dp)
+        .padding(vertical = 8.dp, horizontal = 8.dp)
         .fillMaxWidth()
         .height(152.dp)
         .then(
