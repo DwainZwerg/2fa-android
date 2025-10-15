@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Common -->
-    <string name="common_use_system_default">App Standard</string>
+    <string name="common_use_system_default">Appstandard</string>
     <string name="common_cancel">Abbrechen</string>
     <string name="common_password_hint">Passwort</string>
     <string name="common_search_hint">Suche</string>
@@ -14,10 +14,10 @@
     <string name="edit_field_note_hint">Notiz</string>
     <string name="edit_button_delete">Löschen</string>
     <string name="edit_screen_advanced_title">Erweitere Einstellungen</string>
-    <string name="edit_field_secret_hint">Secret</string>
+    <string name="edit_field_secret_hint">Geheimschlüssel (Secret)</string>
     <string name="edit_unit_seconds">Sekunden</string>
     <string name="edit_unit_digits">Ziffern</string>
-    <string name="edit_unit_counter">counter</string>
+    <string name="edit_unit_counter">Zähler</string>
 
     <!-- QRScannerView.kt -->
     <string name="qr_scanner_permission_required">
@@ -32,10 +32,10 @@
     <string name="settings_appearance_dark">Dunkel</string>
     <string name="settings_appearance_dynamic">Dynamisch</string>
     <string name="settings_section_manage_data">Backup &amp; Wiederherstellung</string>
-    <string name="settings_button_backup_codes">Backup 2FA-Codes</string>
+    <string name="settings_button_backup_codes">2FA-Code-Backup</string>
     <string name="settings_button_restore_codes">2FA-Codes wiederherstellen</string>
     <string name="settings_button_export_google_authenticator">
-        Exportieren in den Google Authenticator
+        In Google Authenticator exportieren
     </string>
     <string name="settings_section_other">Weiteres</string>
     <string name="settings_option_tap_to_reveal">Tippen, um Codes anzuzeigen</string>
@@ -46,11 +46,11 @@
 
     <!-- Backup/Restore -->
     <string name="backup_title_credentials">Zugangsdaten</string>
-    <string name="backup_error_password_length">Zeichenlänge: 8</string>
+    <string name="backup_error_password_length">Mindestzeichenlänge: 8</string>
     <string name="backup_error_password_uppercase">Verwende Großbuchstaben</string>
     <string name="backup_error_password_digit">Verwende Ziffern</string>
     <string name="backup_error_password_special">Verwende Sonderzeichen</string>
-    <string name="backup_field_confirm_password_hint">Passwort bestätigen</string>
+    <string name="backup_field_confirm_password_hint">Passwort wiederholen</string>
     <string name="backup_status_backing_up">wird gespeichert</string>
     <string name="backup_button_action">Backup</string>
     <string name="restore_prompt_credentials">Zugangsdaten eingeben</string>
@@ -64,5 +64,5 @@
     </string>
 
     <!-- LogScreen.kt-->
-    <string name="debug_log">Debug Log</string>
+    <string name="debug_log">Debug-Log</string>
 </resources>
