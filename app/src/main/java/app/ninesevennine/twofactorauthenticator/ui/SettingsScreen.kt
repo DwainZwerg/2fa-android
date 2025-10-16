@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.ScreenLockPortrait
 import androidx.compose.material.icons.filled.TouchApp
 import androidx.compose.material.icons.filled.Upload
 import androidx.compose.runtime.Composable
@@ -190,6 +191,14 @@ private fun OtherSettingsScreen() {
 
     Spacer(modifier = Modifier.height(16.dp))
     WideTitle(text = localizedString(R.string.settings_section_other))
+
+    val screenSecurity = context.configViewModel.values.screenSecurity
+    WideRadioButtonWithIcon(
+        icon = Icons.Default.ScreenLockPortrait,
+        label = "Screen security",
+        enabled = screenSecurity,
+        onClick = { context.configViewModel.updateScreenSecurity(!screenSecurity) }
+    )
 
     val requireTapToReveal = context.configViewModel.values.requireTapToReveal
     WideRadioButtonWithIcon(

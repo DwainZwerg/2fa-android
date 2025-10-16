@@ -30,4 +30,8 @@ class ConfigViewModel : ViewModel() {
     fun updateFocusSearch(value: Boolean) {
         values = values.copy(enableFocusSearch = value)
     }
+
+    fun updateScreenSecurity(value: Boolean) {
+        values = values.copy(screenSecurity = value)
+    }
 }
