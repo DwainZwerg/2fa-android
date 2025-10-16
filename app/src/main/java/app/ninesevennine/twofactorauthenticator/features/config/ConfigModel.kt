@@ -52,7 +52,7 @@ object ConfigModel {
                         theme = ThemeOption.fromInt(json.getInt("theme")),
                         requireTapToReveal = json.getBoolean("requireTapToReveal"),
                         enableFocusSearch = json.getBoolean("enableFocusSearch"),
-                        screenSecurity = json.getBoolean("screenSecurity")
+                        screenSecurity = json.optBoolean("screenSecurity", false)
                     )
                 }.getOrElse { e ->
                     Log.e("ConfigModel", "Failed loading config", e)
