@@ -6,6 +6,7 @@
 /outputs/
 /app/play/
 /app/standard/
+/app/accrescent/
 *.apk
 *.ap_
 *.aab
