@@ -15,7 +15,8 @@ object ConfigModel {
         var theme: ThemeOption = ThemeOption.SYSTEM_DEFAULT,
         var requireTapToReveal: Boolean = false,
         var enableFocusSearch: Boolean = false,
-        var screenSecurity: Boolean = false
+        var screenSecurity: Boolean = true,
+        var antiPixnapping: Boolean = true
     ) {
         fun save(context: Context) {
             runCatching {
@@ -26,6 +27,7 @@ object ConfigModel {
                     put("requireTapToReveal", requireTapToReveal)
                     put("enableFocusSearch", enableFocusSearch)
                     put("screenSecurity", screenSecurity)
+                    put("antiPixnapping", antiPixnapping)
                 }.toString().let { jsonString ->
                     File(context.noBackupFilesDir, FILE_NAME)
                         .writeText(jsonString, Charsets.UTF_8)
@@ -52,7 +54,8 @@ object ConfigModel {
                         theme = ThemeOption.fromInt(json.getInt("theme")),
                         requireTapToReveal = json.getBoolean("requireTapToReveal"),
                         enableFocusSearch = json.getBoolean("enableFocusSearch"),
-                        screenSecurity = json.optBoolean("screenSecurity", false)
+                        screenSecurity = json.optBoolean("screenSecurity", true),
+                        antiPixnapping = json.optBoolean("antiPixnapping", true)
                     )
                 }.getOrElse { e ->
                     Log.e("ConfigModel", "Failed loading config", e)

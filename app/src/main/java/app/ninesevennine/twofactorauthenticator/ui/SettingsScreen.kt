@@ -192,6 +192,15 @@ private fun OtherSettingsScreen() {
     Spacer(modifier = Modifier.height(16.dp))
     WideTitle(text = localizedString(R.string.settings_section_other))
 
+    val antiPixnapping = context.configViewModel.values.antiPixnapping
+    WideRadioButtonWithTintedIcon(
+        icon = painterResource(R.drawable.bug),
+        tint = Color.Unspecified,
+        label = "Anti-Pixnapping (CVE-2025-48561)",
+        enabled = antiPixnapping,
+        onClick = { context.configViewModel.updateAntiPixnapping(!antiPixnapping) }
+    )
+
     val screenSecurity = context.configViewModel.values.screenSecurity
     WideRadioButtonWithIcon(
         icon = Icons.Default.ScreenLockPortrait,

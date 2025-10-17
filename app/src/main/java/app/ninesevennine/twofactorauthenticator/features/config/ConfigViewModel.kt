@@ -34,4 +34,8 @@ class ConfigViewModel : ViewModel() {
     fun updateScreenSecurity(value: Boolean) {
         values = values.copy(screenSecurity = value)
     }
+
+    fun updateAntiPixnapping(value: Boolean) {
+        values = values.copy(antiPixnapping = value)
+    }
 }
