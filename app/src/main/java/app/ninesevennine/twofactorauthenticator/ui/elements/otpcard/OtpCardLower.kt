@@ -46,6 +46,8 @@ import app.ninesevennine.twofactorauthenticator.vaultViewModel
 import java.security.SecureRandom
 import kotlin.random.Random
 
+private val secureRandom = SecureRandom()
+
 @Composable
 fun OtpCardLower(
     item: VaultItem
@@ -84,9 +86,36 @@ fun OtpCardLower(
     }
 
     val formattedCode = remember(otpCode) {
-        if (otpCode.length >= 6) {
-            "${otpCode.substring(0, otpCode.length / 2)} ${otpCode.substring(otpCode.length / 2)}"
-        } else otpCode
+        if (context.configViewModel.values.antiPixnapping) {
+            val seed = secureRandom.nextLong()
+            val random = Random(seed)
+            val result = StringBuilder()
+
+            val blocksToAdd = when (otpCode.length) {
+                in 4..6 -> 3
+                else -> 2
+            }
+            var blocksAdded = 0
+
+            for (digit in otpCode) {
+                result.append(digit)
+
+                val shouldAddBlock = blocksAdded < blocksToAdd && random.nextBoolean()
+                if (shouldAddBlock) {
+                    result.append('∎')
+                    blocksAdded++
+                }
+            }
+
+            result.toString()
+        } else {
+            if (otpCode.length >= 6) {
+                val midpoint = otpCode.length / 2
+                "${otpCode.substring(0, midpoint)} ${otpCode.substring(midpoint)}"
+            } else {
+                otpCode
+            }
+        }
     }
 
     val shape = RoundedCornerShape(26.dp)
@@ -125,11 +154,11 @@ fun OtpCardLower(
             maxLines = 1
         )
 
-        if (revealed && context.configViewModel.values.antiPixnapping) {
+        if (revealed && context.configViewModel.values.antiPixnapping && formattedCode.isNotEmpty()) {
             WhiteNoiseTexture(
-                otpCode = otpCode,
+                otpCode = formattedCode,
                 noiseColor = colors.secondColor,
-                density = 0.8f
+                density = 0.7f
             )
         }
     }
@@ -162,8 +191,6 @@ private fun WhiteNoiseTexture(
         filterQuality = FilterQuality.None
     )
 }
-
-private val secureRandom = SecureRandom()
 
 private fun generateWhiteNoiseTexture(
     color: Color,
