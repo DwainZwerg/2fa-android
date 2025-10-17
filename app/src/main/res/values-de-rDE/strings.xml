@@ -38,6 +38,7 @@
         In Google Authenticator exportieren
     </string>
     <string name="settings_section_other">Weiteres</string>
+    <string name="settings_option_screen_security">Bildschirmsicherheit</string>
     <string name="settings_option_tap_to_reveal">Tippen, um Codes anzuzeigen</string>
     <string name="settings_option_focus_search">Suche beim Start fokussieren</string>
     <string name="settings_section_about">Über diese App</string>

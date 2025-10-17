@@ -204,7 +204,7 @@ private fun OtherSettingsScreen() {
     val screenSecurity = context.configViewModel.values.screenSecurity
     WideRadioButtonWithIcon(
         icon = Icons.Default.ScreenLockPortrait,
-        label = "Screen security",
+        label = localizedString(R.string.settings_option_screen_security),
         enabled = screenSecurity,
         onClick = { context.configViewModel.updateScreenSecurity(!screenSecurity) }
     )

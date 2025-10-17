@@ -36,6 +36,7 @@
         Export to Google Authenticator
     </string>
     <string name="settings_section_other">Other settings</string>
+    <string name="settings_option_screen_security">Screen security</string>
     <string name="settings_option_tap_to_reveal">Tap to reveal codes</string>
     <string name="settings_option_focus_search">Focus search on launch</string>
     <string name="settings_section_about">About</string>

@@ -37,6 +37,7 @@
         Экспорт в Google Authenticator
     </string>
     <string name="settings_section_other">Другие настройки</string>
+    <string name="settings_option_screen_security">Безопасность экрана</string>
     <string name="settings_option_tap_to_reveal">Показать коды при нажатии</string>
     <string name="settings_option_focus_search">Фокусировать поиск при запуске</string>
     <string name="settings_section_about">О приложении</string>
