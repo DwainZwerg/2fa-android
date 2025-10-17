@@ -86,7 +86,7 @@ fun OtpCardLower(
     }
 
     val formattedCode = remember(otpCode) {
-        if (context.configViewModel.values.antiPixnapping) {
+        if (context.configViewModel.values.antiPixnapping && revealed) {
             val seed = secureRandom.nextLong()
             val random = Random(seed)
             val result = StringBuilder()
