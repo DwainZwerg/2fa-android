@@ -10,12 +10,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material3.Icon
@@ -101,81 +103,87 @@ fun RestoreVaultScreen() {
 
     if (restoreContent.isEmpty()) return
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                top = WindowInsets.statusBars.asPaddingValues().calculateTopPadding(),
-                bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
-            ),
-        verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.Start,
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.TopCenter
     ) {
-        Column {
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Download,
-                    contentDescription = null,
-                    modifier = Modifier.size(128.dp),
-                    tint = colors.onBackground
+        Column(
+            modifier = Modifier
+                .widthIn(max = 500.dp)
+                .fillMaxHeight()
+                .padding(
+                    top = WindowInsets.statusBars.asPaddingValues().calculateTopPadding(),
+                    bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+                ),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.Start,
+        ) {
+            Column {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Download,
+                        contentDescription = null,
+                        modifier = Modifier.size(128.dp),
+                        tint = colors.onBackground
+                    )
+                }
+
+                WideTitle(text = "${localizedString(R.string.restore_prompt_credentials)} ($restoreFilename)")
+
+                ConfidentialSingleLineTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = password,
+                    onValueChange = { password = it },
+                    placeholder = localizedString(R.string.common_password_hint),
+                    isError = password.isEmpty()
+                )
+
+                if (restoreError) WideText(
+                    text = localizedString(R.string.restore_error_incorrect_password),
+                    color = colors.error
+                )
+
+                WideButton(
+                    label = if (isRestoring)
+                        "${localizedString(R.string.restore_status_restoring)}${dots[dotCount]}"
+                    else
+                        localizedString(R.string.restore_button_action),
+                    color = colors.primary,
+                    textColor = colors.onPrimary,
+                    onClick = {
+                        if (isRestoring || password.isEmpty()) {
+                            return@WideButton
+                        }
+
+                        isRestoring = true
+
+                        restoreScope.launch {
+                            val success = withContext(Dispatchers.Default) {
+                                vaultViewModel.restoreVault(password, restoreContent)
+                            }
+
+                            if (success) {
+                                navController.popBackStack(
+                                    navController.graph.startDestinationId,
+                                    inclusive = false
+                                )
+                            } else {
+                                restoreError = true
+                                isRestoring = false
+                            }
+                        }
+                    }
                 )
             }
 
-            WideTitle(text = "${localizedString(R.string.restore_prompt_credentials)} ($restoreFilename)")
-
-            ConfidentialSingleLineTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = password,
-                onValueChange = { password = it },
-                placeholder = localizedString(R.string.common_password_hint),
-                isError = password.isEmpty()
-            )
-
-            if (restoreError) WideText(
-                text = localizedString(R.string.restore_error_incorrect_password),
-                color = colors.error
-            )
-
             WideButton(
-                label = if (isRestoring)
-                    "${localizedString(R.string.restore_status_restoring)}${dots[dotCount]}"
-                else
-                    localizedString(R.string.restore_button_action),
-                color = colors.primary,
-                textColor = colors.onPrimary,
-                onClick = {
-                    if (isRestoring || password.isEmpty()) {
-                        return@WideButton
-                    }
-
-                    isRestoring = true
-
-                    restoreScope.launch {
-                        val success = withContext(Dispatchers.Default) {
-                            vaultViewModel.restoreVault(password, restoreContent)
-                        }
-
-                        if (success) {
-                            navController.popBackStack(
-                                navController.graph.startDestinationId,
-                                inclusive = false
-                            )
-                        } else {
-                            restoreError = true
-                            isRestoring = false
-                        }
-                    }
-                }
+                label = localizedString(R.string.common_cancel),
+                onClick = { navController.popBackStack() }
             )
         }
-
-        WideButton(
-            label = localizedString(R.string.common_cancel),
-            onClick = { navController.popBackStack() }
-        )
     }
 }
 

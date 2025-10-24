@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.ime
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -119,105 +121,111 @@ fun BackupVaultScreen() {
 
     val bottomPadding = if (imeBottom > 0.dp) imeBottom else navBottom
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                top = WindowInsets.statusBars.asPaddingValues().calculateTopPadding(),
-                bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
-            ),
-        verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.Start,
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.TopCenter
     ) {
         Column(
             modifier = Modifier
-                .padding(bottom = bottomPadding)
-                .verticalScroll(rememberScrollState())
+                .widthIn(max = 500.dp)
+                .fillMaxHeight()
+                .padding(
+                    top = WindowInsets.statusBars.asPaddingValues().calculateTopPadding(),
+                    bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+                ),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.Start,
         ) {
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
+            Column(
+                modifier = Modifier
+                    .padding(bottom = bottomPadding)
+                    .verticalScroll(rememberScrollState())
             ) {
-                Icon(
-                    imageVector = Icons.Filled.Upload,
-                    contentDescription = null,
-                    modifier = Modifier.size(128.dp),
-                    tint = colors.onBackground
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Upload,
+                        contentDescription = null,
+                        modifier = Modifier.size(128.dp),
+                        tint = colors.onBackground
+                    )
+                }
+
+                WideTitle(text = localizedString(R.string.backup_title_credentials))
+
+                ConfidentialSingleLineTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = password,
+                    onValueChange = { password = it },
+                    placeholder = localizedString(R.string.common_password_hint),
+                    isError = !isPasswordStrong
+                )
+
+                if (!isPasswordLong) WideText(
+                    text = localizedString(R.string.backup_error_password_length),
+                    color = colors.error
+                )
+
+                if (!hasPasswordUppercase) WideText(
+                    text = localizedString(R.string.backup_error_password_uppercase),
+                    color = colors.error
+                )
+
+                if (!hasPasswordDigit) WideText(
+                    text = localizedString(R.string.backup_error_password_digit),
+                    color = colors.error
+                )
+
+                if (!hasPasswordSpecial) WideText(
+                    text = localizedString(R.string.backup_error_password_special),
+                    color = colors.error
+                )
+
+                ConfidentialSingleLineTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = confirmPassword,
+                    onValueChange = { confirmPassword = it },
+                    placeholder = localizedString(R.string.backup_field_confirm_password_hint),
+                    isError = !passwordsMatch
+                )
+
+                WideButton(
+                    label = if (isBackingUp)
+                        "${localizedString(R.string.backup_status_backing_up)}${dots[dotCount]}"
+                    else
+                        localizedString(R.string.backup_button_action),
+                    color = colors.primary,
+                    textColor = colors.onPrimary,
+                    onClick = {
+                        if (!isPasswordStrong || !passwordsMatch || isBackingUp) {
+                            return@WideButton
+                        }
+
+                        isBackingUp = true
+
+                        backupScope.launch {
+                            backupContent = withContext(Dispatchers.Default) {
+                                vaultViewModel.backupVault(password)
+                            }
+
+                            if (backupContent.isEmpty()) {
+                                Logger.e("BackupVaultScreen", "Backup content is empty")
+                                isBackingUp = false
+                                return@launch
+                            }
+
+                            createDocumentLauncher.launch("2fa_codes_backup")
+                        }
+                    }
                 )
             }
 
-            WideTitle(text = localizedString(R.string.backup_title_credentials))
-
-            ConfidentialSingleLineTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = password,
-                onValueChange = { password = it },
-                placeholder = localizedString(R.string.common_password_hint),
-                isError = !isPasswordStrong
-            )
-
-            if (!isPasswordLong) WideText(
-                text = localizedString(R.string.backup_error_password_length),
-                color = colors.error
-            )
-
-            if (!hasPasswordUppercase) WideText(
-                text = localizedString(R.string.backup_error_password_uppercase),
-                color = colors.error
-            )
-
-            if (!hasPasswordDigit) WideText(
-                text = localizedString(R.string.backup_error_password_digit),
-                color = colors.error
-            )
-
-            if (!hasPasswordSpecial) WideText(
-                text = localizedString(R.string.backup_error_password_special),
-                color = colors.error
-            )
-
-            ConfidentialSingleLineTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = confirmPassword,
-                onValueChange = { confirmPassword = it },
-                placeholder = localizedString(R.string.backup_field_confirm_password_hint),
-                isError = !passwordsMatch
-            )
-
             WideButton(
-                label = if (isBackingUp)
-                    "${localizedString(R.string.backup_status_backing_up)}${dots[dotCount]}"
-                else
-                    localizedString(R.string.backup_button_action),
-                color = colors.primary,
-                textColor = colors.onPrimary,
-                onClick = {
-                    if (!isPasswordStrong || !passwordsMatch || isBackingUp) {
-                        return@WideButton
-                    }
-
-                    isBackingUp = true
-
-                    backupScope.launch {
-                        backupContent = withContext(Dispatchers.Default) {
-                            vaultViewModel.backupVault(password)
-                        }
-
-                        if (backupContent.isEmpty()) {
-                            Logger.e("BackupVaultScreen", "Backup content is empty")
-                            isBackingUp = false
-                            return@launch
-                        }
-
-                        createDocumentLauncher.launch("2fa_codes_backup")
-                    }
-                }
+                label = localizedString(R.string.common_cancel),
+                onClick = { navController.popBackStack() }
             )
         }
-
-        WideButton(
-            label = localizedString(R.string.common_cancel),
-            onClick = { navController.popBackStack() }
-        )
     }
 }

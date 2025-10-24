@@ -2,12 +2,15 @@ package app.ninesevennine.twofactorauthenticator.ui
 
 import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -51,26 +54,32 @@ object SettingsScreenRoute
 
 @Composable
 fun SettingsScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.Start
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.TopCenter
     ) {
-        Spacer(modifier = Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
+        Column(
+            modifier = Modifier
+                .widthIn(max = 500.dp)
+                .fillMaxHeight()
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.Start
+        ) {
+            Spacer(modifier = Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
 
-        LanguageSettingsSection()
+            LanguageSettingsSection()
 
-        ThemeSettingsSection()
+            ThemeSettingsSection()
 
-        BackupSettingsSection()
+            BackupSettingsSection()
 
-        OtherSettingsScreen()
+            OtherSettingsScreen()
 
-        AboutSettingsSection()
+            AboutSettingsSection()
 
-        Spacer(modifier = Modifier.height(192.dp))
+            Spacer(modifier = Modifier.height(192.dp))
+        }
     }
 
     SettingsAppBar()

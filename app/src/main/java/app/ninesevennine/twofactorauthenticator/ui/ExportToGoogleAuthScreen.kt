@@ -12,12 +12,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowLeft
 import androidx.compose.material.icons.automirrored.filled.ArrowRight
@@ -72,120 +74,127 @@ fun ExportToGoogleAuthScreen() {
     val qrPages by remember { mutableIntStateOf(qrBitmaps.size) }
     var qrIndex by remember { mutableIntStateOf(0) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                top = WindowInsets.statusBars.asPaddingValues().calculateTopPadding(),
-                bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
-            ),
-        verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.Start,
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.TopCenter
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier
+                .widthIn(max = 500.dp)
+                .fillMaxHeight()
+                .padding(
+                    top = WindowInsets.statusBars.asPaddingValues().calculateTopPadding(),
+                    bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+                ),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.Start,
         ) {
-            Icon(
-                painter = painterResource(R.drawable.icon_google_authenticator),
-                contentDescription = null,
-                modifier = Modifier.size(192.dp),
-                tint = Color.Unspecified
-            )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.icon_google_authenticator),
+                    contentDescription = null,
+                    modifier = Modifier.size(128.dp),
+                    tint = Color.Unspecified
+                )
 
-            if (qrBitmaps.isEmpty()) {
-                Box(
-                    contentAlignment = Alignment.Center
-                ) {
-                    Canvas(
+                if (qrBitmaps.isEmpty()) {
+                    Box(
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Canvas(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp, horizontal = 32.dp)
+                                .aspectRatio(1f)
+                        ) {
+                            drawRect(
+                                color = colors.error,
+                                topLeft = Offset(0f, 0f),
+                                size = Size(size.width, size.width)
+                            )
+                        }
+
+                        Text(
+                            text = "?",
+                            fontFamily = InterVariable,
+                            color = colors.onError,
+                            fontWeight = FontWeight.W700,
+                            fontSize = 64.sp,
+                        )
+                    }
+                } else {
+                    Image(
+                        painter = BitmapPainter(
+                            qrBitmaps[qrIndex].asImageBitmap(),
+                            filterQuality = FilterQuality.None
+                        ),
+                        contentDescription = null,
                         modifier = Modifier
+                            .widthIn(max = 400.dp)
                             .fillMaxWidth()
                             .padding(vertical = 8.dp, horizontal = 32.dp)
                             .aspectRatio(1f)
-                    ) {
-                        drawRect(
-                            color = colors.error,
-                            topLeft = Offset(0f, 0f),
-                            size = Size(size.width, size.width)
-                        )
-                    }
-
-                    Text(
-                        text = "?",
-                        fontFamily = InterVariable,
-                        color = colors.onError,
-                        fontWeight = FontWeight.W700,
-                        fontSize = 96.sp,
                     )
                 }
-            } else {
-                Image(
-                    painter = BitmapPainter(
-                        qrBitmaps[qrIndex].asImageBitmap(),
-                        filterQuality = FilterQuality.None
-                    ),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp, horizontal = 32.dp)
-                        .aspectRatio(1f)
+
+                WideText(
+                    text = localizedString(R.string.export_google_authenticator_notice),
+                    textAlign = TextAlign.Center
                 )
-            }
 
-            WideText(
-                text = localizedString(R.string.export_google_authenticator_notice),
-                textAlign = TextAlign.Center
-            )
-
-            if (qrBitmaps.isNotEmpty()) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(64.dp)
-                            .clickable {
-                                qrIndex = (qrIndex - 1).coerceAtLeast(0)
-                            },
-                        contentAlignment = Alignment.Center
+                if (qrBitmaps.isNotEmpty()) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowLeft,
-                            contentDescription = null,
-                            modifier = Modifier.size(32.dp),
-                            tint = colors.onBackground
-                        )
-                    }
+                        Box(
+                            modifier = Modifier
+                                .size(64.dp)
+                                .clickable {
+                                    qrIndex = (qrIndex - 1).coerceAtLeast(0)
+                                },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowLeft,
+                                contentDescription = null,
+                                modifier = Modifier.size(32.dp),
+                                tint = colors.onBackground
+                            )
+                        }
 
-                    WideTitle(
-                        text = "${qrIndex + 1} / $qrPages",
-                        textAlign = TextAlign.Center
-                    )
-
-                    Box(
-                        modifier = Modifier
-                            .size(64.dp)
-                            .clickable {
-                                qrIndex = (qrIndex + 1).coerceAtMost(qrPages - 1)
-                            },
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowRight,
-                            contentDescription = null,
-                            modifier = Modifier.size(32.dp),
-                            tint = colors.onBackground
+                        WideTitle(
+                            text = "${qrIndex + 1} / $qrPages",
+                            textAlign = TextAlign.Center
                         )
+
+                        Box(
+                            modifier = Modifier
+                                .size(64.dp)
+                                .clickable {
+                                    qrIndex = (qrIndex + 1).coerceAtMost(qrPages - 1)
+                                },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowRight,
+                                contentDescription = null,
+                                modifier = Modifier.size(32.dp),
+                                tint = colors.onBackground
+                            )
+                        }
                     }
                 }
             }
-        }
 
-        WideButton(
-            label = localizedString(R.string.common_cancel),
-            onClick = { navController.popBackStack() }
-        )
+            WideButton(
+                label = localizedString(R.string.common_cancel),
+                onClick = { navController.popBackStack() }
+            )
+        }
     }
 }
 

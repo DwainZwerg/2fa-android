@@ -1,11 +1,13 @@
 package app.ninesevennine.twofactorauthenticator.ui
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,7 +16,7 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.windowInsetsTopHeight
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -111,188 +113,193 @@ fun EditScreen(uuidString: String) {
 
     val bottomPadding = if (imeBottom > 0.dp) imeBottom else navBottom
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(bottom = bottomPadding)
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.Start
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.TopCenter
     ) {
-        Spacer(modifier = Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
-
-        OtpCard(
-            modifier = Modifier.padding(horizontal = 8.dp),
-            item = item,
-            dragging = false,
-            enableEditing = false
-        )
-
-        WideTitle(text = localizedString(R.string.edit_screen_basic_info_title))
-
-        SingleLineTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = item.name,
-            onValueChange = { item = item.copy(name = it) },
-            placeholder = localizedString(R.string.edit_field_name_hint)
-        )
-
-        SingleLineTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = item.issuer,
-            onValueChange = { item = item.copy(issuer = it) },
-            placeholder = localizedString(R.string.edit_field_issuer_hint)
-        )
-
-        SingleLineTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = item.note,
-            onValueChange = { item = item.copy(note = it) },
-            placeholder = localizedString(R.string.edit_field_note_hint)
-        )
-
-        // Yes/No popup?
-        WideButtonError(
-            modifier = Modifier.fillMaxWidth(),
-            iconContent = {
-                Icon(
-                    imageVector = Icons.Default.Delete,
-                    contentDescription = null,
-                    tint = colors.onErrorContainer
+        Column(
+            modifier = Modifier
+                .widthIn(max = 500.dp)
+                .fillMaxHeight()
+                .padding(
+                    top = WindowInsets.statusBars.asPaddingValues().calculateTopPadding(),
+                    bottom = bottomPadding + 96.dp
                 )
-            },
-            label = localizedString(R.string.edit_button_delete),
-            onClick = {
-                navController.popBackStack()
-                vaultViewModel.removeItemByUuid(item.uuid)
-            }
-        )
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.Start
+        ) {
+            OtpCard(
+                modifier = Modifier.padding(horizontal = 8.dp),
+                item = item,
+                dragging = false,
+                enableEditing = false
+            )
 
-        Spacer(modifier = Modifier.height(8.dp))
-        WideTitle(text = localizedString(R.string.edit_screen_advanced_title))
+            WideTitle(text = localizedString(R.string.edit_screen_basic_info_title))
 
-        TextField2fa(
-            modifier = Modifier.fillMaxWidth(),
-            value = secretInput,
-            onValueChange = {
-                secretInput = it
-                val decoded = Base32.decode(it)
-                if (decoded != null) {
-                    secretError = false
-                    item = item.copy(secret = decoded)
-                } else {
-                    secretError = true
+            SingleLineTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = item.name,
+                onValueChange = { item = item.copy(name = it) },
+                placeholder = localizedString(R.string.edit_field_name_hint)
+            )
+
+            SingleLineTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = item.issuer,
+                onValueChange = { item = item.copy(issuer = it) },
+                placeholder = localizedString(R.string.edit_field_issuer_hint)
+            )
+
+            SingleLineTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = item.note,
+                onValueChange = { item = item.copy(note = it) },
+                placeholder = localizedString(R.string.edit_field_note_hint)
+            )
+
+            // Yes/No popup?
+            WideButtonError(
+                modifier = Modifier.fillMaxWidth(),
+                iconContent = {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = null,
+                        tint = colors.onErrorContainer
+                    )
+                },
+                label = localizedString(R.string.edit_button_delete),
+                onClick = {
+                    navController.popBackStack()
+                    vaultViewModel.removeItemByUuid(item.uuid)
                 }
-            },
-            placeholder = localizedString(R.string.edit_field_secret_hint),
-            isError = secretError
-        )
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            DropDownSingleChoice(
-                modifier = Modifier.weight(1f),
-                options = OtpTypes.entries.toTypedArray(),
-                selectedOption = item.otpType,
-                onSelectionChange = { item = item.copy(otpType = it) },
-                getDisplayText = { it.value }
             )
 
-            Spacer(Modifier.width(8.dp))
+            Spacer(modifier = Modifier.height(8.dp))
+            WideTitle(text = localizedString(R.string.edit_screen_advanced_title))
 
-            DropDownSingleChoice(
-                modifier = Modifier.weight(1f),
-                options = OtpHashFunctions.entries.toTypedArray(),
-                selectedOption = item.otpHashFunction,
-                onSelectionChange = { item = item.copy(otpHashFunction = it) },
-                getDisplayText = { it.value }
-            )
-        }
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            if (item.otpType == OtpTypes.HOTP) {
-                NumbersOnlyTextField(
-                    modifier = Modifier.weight(1f),
-                    value = counterInput,
-                    onValueChange = {
-                        counterInput = it
-                        val counter = it.toLongOrNull()
-                        if (counter != null) {
-                            if (counter < 0) {
-                                counterError = true
-                            } else {
-                                counterError = false
-                                item = item.copy(counter = counter)
-                            }
-                        } else {
-                            counterError = true
-                        }
-                    },
-                    placeholder = "0+",
-                    trailingText = localizedString(R.string.edit_unit_counter),
-                    isError = counterError
-                )
-            } else {
-                NumbersOnlyTextField(
-                    modifier = Modifier.weight(1f),
-                    value = periodInput,
-                    onValueChange = {
-                        periodInput = it
-                        val period = it.toIntOrNull()
-                        if (period != null) {
-                            if (period < 10) {
-                                periodError = true
-                            } else {
-                                periodError = false
-                                item = item.copy(period = period)
-                            }
-                        } else {
-                            periodError = true
-                        }
-                    },
-                    placeholder = "10+",
-                    trailingText = localizedString(R.string.edit_unit_seconds),
-                    isError = periodError
-                )
-            }
-
-            Spacer(Modifier.width(8.dp))
-
-            NumbersOnlyTextField(
-                modifier = Modifier.weight(1f),
-                value = digitsInput,
+            TextField2fa(
+                modifier = Modifier.fillMaxWidth(),
+                value = secretInput,
                 onValueChange = {
-                    digitsInput = it
-                    val digits = it.toIntOrNull()
-                    if (digits != null) {
-                        if (digits < 4 || digits > 10) {
-                            digitsError = true
-                        } else {
-                            digitsError = false
-                            item = item.copy(digits = digits)
-                        }
+                    secretInput = it
+                    val decoded = Base32.decode(it)
+                    if (decoded != null) {
+                        secretError = false
+                        item = item.copy(secret = decoded)
                     } else {
-                        digitsError = true
+                        secretError = true
                     }
                 },
-                placeholder = "4-10",
-                trailingText = localizedString(R.string.edit_unit_digits),
-                isError = digitsError
+                placeholder = localizedString(R.string.edit_field_secret_hint),
+                isError = secretError
             )
-        }
 
-        Spacer(modifier = Modifier.height(192.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                DropDownSingleChoice(
+                    modifier = Modifier.weight(1f),
+                    options = OtpTypes.entries.toTypedArray(),
+                    selectedOption = item.otpType,
+                    onSelectionChange = { item = item.copy(otpType = it) },
+                    getDisplayText = { it.value }
+                )
+
+                Spacer(Modifier.width(8.dp))
+
+                DropDownSingleChoice(
+                    modifier = Modifier.weight(1f),
+                    options = OtpHashFunctions.entries.toTypedArray(),
+                    selectedOption = item.otpHashFunction,
+                    onSelectionChange = { item = item.copy(otpHashFunction = it) },
+                    getDisplayText = { it.value }
+                )
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (item.otpType == OtpTypes.HOTP) {
+                    NumbersOnlyTextField(
+                        modifier = Modifier.weight(1f),
+                        value = counterInput,
+                        onValueChange = {
+                            counterInput = it
+                            val counter = it.toLongOrNull()
+                            if (counter != null) {
+                                if (counter < 0) {
+                                    counterError = true
+                                } else {
+                                    counterError = false
+                                    item = item.copy(counter = counter)
+                                }
+                            } else {
+                                counterError = true
+                            }
+                        },
+                        placeholder = "0+",
+                        trailingText = localizedString(R.string.edit_unit_counter),
+                        isError = counterError
+                    )
+                } else {
+                    NumbersOnlyTextField(
+                        modifier = Modifier.weight(1f),
+                        value = periodInput,
+                        onValueChange = {
+                            periodInput = it
+                            val period = it.toIntOrNull()
+                            if (period != null) {
+                                if (period < 10) {
+                                    periodError = true
+                                } else {
+                                    periodError = false
+                                    item = item.copy(period = period)
+                                }
+                            } else {
+                                periodError = true
+                            }
+                        },
+                        placeholder = "10+",
+                        trailingText = localizedString(R.string.edit_unit_seconds),
+                        isError = periodError
+                    )
+                }
+
+                Spacer(Modifier.width(8.dp))
+
+                NumbersOnlyTextField(
+                    modifier = Modifier.weight(1f),
+                    value = digitsInput,
+                    onValueChange = {
+                        digitsInput = it
+                        val digits = it.toIntOrNull()
+                        if (digits != null) {
+                            if (digits < 4 || digits > 10) {
+                                digitsError = true
+                            } else {
+                                digitsError = false
+                                item = item.copy(digits = digits)
+                            }
+                        } else {
+                            digitsError = true
+                        }
+                    },
+                    placeholder = "4-10",
+                    trailingText = localizedString(R.string.edit_unit_digits),
+                    isError = digitsError
+                )
+            }
+        }
     }
 
     EditAppBar(
