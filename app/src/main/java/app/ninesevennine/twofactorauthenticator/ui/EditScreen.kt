@@ -134,7 +134,7 @@ fun EditScreen(uuidString: String) {
                 .fillMaxHeight()
                 .padding(
                     top = WindowInsets.statusBars.asPaddingValues().calculateTopPadding(),
-                    bottom = bottomPadding + 96.dp
+                    bottom = bottomPadding
                 )
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Top,
@@ -363,6 +363,8 @@ fun EditScreen(uuidString: String) {
                     isError = digitsError
                 )
             }
+
+            Spacer(Modifier.height(96.dp))
         }
     }
 
