@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!-- Common -->
     <string name="common_use_system_default">Appstandard</string>
+    <string name="common_yes">Ja</string>
     <string name="common_cancel">Abbrechen</string>
     <string name="common_password_hint">Passwort</string>
     <string name="common_search_hint">Suche</string>
@@ -13,6 +13,10 @@
     <string name="edit_field_issuer_hint">Herausgebende</string>
     <string name="edit_field_note_hint">Notiz</string>
     <string name="edit_button_delete">Löschen</string>
+    <string name="edit_delete_alert_title">Eintrag löschen</string>
+    <string name="edit_delete_alert_text">
+        Möchten Sie diesen Eintrag wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden
+    </string>
     <string name="edit_screen_advanced_title">Erweitere Einstellungen</string>
     <string name="edit_field_secret_hint">Geheimschlüssel (Secret)</string>
     <string name="edit_unit_seconds">Sekunden</string>

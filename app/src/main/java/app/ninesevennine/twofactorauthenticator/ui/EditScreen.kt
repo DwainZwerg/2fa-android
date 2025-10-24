@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
@@ -21,7 +22,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,13 +34,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import app.ninesevennine.twofactorauthenticator.LocalNavController
 import app.ninesevennine.twofactorauthenticator.R
 import app.ninesevennine.twofactorauthenticator.features.locale.localizedString
 import app.ninesevennine.twofactorauthenticator.features.otp.OtpHashFunctions
 import app.ninesevennine.twofactorauthenticator.features.otp.OtpTypes
 import app.ninesevennine.twofactorauthenticator.features.qrscanner.QRScannerView
+import app.ninesevennine.twofactorauthenticator.features.theme.InterVariable
 import app.ninesevennine.twofactorauthenticator.features.vault.VaultItem
 import app.ninesevennine.twofactorauthenticator.themeViewModel
 import app.ninesevennine.twofactorauthenticator.ui.elements.WideTitle
@@ -46,6 +54,7 @@ import app.ninesevennine.twofactorauthenticator.ui.elements.otpcard.OtpCard
 import app.ninesevennine.twofactorauthenticator.ui.elements.textfields.NumbersOnlyTextField
 import app.ninesevennine.twofactorauthenticator.ui.elements.textfields.SingleLineTextField
 import app.ninesevennine.twofactorauthenticator.ui.elements.textfields.TextField2fa
+import app.ninesevennine.twofactorauthenticator.ui.elements.widebutton.WideButton
 import app.ninesevennine.twofactorauthenticator.ui.elements.widebutton.WideButtonError
 import app.ninesevennine.twofactorauthenticator.utils.Base32
 import app.ninesevennine.twofactorauthenticator.utils.Constants
@@ -113,6 +122,8 @@ fun EditScreen(uuidString: String) {
 
     val bottomPadding = if (imeBottom > 0.dp) imeBottom else navBottom
 
+    var showDeleteDialog by remember { mutableStateOf(false) }
+
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.TopCenter
@@ -159,7 +170,6 @@ fun EditScreen(uuidString: String) {
                 placeholder = localizedString(R.string.edit_field_note_hint)
             )
 
-            // Yes/No popup?
             WideButtonError(
                 modifier = Modifier.fillMaxWidth(),
                 iconContent = {
@@ -171,10 +181,64 @@ fun EditScreen(uuidString: String) {
                 },
                 label = localizedString(R.string.edit_button_delete),
                 onClick = {
-                    navController.popBackStack()
-                    vaultViewModel.removeItemByUuid(item.uuid)
+                    showDeleteDialog = true
                 }
             )
+
+            if (showDeleteDialog) {
+                AlertDialog(
+                    onDismissRequest = { showDeleteDialog = false },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Filled.Warning,
+                            contentDescription = null,
+                            tint = colors.error,
+                            modifier = Modifier.size(48.dp)
+                        )
+                    },
+                    title = {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = localizedString(R.string.edit_delete_alert_title),
+                            fontFamily = InterVariable,
+                            color = colors.onBackground,
+                            fontWeight = FontWeight.W700,
+                            fontSize = 18.sp,
+                            textAlign = TextAlign.Center
+                        )
+                    },
+                    text = {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = localizedString(R.string.edit_delete_alert_text),
+                            fontFamily = InterVariable,
+                            color = colors.onBackground,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 16.sp,
+                            textAlign = TextAlign.Center
+                        )
+                    },
+                    containerColor = colors.background,
+                    confirmButton = {
+                        WideButton(
+                            label = localizedString(R.string.common_yes),
+                            color = colors.primary,
+                            textColor = colors.onPrimary,
+                            onClick = {
+                                showDeleteDialog = false
+                                navController.popBackStack()
+                                vaultViewModel.removeItemByUuid(item.uuid)
+                            }
+                        )
+                    },
+                    dismissButton = {
+                        WideButton(
+                            label = localizedString(R.string.common_cancel),
+                            onClick = { showDeleteDialog = false }
+                        )
+                    }
+                )
+            }
 
             Spacer(modifier = Modifier.height(8.dp))
             WideTitle(text = localizedString(R.string.edit_screen_advanced_title))

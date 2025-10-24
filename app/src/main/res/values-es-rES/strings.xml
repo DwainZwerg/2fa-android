@@ -2,6 +2,7 @@
 <resources>
     <!-- Common -->
     <string name="common_use_system_default">Usar predeterminados</string>
+    <string name="common_yes">Sí</string>
     <string name="common_cancel">Cancelar</string>
     <string name="common_password_hint">Contraseña</string>
     <string name="common_search_hint">Buscar</string>
@@ -12,6 +13,10 @@
     <string name="edit_field_issuer_hint">Emisor</string>
     <string name="edit_field_note_hint">Nota</string>
     <string name="edit_button_delete">Eliminar</string>
+    <string name="edit_delete_alert_title">Eliminar entrada</string>
+    <string name="edit_delete_alert_text">
+        ¿Está seguro de que desea eliminar esta entrada? Esta acción es irreversible
+    </string>
     <string name="edit_screen_advanced_title">Ajustes avanzados</string>
     <string name="edit_field_secret_hint">Secreto</string>
     <string name="edit_unit_seconds">segundos</string>
