@@ -43,7 +43,7 @@ fun WideButton(
         modifier = modifier
             .padding(vertical = 4.dp, horizontal = 16.dp)
             .fillMaxWidth()
-            .height(64.dp)
+            .height(56.dp)
             .background(
                 color = if (color == Color.Unspecified) colors.primaryContainer else color,
                 shape = RoundedCornerShape(32.dp)
@@ -67,7 +67,7 @@ fun WideButton(
                 fontFamily = InterVariable,
                 color = if (textColor == Color.Unspecified) colors.onPrimaryContainer else textColor,
                 fontWeight = FontWeight.W700,
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 maxLines = 1
             )
         }

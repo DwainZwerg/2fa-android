@@ -141,7 +141,7 @@ fun BackupVaultScreen() {
                 Icon(
                     imageVector = Icons.Filled.Upload,
                     contentDescription = null,
-                    modifier = Modifier.size(192.dp),
+                    modifier = Modifier.size(128.dp),
                     tint = colors.onBackground
                 )
             }

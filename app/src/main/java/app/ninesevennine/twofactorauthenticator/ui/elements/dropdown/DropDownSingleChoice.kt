@@ -49,7 +49,7 @@ fun <T> DropDownSingleChoice(
     Box(
         modifier = modifier
             .padding(vertical = 8.dp)
-            .height(64.dp)
+            .height(56.dp)
             .border(
                 width = 1.dp,
                 color = colors.primaryContainer,
@@ -67,7 +67,7 @@ fun <T> DropDownSingleChoice(
             Text(
                 text = getDisplayText(selectedOption),
                 modifier = Modifier.weight(1f),
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.W700,
                 fontFamily = InterVariable,
                 color = colors.onBackground,
@@ -93,7 +93,7 @@ fun <T> DropDownSingleChoice(
                     text = {
                         Text(
                             text = getDisplayText(option),
-                            fontSize = 18.sp,
+                            fontSize = 16.sp,
                             fontWeight = FontWeight.W700,
                             fontFamily = InterVariable,
                             color = colors.onBackground

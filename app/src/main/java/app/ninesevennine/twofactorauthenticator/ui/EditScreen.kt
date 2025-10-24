@@ -128,7 +128,6 @@ fun EditScreen(uuidString: String) {
             enableEditing = false
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
         WideTitle(text = localizedString(R.string.edit_screen_basic_info_title))
 
         SingleLineTextField(
@@ -169,7 +168,7 @@ fun EditScreen(uuidString: String) {
             }
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         WideTitle(text = localizedString(R.string.edit_screen_advanced_title))
 
         TextField2fa(

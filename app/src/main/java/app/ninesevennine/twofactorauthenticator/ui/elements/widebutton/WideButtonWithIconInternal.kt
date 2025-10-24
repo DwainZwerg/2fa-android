@@ -45,7 +45,7 @@ fun WideButtonWithIconInternal(
         modifier = modifier
             .padding(vertical = 4.dp, horizontal = 16.dp)
             .fillMaxWidth()
-            .height(64.dp)
+            .height(56.dp)
             .background(
                 color = colors.primaryContainer,
                 shape = RoundedCornerShape(32.dp)
@@ -63,7 +63,7 @@ fun WideButtonWithIconInternal(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
         ) {
-            iconContent(Modifier.size(32.dp))
+            iconContent(Modifier.size(28.dp))
 
             Spacer(Modifier.width(8.dp))
 
@@ -72,7 +72,7 @@ fun WideButtonWithIconInternal(
                 fontFamily = InterVariable,
                 color = colors.onPrimaryContainer,
                 fontWeight = FontWeight.W700,
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 maxLines = 1
             )
         }

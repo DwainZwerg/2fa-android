@@ -37,9 +37,9 @@ fun NumbersOnlyTextField(
         onValueChange = onValueChange,
         modifier = modifier
             .padding(vertical = 8.dp)
-            .height(64.dp),
+            .height(56.dp),
         textStyle = TextStyle(
-            fontSize = 18.sp,
+            fontSize = 16.sp,
             fontWeight = FontWeight.W700,
             fontFamily = InterVariable,
             color = colors.onBackground
@@ -57,7 +57,7 @@ fun NumbersOnlyTextField(
             Text(
                 text = trailingText,
                 modifier = Modifier.padding(end = 16.dp),
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.W700,
                 fontFamily = InterVariable,
                 color = colors.onBackground

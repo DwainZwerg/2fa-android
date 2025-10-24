@@ -42,9 +42,9 @@ fun SingleLineTextField(
         onValueChange = onValueChange,
         modifier = modifier
             .padding(vertical = 8.dp, horizontal = 16.dp)
-            .height(64.dp),
+            .height(56.dp),
         textStyle = TextStyle(
-            fontSize = 18.sp,
+            fontSize = 16.sp,
             fontWeight = FontWeight.W700,
             fontFamily = InterVariable,
             color = colors.onBackground
@@ -52,7 +52,7 @@ fun SingleLineTextField(
         placeholder = {
             Text(
                 text = placeholder,
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Normal,
                 fontFamily = InterVariable,
                 color = colors.onBackground

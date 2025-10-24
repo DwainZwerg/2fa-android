@@ -2,6 +2,7 @@ package app.ninesevennine.twofactorauthenticator.ui.elements.textfields
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -49,9 +50,9 @@ fun ConfidentialSingleLineTextField(
         onValueChange = onValueChange,
         modifier = modifier
             .padding(vertical = 8.dp, horizontal = 16.dp)
-            .height(64.dp),
+            .height(56.dp),
         textStyle = TextStyle(
-            fontSize = 18.sp,
+            fontSize = 16.sp,
             fontWeight = FontWeight.W700,
             fontFamily = InterVariable,
             color = colors.onBackground
@@ -59,7 +60,7 @@ fun ConfidentialSingleLineTextField(
         placeholder = {
             Text(
                 text = placeholder,
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Normal,
                 fontFamily = InterVariable,
                 color = colors.onBackground
@@ -70,6 +71,7 @@ fun ConfidentialSingleLineTextField(
                 Icon(
                     imageVector = if (revealed) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
                     contentDescription = null,
+                    modifier = Modifier.size(24.dp),
                     tint = colors.onBackground
                 )
             }

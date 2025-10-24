@@ -49,7 +49,7 @@ fun WideRadioButtonWithIconInternal(
         modifier = modifier
             .padding(vertical = 4.dp, horizontal = 16.dp)
             .fillMaxWidth()
-            .height(64.dp)
+            .height(56.dp)
             .then(
                 if (enabled)
                     Modifier.background(
@@ -72,7 +72,7 @@ fun WideRadioButtonWithIconInternal(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
         ) {
-            iconContent(Modifier.size(32.dp))
+            iconContent(Modifier.size(28.dp))
 
             Spacer(Modifier.width(8.dp))
 
@@ -82,7 +82,7 @@ fun WideRadioButtonWithIconInternal(
                 fontFamily = InterVariable,
                 color = colors.onPrimaryContainer,
                 fontWeight = FontWeight.W700,
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -93,7 +93,7 @@ fun WideRadioButtonWithIconInternal(
                 Icon(
                     imageVector = Icons.Default.Check,
                     contentDescription = null,
-                    modifier = Modifier.size(32.dp),
+                    modifier = Modifier.size(28.dp),
                     tint = colors.onPrimaryContainer
                 )
             }

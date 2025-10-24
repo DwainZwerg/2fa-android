@@ -29,7 +29,7 @@ fun WideText(
         fontFamily = InterVariable,
         color = if (color == Color.Unspecified) colors.onBackground else color,
         fontWeight = FontWeight.Normal,
-        fontSize = 18.sp,
+        fontSize = 16.sp,
         textAlign = textAlign
     )
 }

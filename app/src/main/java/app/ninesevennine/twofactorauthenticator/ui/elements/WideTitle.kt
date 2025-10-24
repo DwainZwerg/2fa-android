@@ -27,7 +27,7 @@ fun WideTitle(
         fontFamily = InterVariable,
         color = colors.onBackground,
         fontWeight = FontWeight.W700,
-        fontSize = 20.sp,
+        fontSize = 18.sp,
         textAlign = textAlign
     )
 }
