@@ -16,7 +16,7 @@ object ConfigModel {
         var requireTapToReveal: Boolean = false,
         var enableFocusSearch: Boolean = false,
         var screenSecurity: Boolean = true,
-        var antiPixnapping: Boolean = true
+        var antiPixnapping: Boolean = false
     ) {
         fun save(context: Context) {
             runCatching {
@@ -55,7 +55,7 @@ object ConfigModel {
                         requireTapToReveal = json.getBoolean("requireTapToReveal"),
                         enableFocusSearch = json.getBoolean("enableFocusSearch"),
                         screenSecurity = json.optBoolean("screenSecurity", true),
-                        antiPixnapping = json.optBoolean("antiPixnapping", true)
+                        antiPixnapping = json.optBoolean("antiPixnapping", false)
                     )
                 }.getOrElse { e ->
                     Log.e("ConfigModel", "Failed loading config", e)
