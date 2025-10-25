@@ -4,7 +4,7 @@
 <h1 align="center">2fa</h1>
 <h4 align="center">Manage one-time passwords securely, offline and without tracking</h4>
 <p align="center">
-    <img alt="Static Badge" src="https://img.shields.io/badge/latest-Beta%206-blue">
+    <img alt="Static Badge" src="https://img.shields.io/badge/latest-Beta%207-blue">
     <img alt="GitHub release downloads" src="https://img.shields.io/github/downloads/979st/2fa-android/total">
     <img alt="EUPL" src="https://img.shields.io/badge/license-EUPL-blue">
     <img alt="Minimum SDK Version" src="https://img.shields.io/badge/api-35%2B-blue">
