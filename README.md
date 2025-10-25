@@ -4,17 +4,17 @@
 <h1 align="center">2fa</h1>
 <h4 align="center">Manage one-time passwords securely, offline and without tracking</h4>
 <p align="center">
-    <img alt="Latest Version" src="https://img.shields.io/badge/latest-v--14-blue">
+    <img alt="Latest Version" src="https://img.shields.io/badge/latest-vc--14-blue">
     <img alt="GitHub release downloads" src="https://img.shields.io/github/downloads/979st/2fa-android/total">
     <img alt="EUPL" src="https://img.shields.io/badge/license-EUPL-blue">
-    <img alt="Minimum SDK Version" src="https://img.shields.io/badge/sdk-35%2B-blue">
+    <img alt="Minimum SDK Version" src="https://img.shields.io/badge/api-35%2B-blue">
 </p>
 <p align="center">
     <a href="https://discord.com/invite/zxgXNzhYJu">
-        <img alt="Join us on Discord" src="https://img.shields.io/badge/Discord-Join%20Server-7289DA">
+        <img alt="Join us on Discord" src="https://img.shields.io/badge/discord-join%20server-7289DA">
     </a>
     <a href="https://bsky.app/profile/979.st">
-        <img alt="Follow on Bluesky" src="https://img.shields.io/badge/Bluesky-Follow-1DA1F2">
+        <img alt="Follow on Bluesky" src="https://img.shields.io/badge/bluesky-follow-1DA1F2">
     </a>
 </p>
 <p align="center">
@@ -65,7 +65,7 @@ We recommend verifying downloads using either [AppVerifier](https://github.com/s
 
 ## Development Roadmap
 - ~~Alpha: Add essential features~~
-- Beta: Refine the user interface, improve usability, add animations, integrate user feedback, and publish on [Accrescent](https://accrescent.app/)
+- Beta: Refine the user interface, improve usability, add animations, integrate user feedback, ~~and publish on [Accrescent](https://accrescent.app/)~~
 - Release Candidate: Prepare for a full launch on the Google Play Store
 
 ## License
