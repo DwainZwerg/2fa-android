@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Common -->
-    <string name="common_use_system_default">Appstandard</string>
+    <string name="common_use_system_default">System</string>
     <string name="common_yes">Ja</string>
     <string name="common_cancel">Abbrechen</string>
     <string name="common_password_hint">Passwort</string>
