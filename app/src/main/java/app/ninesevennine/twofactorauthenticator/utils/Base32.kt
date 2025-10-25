@@ -34,9 +34,11 @@ object Base32 {
     }
 
     private fun encodeChar(value: Int): Char {
-        val isLetter = ((25 - value) shr 31).inv() and 1
-        val baseChar = (isLetter * 65) or ((1 - isLetter) * (50 - 26))
+        val isLetter = ((25 - value) ushr 31) xor 1
+        val letterMask = -isLetter
+        val digitMask = letterMask.inv()
 
+        val baseChar = (letterMask and 65) or (digitMask and 24)
         return (baseChar + value).toChar()
     }
 
@@ -46,15 +48,30 @@ object Base32 {
         val cleanInput = input.trimEnd(PADDING)
         if (cleanInput.isEmpty()) return null
 
+        val expectedPadding = when (cleanInput.length % 8) {
+            0 -> 0
+            2 -> 6
+            4 -> 4
+            5 -> 3
+            7 -> 1
+            else -> -1
+        }
+
+        if (expectedPadding < 0) return null
+
+        val actualPadding = input.length - cleanInput.length
+        if (actualPadding != expectedPadding) return null
+
         var hasInvalid = 0
         for (char in cleanInput) {
             val decoded = decodeChar(char.code)
-            hasInvalid = hasInvalid or ((decoded shr 8) and 1)
+            hasInvalid = hasInvalid or ((decoded ushr 8) and 1)
         }
 
         if (hasInvalid != 0) return null
 
-        val output = mutableListOf<Byte>()
+        val output = ByteArray((cleanInput.length * 5) / 8)
+        var outputIndex = 0
         var buffer = 0L
         var bitsInBuffer = 0
 
@@ -64,8 +81,8 @@ object Base32 {
             bitsInBuffer += 5
 
             if (bitsInBuffer >= 8) {
-                val byte = ((buffer shr (bitsInBuffer - 8)) and 0xFF).toByte()
-                output.add(byte)
+                val byte = ((buffer ushr (bitsInBuffer - 8)) and 0xFF).toByte()
+                output[outputIndex++] = byte
                 bitsInBuffer -= 8
             }
         }
@@ -73,11 +90,12 @@ object Base32 {
         if (bitsInBuffer > 0) {
             val remainingBits = buffer and ((1L shl bitsInBuffer) - 1)
             if (remainingBits != 0L) {
+                output.fill(0)
                 return null
             }
         }
 
-        return output.toByteArray()
+        return output
     }
 
     private fun decodeChar(charCode: Int): Int {
@@ -88,9 +106,14 @@ object Base32 {
         val isValid = isUpperLetter or isLowerLetter or isDigit
         val errorBit = (1 - isValid) shl 8
 
-        val upperValue = (charCode - 65) and (-isUpperLetter)
-        val lowerValue = (charCode - 97) and (-isLowerLetter)
-        val digitValue = (charCode - 50 + 26) and (-isDigit)
+        val upperMask = -isUpperLetter
+        val lowerMask = -isLowerLetter
+        val digitMask = -isDigit
+
+        val upperValue = (charCode - 65) and upperMask
+        val lowerValue = (charCode - 97) and lowerMask
+
+        val digitValue = (charCode - 24) and digitMask
 
         val value = upperValue or lowerValue or digitValue
 
@@ -98,8 +121,8 @@ object Base32 {
     }
 
     private fun inRange(value: Int, min: Int, max: Int): Int {
-        val aboveMin = ((value - min) shr 31).inv() and 1
-        val belowMax = ((max - value) shr 31).inv() and 1
+        val aboveMin = ((value - min) ushr 31) xor 1
+        val belowMax = ((max - value) ushr 31) xor 1
         return aboveMin and belowMax
     }
 }
