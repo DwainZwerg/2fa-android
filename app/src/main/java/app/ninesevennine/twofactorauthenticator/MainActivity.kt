@@ -41,6 +41,9 @@ class MainActivity : ComponentActivity() {
                 window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
             }
 
+            localeViewModel.updateLocale(this, configViewModel.values.locale)
+            themeViewModel.updateTheme(this, configViewModel.values.theme)
+
             CompositionLocalProvider(
                 LocalNavController provides navController
             ) {

@@ -32,9 +32,6 @@ class MyApplication : Application() {
 
         configViewModel.load(this)
 
-        localeViewModel.updateLocale(this, configViewModel.values.locale)
-        themeViewModel.updateTheme(this, configViewModel.values.theme)
-
         secureCryptoViewModel.init()
 
         vaultViewModel.load(this)
