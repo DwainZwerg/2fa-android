@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Common -->
-    <string name="common_use_system_default">System</string>
+    <string name="common_use_system_default">Systemstandard</string>
+    <string name="common_use_app_default">App-Standard</string>
     <string name="common_yes">Ja</string>
     <string name="common_cancel">Abbrechen</string>
     <string name="common_password_hint">Passwort</string>
@@ -15,7 +16,7 @@
     <string name="edit_button_delete">Löschen</string>
     <string name="edit_delete_alert_title">Eintrag löschen</string>
     <string name="edit_delete_alert_text">
-        Möchten Sie diesen Eintrag wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden
+        Möchten Sie diesen Eintrag wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.
     </string>
     <string name="edit_screen_advanced_title">Erweitere Einstellungen</string>
     <string name="edit_field_secret_hint">Geheimschlüssel (Secret)</string>
@@ -37,12 +38,12 @@
     <string name="settings_appearance_dynamic">Dynamisch</string>
     <string name="settings_section_manage_data">Backup &amp; Wiederherstellung</string>
     <string name="settings_button_backup_codes">2FA-Code-Backup</string>
-    <string name="settings_button_restore_codes">2FA-Codes wiederherstellen</string>
+    <string name="settings_button_restore_codes">2FA-Code-Wiederherstellung</string>
     <string name="settings_button_export_google_authenticator">
         In Google Authenticator exportieren
     </string>
     <string name="settings_section_other">Weiteres</string>
-    <string name="settings_option_screen_security">Bildschirmsicherheit</string>
+    <string name="settings_option_screen_security">Screenshots verhindern</string>
     <string name="settings_option_tap_to_reveal">Tippen, um Codes anzuzeigen</string>
     <string name="settings_option_focus_search">Suche beim Start fokussieren</string>
     <string name="settings_section_about">Über diese App</string>
